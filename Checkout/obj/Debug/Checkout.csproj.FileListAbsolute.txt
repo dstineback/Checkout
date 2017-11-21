@@ -1,8 +1,5 @@
-C:\Users\stinebackd\Projects\Checkout\Checkout\obj\Debug\Checkout.CheckOutForm.resources
-C:\Users\stinebackd\Projects\Checkout\Checkout\obj\Debug\Checkout.LoginForm.resources
-C:\Users\stinebackd\Projects\Checkout\Checkout\obj\Debug\Checkout.Properties.Resources.resources
-C:\Users\stinebackd\Projects\Checkout\Checkout\obj\Debug\Checkout.csproj.GenerateResource.Cache
-C:\Users\stinebackd\Projects\Checkout\Checkout\obj\Debug\Checkout.exe.licenses
+C:\Users\stinebackd\Projects\Checkout\Checkout\bin\Debug\ConnectionStrings.config
+C:\Users\stinebackd\Projects\Checkout\Checkout\bin\Debug\ConnectionStrings.Debug.config
 C:\Users\stinebackd\Projects\Checkout\Checkout\bin\Debug\Checkout.exe.config
 C:\Users\stinebackd\Projects\Checkout\Checkout\bin\Debug\Checkout.exe
 C:\Users\stinebackd\Projects\Checkout\Checkout\bin\Debug\Checkout.pdb
@@ -93,8 +90,10 @@ C:\Users\stinebackd\Projects\Checkout\Checkout\bin\Debug\de\DevExpress.Office.v1
 C:\Users\stinebackd\Projects\Checkout\Checkout\bin\Debug\es\DevExpress.Office.v17.1.Core.resources.dll
 C:\Users\stinebackd\Projects\Checkout\Checkout\bin\Debug\ja\DevExpress.Office.v17.1.Core.resources.dll
 C:\Users\stinebackd\Projects\Checkout\Checkout\bin\Debug\ru\DevExpress.Office.v17.1.Core.resources.dll
+C:\Users\stinebackd\Projects\Checkout\Checkout\obj\Debug\Checkout.CheckOutForm.resources
+C:\Users\stinebackd\Projects\Checkout\Checkout\obj\Debug\Checkout.LoginForm.resources
+C:\Users\stinebackd\Projects\Checkout\Checkout\obj\Debug\Checkout.Properties.Resources.resources
+C:\Users\stinebackd\Projects\Checkout\Checkout\obj\Debug\Checkout.csproj.GenerateResource.Cache
+C:\Users\stinebackd\Projects\Checkout\Checkout\obj\Debug\Checkout.exe.licenses
 C:\Users\stinebackd\Projects\Checkout\Checkout\obj\Debug\Checkout.exe
 C:\Users\stinebackd\Projects\Checkout\Checkout\obj\Debug\Checkout.pdb
-C:\Users\stinebackd\Projects\Checkout\Checkout\bin\Debug\ConnectionStrings.config
-C:\Users\stinebackd\Projects\Checkout\Checkout\bin\Debug\ConnectionStrings.Debug.config
-C:\Users\stinebackd\Projects\Checkout\Checkout\obj\Debug\Checkout.csprojResolveAssemblyReference.cache

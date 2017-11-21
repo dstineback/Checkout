@@ -30,9 +30,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            DevExpress.XtraEditors.TileItemElement tileItemElement4 = new DevExpress.XtraEditors.TileItemElement();
-            DevExpress.XtraEditors.TileItemElement tileItemElement5 = new DevExpress.XtraEditors.TileItemElement();
-            DevExpress.XtraEditors.TileItemElement tileItemElement6 = new DevExpress.XtraEditors.TileItemElement();
+            DevExpress.XtraEditors.TileItemElement tileItemElement1 = new DevExpress.XtraEditors.TileItemElement();
+            DevExpress.XtraEditors.TileItemElement tileItemElement2 = new DevExpress.XtraEditors.TileItemElement();
+            DevExpress.XtraEditors.TileItemElement tileItemElement3 = new DevExpress.XtraEditors.TileItemElement();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CheckOutForm));
             this.tileBar = new DevExpress.XtraBars.Navigation.TileBar();
             this.tileBarGroupTables = new DevExpress.XtraBars.Navigation.TileBarGroup();
@@ -41,32 +41,34 @@
             this.tileBarItem2 = new DevExpress.XtraBars.Navigation.TileBarItem();
             this.navigationFrame = new DevExpress.XtraBars.Navigation.NavigationFrame();
             this.employeesNavigationPage = new DevExpress.XtraBars.Navigation.NavigationPage();
+            this.GetJobButton = new DevExpress.XtraEditors.SimpleButton();
+            this.reasonLookUp = new DevExpress.XtraEditors.LookUpEdit();
+            this.bindReason = new System.Windows.Forms.BindingSource(this.components);
+            this.takenByLookUp = new DevExpress.XtraEditors.LookUpEdit();
+            this.bindUser = new System.Windows.Forms.BindingSource(this.components);
             this.storeRoom = new DevExpress.XtraEditors.LookUpEdit();
             this.bindStoreroom = new System.Windows.Forms.BindingSource(this.components);
-            this.simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
             this.gridControl1 = new DevExpress.XtraGrid.GridControl();
+            this.bindOpenJobs = new System.Windows.Forms.BindingSource(this.components);
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.toggleSwitch1 = new DevExpress.XtraEditors.ToggleSwitch();
-            this.spinEdit1 = new DevExpress.XtraEditors.SpinEdit();
-            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
-            this.labelControl8 = new DevExpress.XtraEditors.LabelControl();
+            this.dateLabel = new DevExpress.XtraEditors.LabelControl();
             this.dateEdit = new DevExpress.XtraEditors.DateEdit();
-            this.labelControl7 = new DevExpress.XtraEditors.LabelControl();
-            this.labelControl6 = new DevExpress.XtraEditors.LabelControl();
-            this.labelControl5 = new DevExpress.XtraEditors.LabelControl();
-            this.labelControl4 = new DevExpress.XtraEditors.LabelControl();
-            this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
-            this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
-            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
-            this.textEdit2 = new DevExpress.XtraEditors.TextEdit();
+            this.reasonLabel = new DevExpress.XtraEditors.LabelControl();
+            this.takenByLabel = new DevExpress.XtraEditors.LabelControl();
+            this.storeroomLabel = new DevExpress.XtraEditors.LabelControl();
+            this.userNameIDLabel = new DevExpress.XtraEditors.LabelControl();
             this.userNameTextBox = new DevExpress.XtraEditors.TextEdit();
-            this.comboBoxEdit5 = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.reasonComboBox = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.comboBoxEdit2 = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.comboBoxEdit1 = new DevExpress.XtraEditors.ComboBoxEdit();
             this.employeesLabelControl = new DevExpress.XtraEditors.LabelControl();
             this.storeRoomCombo = new DevExpress.XtraEditors.LookUpEdit();
             this.customersNavigationPage = new DevExpress.XtraBars.Navigation.NavigationPage();
+            this.checkOutButton = new DevExpress.XtraEditors.SimpleButton();
+            this.gridControl2 = new DevExpress.XtraGrid.GridControl();
+            this.gridView2 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.bindPart = new System.Windows.Forms.BindingSource(this.components);
+            this.partIDLabel = new DevExpress.XtraEditors.LabelControl();
+            this.addPartButton = new DevExpress.XtraEditors.SimpleButton();
+            this.partIDLookUp = new DevExpress.XtraEditors.LookUpEdit();
             this.customersLabelControl = new DevExpress.XtraEditors.LabelControl();
             this.navigationPage1 = new DevExpress.XtraBars.Navigation.NavigationPage();
             this.labelControl9 = new DevExpress.XtraEditors.LabelControl();
@@ -74,22 +76,25 @@
             ((System.ComponentModel.ISupportInitialize)(this.navigationFrame)).BeginInit();
             this.navigationFrame.SuspendLayout();
             this.employeesNavigationPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.reasonLookUp.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindReason)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.takenByLookUp.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindUser)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.storeRoom.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindStoreroom)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindOpenJobs)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.toggleSwitch1.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.spinEdit1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateEdit.Properties.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateEdit.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit2.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.userNameTextBox.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEdit5.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.reasonComboBox.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEdit2.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEdit1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.storeRoomCombo.Properties)).BeginInit();
             this.customersNavigationPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindPart)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.partIDLookUp.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // tileBar
@@ -139,17 +144,17 @@
             this.eployeesTileBarItem.AppearanceItem.Normal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(115)))), ((int)(((byte)(196)))));
             this.eployeesTileBarItem.AppearanceItem.Normal.Options.UseBackColor = true;
             this.eployeesTileBarItem.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
-            tileItemElement4.ImageUri.Uri = "Cube;Size32x32;GrayScaled";
-            tileItemElement4.Text = "Jobs";
-            this.eployeesTileBarItem.Elements.Add(tileItemElement4);
+            tileItemElement1.ImageUri.Uri = "Cube;Size32x32;GrayScaled";
+            tileItemElement1.Text = "Jobs";
+            this.eployeesTileBarItem.Elements.Add(tileItemElement1);
             this.eployeesTileBarItem.Name = "eployeesTileBarItem";
             // 
             // customersTileBarItem
             // 
             this.customersTileBarItem.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
-            tileItemElement5.ImageUri.Uri = "Cube;Size32x32;GrayScaled";
-            tileItemElement5.Text = "Parts";
-            this.customersTileBarItem.Elements.Add(tileItemElement5);
+            tileItemElement2.ImageUri.Uri = "Cube;Size32x32;GrayScaled";
+            tileItemElement2.Text = "Parts";
+            this.customersTileBarItem.Elements.Add(tileItemElement2);
             this.customersTileBarItem.Id = 2;
             this.customersTileBarItem.ItemSize = DevExpress.XtraBars.Navigation.TileBarItemSize.Wide;
             this.customersTileBarItem.Name = "customersTileBarItem";
@@ -157,9 +162,9 @@
             // tileBarItem2
             // 
             this.tileBarItem2.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
-            tileItemElement6.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement6.Image")));
-            tileItemElement6.Text = "Transaction History";
-            this.tileBarItem2.Elements.Add(tileItemElement6);
+            tileItemElement3.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement3.Image")));
+            tileItemElement3.Text = "Transaction History";
+            this.tileBarItem2.Elements.Add(tileItemElement3);
             this.tileBarItem2.Id = 4;
             this.tileBarItem2.ItemSize = DevExpress.XtraBars.Navigation.TileBarItemSize.Wide;
             this.tileBarItem2.Name = "tileBarItem2";
@@ -186,58 +191,88 @@
             // employeesNavigationPage
             // 
             this.employeesNavigationPage.Caption = "employeesNavigationPage";
+            this.employeesNavigationPage.Controls.Add(this.GetJobButton);
+            this.employeesNavigationPage.Controls.Add(this.reasonLookUp);
+            this.employeesNavigationPage.Controls.Add(this.takenByLookUp);
             this.employeesNavigationPage.Controls.Add(this.storeRoom);
-            this.employeesNavigationPage.Controls.Add(this.simpleButton2);
             this.employeesNavigationPage.Controls.Add(this.gridControl1);
             this.employeesNavigationPage.Controls.Add(this.toggleSwitch1);
-            this.employeesNavigationPage.Controls.Add(this.spinEdit1);
-            this.employeesNavigationPage.Controls.Add(this.simpleButton1);
-            this.employeesNavigationPage.Controls.Add(this.labelControl8);
+            this.employeesNavigationPage.Controls.Add(this.dateLabel);
             this.employeesNavigationPage.Controls.Add(this.dateEdit);
-            this.employeesNavigationPage.Controls.Add(this.labelControl7);
-            this.employeesNavigationPage.Controls.Add(this.labelControl6);
-            this.employeesNavigationPage.Controls.Add(this.labelControl5);
-            this.employeesNavigationPage.Controls.Add(this.labelControl4);
-            this.employeesNavigationPage.Controls.Add(this.labelControl3);
-            this.employeesNavigationPage.Controls.Add(this.labelControl2);
-            this.employeesNavigationPage.Controls.Add(this.labelControl1);
-            this.employeesNavigationPage.Controls.Add(this.textEdit2);
+            this.employeesNavigationPage.Controls.Add(this.reasonLabel);
+            this.employeesNavigationPage.Controls.Add(this.takenByLabel);
+            this.employeesNavigationPage.Controls.Add(this.storeroomLabel);
+            this.employeesNavigationPage.Controls.Add(this.userNameIDLabel);
             this.employeesNavigationPage.Controls.Add(this.userNameTextBox);
-            this.employeesNavigationPage.Controls.Add(this.comboBoxEdit5);
-            this.employeesNavigationPage.Controls.Add(this.reasonComboBox);
-            this.employeesNavigationPage.Controls.Add(this.comboBoxEdit2);
-            this.employeesNavigationPage.Controls.Add(this.comboBoxEdit1);
             this.employeesNavigationPage.Controls.Add(this.employeesLabelControl);
             this.employeesNavigationPage.Controls.Add(this.storeRoomCombo);
             this.employeesNavigationPage.Name = "employeesNavigationPage";
             this.employeesNavigationPage.Size = new System.Drawing.Size(1007, 570);
             // 
+            // GetJobButton
+            // 
+            this.GetJobButton.Location = new System.Drawing.Point(32, 231);
+            this.GetJobButton.Name = "GetJobButton";
+            this.GetJobButton.Size = new System.Drawing.Size(75, 23);
+            this.GetJobButton.TabIndex = 28;
+            this.GetJobButton.Text = "Get Jobs";
+            this.GetJobButton.Click += new System.EventHandler(this.GetJobButton_Click);
+            // 
+            // reasonLookUp
+            // 
+            this.reasonLookUp.Location = new System.Drawing.Point(640, 115);
+            this.reasonLookUp.Name = "reasonLookUp";
+            this.reasonLookUp.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.reasonLookUp.Properties.DataSource = this.bindReason;
+            this.reasonLookUp.Properties.DisplayMember = "checkoutreasonid";
+            this.reasonLookUp.Properties.DropDownRows = 10;
+            this.reasonLookUp.Properties.NullText = "";
+            this.reasonLookUp.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
+            this.reasonLookUp.Properties.ValueMember = "n_checkoutreasonid";
+            this.reasonLookUp.Properties.Enter += new System.EventHandler(this.reasonEnter);
+            this.reasonLookUp.Size = new System.Drawing.Size(211, 20);
+            this.reasonLookUp.TabIndex = 27;
+            // 
+            // takenByLookUp
+            // 
+            this.takenByLookUp.Location = new System.Drawing.Point(284, 70);
+            this.takenByLookUp.Name = "takenByLookUp";
+            this.takenByLookUp.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.takenByLookUp.Properties.DataSource = this.bindUser;
+            this.takenByLookUp.Properties.DisplayMember = "Name";
+            this.takenByLookUp.Properties.DropDownRows = 10;
+            this.takenByLookUp.Properties.NullText = "";
+            this.takenByLookUp.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
+            this.takenByLookUp.Properties.ValueMember = "nUserID";
+            this.takenByLookUp.Properties.Enter += new System.EventHandler(this.takenByEnter);
+            this.takenByLookUp.Size = new System.Drawing.Size(211, 20);
+            this.takenByLookUp.TabIndex = 26;
+            // 
             // storeRoom
             // 
-            this.storeRoom.Location = new System.Drawing.Point(35, 206);
+            this.storeRoom.Location = new System.Drawing.Point(640, 66);
             this.storeRoom.Name = "storeRoom";
             this.storeRoom.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.storeRoom.Properties.DataSource = this.bindStoreroom;
+            this.storeRoom.Properties.DisplayMember = "storeroomid";
+            this.storeRoom.Properties.DropDownRows = 10;
+            this.storeRoom.Properties.NullText = "";
             this.storeRoom.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
+            this.storeRoom.Properties.ValueMember = "n_storeroomid";
             this.storeRoom.Properties.Enter += new System.EventHandler(this.storeRoomEnter);
-            this.storeRoom.Size = new System.Drawing.Size(100, 20);
+            this.storeRoom.Size = new System.Drawing.Size(211, 20);
             this.storeRoom.TabIndex = 24;
-            // 
-            // simpleButton2
-            // 
-            this.simpleButton2.Location = new System.Drawing.Point(35, 325);
-            this.simpleButton2.Name = "simpleButton2";
-            this.simpleButton2.Size = new System.Drawing.Size(75, 23);
-            this.simpleButton2.TabIndex = 23;
-            this.simpleButton2.Text = "Add Part";
             // 
             // gridControl1
             // 
-            this.gridControl1.Location = new System.Drawing.Point(209, 111);
+            this.gridControl1.DataSource = this.bindOpenJobs;
+            this.gridControl1.Location = new System.Drawing.Point(124, 231);
             this.gridControl1.MainView = this.gridView1;
             this.gridControl1.Name = "gridControl1";
-            this.gridControl1.Size = new System.Drawing.Size(773, 443);
+            this.gridControl1.Size = new System.Drawing.Size(794, 246);
             this.gridControl1.TabIndex = 22;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -249,47 +284,26 @@
             // 
             // toggleSwitch1
             // 
-            this.toggleSwitch1.Location = new System.Drawing.Point(35, 3);
+            this.toggleSwitch1.Location = new System.Drawing.Point(32, 21);
             this.toggleSwitch1.Name = "toggleSwitch1";
             this.toggleSwitch1.Properties.OffText = "No Job ID";
             this.toggleSwitch1.Properties.OnText = "Has Job ID";
             this.toggleSwitch1.Size = new System.Drawing.Size(124, 24);
             this.toggleSwitch1.TabIndex = 21;
+            this.toggleSwitch1.Toggled += new System.EventHandler(this.toggleSwitch1_Toggled);
             // 
-            // spinEdit1
+            // dateLabel
             // 
-            this.spinEdit1.EditValue = new decimal(new int[] {
-            0,
-            0,
-            0,
-            0});
-            this.spinEdit1.Location = new System.Drawing.Point(35, 289);
-            this.spinEdit1.Name = "spinEdit1";
-            this.spinEdit1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.spinEdit1.Size = new System.Drawing.Size(100, 20);
-            this.spinEdit1.TabIndex = 20;
-            // 
-            // simpleButton1
-            // 
-            this.simpleButton1.Location = new System.Drawing.Point(35, 392);
-            this.simpleButton1.Name = "simpleButton1";
-            this.simpleButton1.Size = new System.Drawing.Size(75, 23);
-            this.simpleButton1.TabIndex = 19;
-            this.simpleButton1.Text = "Check Out";
-            // 
-            // labelControl8
-            // 
-            this.labelControl8.Location = new System.Drawing.Point(698, 32);
-            this.labelControl8.Name = "labelControl8";
-            this.labelControl8.Size = new System.Drawing.Size(23, 13);
-            this.labelControl8.TabIndex = 18;
-            this.labelControl8.Text = "Date";
+            this.dateLabel.Location = new System.Drawing.Point(571, 26);
+            this.dateLabel.Name = "dateLabel";
+            this.dateLabel.Size = new System.Drawing.Size(23, 13);
+            this.dateLabel.TabIndex = 18;
+            this.dateLabel.Text = "Date";
             // 
             // dateEdit
             // 
             this.dateEdit.EditValue = null;
-            this.dateEdit.Location = new System.Drawing.Point(698, 51);
+            this.dateEdit.Location = new System.Drawing.Point(640, 25);
             this.dateEdit.Name = "dateEdit";
             this.dateEdit.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -298,111 +312,44 @@
             this.dateEdit.Size = new System.Drawing.Size(211, 20);
             this.dateEdit.TabIndex = 17;
             // 
-            // labelControl7
+            // reasonLabel
             // 
-            this.labelControl7.Location = new System.Drawing.Point(35, 232);
-            this.labelControl7.Name = "labelControl7";
-            this.labelControl7.Size = new System.Drawing.Size(20, 13);
-            this.labelControl7.TabIndex = 16;
-            this.labelControl7.Text = "Part";
+            this.reasonLabel.Location = new System.Drawing.Point(571, 122);
+            this.reasonLabel.Name = "reasonLabel";
+            this.reasonLabel.Size = new System.Drawing.Size(36, 13);
+            this.reasonLabel.TabIndex = 14;
+            this.reasonLabel.Text = "Reason";
             // 
-            // labelControl6
+            // takenByLabel
             // 
-            this.labelControl6.Location = new System.Drawing.Point(35, 32);
-            this.labelControl6.Name = "labelControl6";
-            this.labelControl6.Size = new System.Drawing.Size(63, 13);
-            this.labelControl6.TabIndex = 15;
-            this.labelControl6.Text = "labelControl6";
+            this.takenByLabel.Location = new System.Drawing.Point(209, 73);
+            this.takenByLabel.Name = "takenByLabel";
+            this.takenByLabel.Size = new System.Drawing.Size(69, 13);
+            this.takenByLabel.TabIndex = 13;
+            this.takenByLabel.Text = "Taken by User";
             // 
-            // labelControl5
+            // storeroomLabel
             // 
-            this.labelControl5.Location = new System.Drawing.Point(35, 135);
-            this.labelControl5.Name = "labelControl5";
-            this.labelControl5.Size = new System.Drawing.Size(36, 13);
-            this.labelControl5.TabIndex = 14;
-            this.labelControl5.Text = "Reason";
+            this.storeroomLabel.Location = new System.Drawing.Point(571, 73);
+            this.storeroomLabel.Name = "storeroomLabel";
+            this.storeroomLabel.Size = new System.Drawing.Size(53, 13);
+            this.storeroomLabel.TabIndex = 12;
+            this.storeroomLabel.Text = "Store room";
             // 
-            // labelControl4
+            // userNameIDLabel
             // 
-            this.labelControl4.Location = new System.Drawing.Point(35, 88);
-            this.labelControl4.Name = "labelControl4";
-            this.labelControl4.Size = new System.Drawing.Size(69, 13);
-            this.labelControl4.TabIndex = 13;
-            this.labelControl4.Text = "Taken by User";
-            // 
-            // labelControl3
-            // 
-            this.labelControl3.Location = new System.Drawing.Point(35, 186);
-            this.labelControl3.Name = "labelControl3";
-            this.labelControl3.Size = new System.Drawing.Size(53, 13);
-            this.labelControl3.TabIndex = 12;
-            this.labelControl3.Text = "Store room";
-            // 
-            // labelControl2
-            // 
-            this.labelControl2.Location = new System.Drawing.Point(450, 32);
-            this.labelControl2.Name = "labelControl2";
-            this.labelControl2.Size = new System.Drawing.Size(63, 13);
-            this.labelControl2.TabIndex = 11;
-            this.labelControl2.Text = "labelControl2";
-            // 
-            // labelControl1
-            // 
-            this.labelControl1.Location = new System.Drawing.Point(209, 32);
-            this.labelControl1.Name = "labelControl1";
-            this.labelControl1.Size = new System.Drawing.Size(52, 13);
-            this.labelControl1.TabIndex = 10;
-            this.labelControl1.Text = "User Name\r\n";
-            // 
-            // textEdit2
-            // 
-            this.textEdit2.Location = new System.Drawing.Point(450, 51);
-            this.textEdit2.Name = "textEdit2";
-            this.textEdit2.Size = new System.Drawing.Size(211, 20);
-            this.textEdit2.TabIndex = 9;
+            this.userNameIDLabel.Location = new System.Drawing.Point(209, 26);
+            this.userNameIDLabel.Name = "userNameIDLabel";
+            this.userNameIDLabel.Size = new System.Drawing.Size(52, 13);
+            this.userNameIDLabel.TabIndex = 10;
+            this.userNameIDLabel.Text = "User Name\r\n";
             // 
             // userNameTextBox
             // 
-            this.userNameTextBox.Location = new System.Drawing.Point(209, 51);
+            this.userNameTextBox.Location = new System.Drawing.Point(284, 23);
             this.userNameTextBox.Name = "userNameTextBox";
-            this.userNameTextBox.Size = new System.Drawing.Size(175, 20);
+            this.userNameTextBox.Size = new System.Drawing.Size(211, 20);
             this.userNameTextBox.TabIndex = 8;
-            // 
-            // comboBoxEdit5
-            // 
-            this.comboBoxEdit5.Location = new System.Drawing.Point(35, 248);
-            this.comboBoxEdit5.Name = "comboBoxEdit5";
-            this.comboBoxEdit5.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.comboBoxEdit5.Size = new System.Drawing.Size(100, 20);
-            this.comboBoxEdit5.TabIndex = 7;
-            // 
-            // reasonComboBox
-            // 
-            this.reasonComboBox.Location = new System.Drawing.Point(35, 156);
-            this.reasonComboBox.Name = "reasonComboBox";
-            this.reasonComboBox.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.reasonComboBox.Size = new System.Drawing.Size(100, 20);
-            this.reasonComboBox.TabIndex = 5;
-            // 
-            // comboBoxEdit2
-            // 
-            this.comboBoxEdit2.Location = new System.Drawing.Point(35, 108);
-            this.comboBoxEdit2.Name = "comboBoxEdit2";
-            this.comboBoxEdit2.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.comboBoxEdit2.Size = new System.Drawing.Size(100, 20);
-            this.comboBoxEdit2.TabIndex = 4;
-            // 
-            // comboBoxEdit1
-            // 
-            this.comboBoxEdit1.Location = new System.Drawing.Point(35, 51);
-            this.comboBoxEdit1.Name = "comboBoxEdit1";
-            this.comboBoxEdit1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.comboBoxEdit1.Size = new System.Drawing.Size(100, 20);
-            this.comboBoxEdit1.TabIndex = 3;
             // 
             // employeesLabelControl
             // 
@@ -419,7 +366,7 @@
             this.employeesLabelControl.Name = "employeesLabelControl";
             this.employeesLabelControl.Size = new System.Drawing.Size(1007, 570);
             this.employeesLabelControl.TabIndex = 2;
-            this.employeesLabelControl.Text = "Employees";
+            this.employeesLabelControl.Click += new System.EventHandler(this.employeesLabelControl_Click);
             // 
             // storeRoomCombo
             // 
@@ -437,9 +384,73 @@
             // customersNavigationPage
             // 
             this.customersNavigationPage.Caption = "customersNavigationPage";
+            this.customersNavigationPage.Controls.Add(this.checkOutButton);
+            this.customersNavigationPage.Controls.Add(this.gridControl2);
+            this.customersNavigationPage.Controls.Add(this.partIDLabel);
+            this.customersNavigationPage.Controls.Add(this.addPartButton);
+            this.customersNavigationPage.Controls.Add(this.partIDLookUp);
             this.customersNavigationPage.Controls.Add(this.customersLabelControl);
             this.customersNavigationPage.Name = "customersNavigationPage";
             this.customersNavigationPage.Size = new System.Drawing.Size(1007, 570);
+            // 
+            // checkOutButton
+            // 
+            this.checkOutButton.AppearanceHovered.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.checkOutButton.AppearanceHovered.Options.UseBackColor = true;
+            this.checkOutButton.AppearancePressed.BackColor = System.Drawing.Color.DarkGreen;
+            this.checkOutButton.AppearancePressed.Options.UseBackColor = true;
+            this.checkOutButton.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.Style3D;
+            this.checkOutButton.Location = new System.Drawing.Point(816, 498);
+            this.checkOutButton.Name = "checkOutButton";
+            this.checkOutButton.Size = new System.Drawing.Size(156, 49);
+            this.checkOutButton.TabIndex = 8;
+            this.checkOutButton.Text = "Check out";
+            // 
+            // gridControl2
+            // 
+            this.gridControl2.Location = new System.Drawing.Point(79, 195);
+            this.gridControl2.MainView = this.gridView2;
+            this.gridControl2.Name = "gridControl2";
+            this.gridControl2.Size = new System.Drawing.Size(839, 239);
+            this.gridControl2.TabIndex = 7;
+            this.gridControl2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridView2});
+            // 
+            // gridView2
+            // 
+            this.gridView2.GridControl = this.gridControl2;
+            this.gridView2.Name = "gridView2";
+            // 
+            // partIDLabel
+            // 
+            this.partIDLabel.Location = new System.Drawing.Point(79, 47);
+            this.partIDLabel.Name = "partIDLabel";
+            this.partIDLabel.Size = new System.Drawing.Size(34, 13);
+            this.partIDLabel.TabIndex = 5;
+            this.partIDLabel.Text = "Part ID";
+            // 
+            // addPartButton
+            // 
+            this.addPartButton.Location = new System.Drawing.Point(79, 150);
+            this.addPartButton.Name = "addPartButton";
+            this.addPartButton.Size = new System.Drawing.Size(75, 23);
+            this.addPartButton.TabIndex = 4;
+            this.addPartButton.Text = "Add Part";
+            // 
+            // partIDLookUp
+            // 
+            this.partIDLookUp.Location = new System.Drawing.Point(79, 67);
+            this.partIDLookUp.Name = "partIDLookUp";
+            this.partIDLookUp.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.partIDLookUp.Properties.DataSource = this.bindPart;
+            this.partIDLookUp.Properties.DisplayMember = "masterpartid";
+            this.partIDLookUp.Properties.DropDownRows = 10;
+            this.partIDLookUp.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
+            this.partIDLookUp.Properties.ValueMember = "n_masterpartid";
+            this.partIDLookUp.Properties.Enter += new System.EventHandler(this.partEnter);
+            this.partIDLookUp.Size = new System.Drawing.Size(192, 20);
+            this.partIDLookUp.TabIndex = 3;
             // 
             // customersLabelControl
             // 
@@ -456,7 +467,6 @@
             this.customersLabelControl.Name = "customersLabelControl";
             this.customersLabelControl.Size = new System.Drawing.Size(1007, 570);
             this.customersLabelControl.TabIndex = 2;
-            this.customersLabelControl.Text = "Customers";
             // 
             // navigationPage1
             // 
@@ -497,22 +507,26 @@
             this.navigationFrame.ResumeLayout(false);
             this.employeesNavigationPage.ResumeLayout(false);
             this.employeesNavigationPage.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.reasonLookUp.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindReason)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.takenByLookUp.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindUser)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.storeRoom.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindStoreroom)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindOpenJobs)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.toggleSwitch1.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.spinEdit1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateEdit.Properties.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateEdit.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit2.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.userNameTextBox.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEdit5.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.reasonComboBox.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEdit2.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEdit1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.storeRoomCombo.Properties)).EndInit();
             this.customersNavigationPage.ResumeLayout(false);
+            this.customersNavigationPage.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindPart)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.partIDLookUp.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -529,27 +543,17 @@
         private DevExpress.XtraBars.Navigation.NavigationPage customersNavigationPage;
         private DevExpress.XtraEditors.LabelControl employeesLabelControl;
         private DevExpress.XtraEditors.LabelControl customersLabelControl;
-        private DevExpress.XtraEditors.ComboBoxEdit comboBoxEdit1;
         private DevExpress.XtraEditors.TextEdit userNameTextBox;
-        private DevExpress.XtraEditors.ComboBoxEdit comboBoxEdit5;
-        private DevExpress.XtraEditors.ComboBoxEdit reasonComboBox;
-        private DevExpress.XtraEditors.ComboBoxEdit comboBoxEdit2;
+        
         private DevExpress.XtraGrid.GridControl gridControl1;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
         private DevExpress.XtraEditors.ToggleSwitch toggleSwitch1;
-        private DevExpress.XtraEditors.SpinEdit spinEdit1;
-        private DevExpress.XtraEditors.SimpleButton simpleButton1;
-        private DevExpress.XtraEditors.LabelControl labelControl8;
+        private DevExpress.XtraEditors.LabelControl dateLabel;
         private DevExpress.XtraEditors.DateEdit dateEdit;
-        private DevExpress.XtraEditors.LabelControl labelControl7;
-        private DevExpress.XtraEditors.LabelControl labelControl6;
-        private DevExpress.XtraEditors.LabelControl labelControl5;
-        private DevExpress.XtraEditors.LabelControl labelControl4;
-        private DevExpress.XtraEditors.LabelControl labelControl3;
-        private DevExpress.XtraEditors.LabelControl labelControl2;
-        private DevExpress.XtraEditors.LabelControl labelControl1;
-        private DevExpress.XtraEditors.TextEdit textEdit2;
-        private DevExpress.XtraEditors.SimpleButton simpleButton2;
+        private DevExpress.XtraEditors.LabelControl reasonLabel;
+        private DevExpress.XtraEditors.LabelControl takenByLabel;
+        private DevExpress.XtraEditors.LabelControl storeroomLabel;
+        private DevExpress.XtraEditors.LabelControl userNameIDLabel;
         private DevExpress.XtraEditors.LabelControl labelControl9;
         private DevExpress.XtraEditors.LabelControl userNameLabel;
         private DevExpress.XtraBars.Navigation.TileBarItem tileBarItem2;
@@ -557,5 +561,19 @@
         private System.Windows.Forms.BindingSource bindStoreroom;
         private DevExpress.XtraEditors.LookUpEdit storeRoomCombo;
         private DevExpress.XtraEditors.LookUpEdit storeRoom;
+        private System.Windows.Forms.BindingSource bindReason;
+        private System.Windows.Forms.BindingSource bindUser;
+        
+        private DevExpress.XtraEditors.LookUpEdit reasonLookUp;
+        private DevExpress.XtraEditors.LookUpEdit takenByLookUp;
+        private System.Windows.Forms.BindingSource bindOpenJobs;
+        private DevExpress.XtraEditors.SimpleButton GetJobButton;
+        private DevExpress.XtraEditors.SimpleButton checkOutButton;
+        private DevExpress.XtraGrid.GridControl gridControl2;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridView2;
+        private DevExpress.XtraEditors.LabelControl partIDLabel;
+        private DevExpress.XtraEditors.SimpleButton addPartButton;
+        private DevExpress.XtraEditors.LookUpEdit partIDLookUp;
+        private System.Windows.Forms.BindingSource bindPart;
     }
 }
