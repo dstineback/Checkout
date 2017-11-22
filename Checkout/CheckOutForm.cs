@@ -110,6 +110,8 @@ namespace Checkout
         //private InventoryListStoresIssues _oSiList;
         bool loadOK = true;
 
+        public object onClick { get; private set; }
+
         public CheckOutForm()
         {
             //ShowSplashScreen();
@@ -251,9 +253,9 @@ namespace Checkout
 
                 }
             
-            partBindingSource.DataSource = ds;
+            partBindingSource.DataSource = ds.Tables[0];
             
-            bindPart.DataSource = partBindingSource;
+            bindPart.DataSource = ds.Tables[0];
             partIDLookUp.EditValue = bindPart;
             
         }
@@ -334,6 +336,166 @@ namespace Checkout
 
 
             }
+        }
+
+        private void gridViewPartsList_click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void addPartButton_Click(object sender, EventArgs e)
+        {
+            var storeroomName = storeRoom.Text;
+            //NonSortedList param = new NonSortedList();
+
+            DataSet ds = new DataSet();
+
+            SqlConnection conn = new SqlConnection(dbConnection);
+            SqlCommand cmd = new SqlCommand();
+            SqlParameterCollection param = cmd.Parameters;
+            
+            SqlDataReader reader;
+        
+            param = cmd.Parameters;
+            cmd.CommandText = "SELECT Storerooms.n_storeroomid, Storerooms.storeroomid, Storerooms.descr, PartsAtLocation.qtyonhand, PartsAtLocation.n_masterpartid, Masterparts.n_masterpartid AS Expr1, Masterparts.masterpartid,  Masterparts.Description FROM PartsAtLocation INNER JOIN Masterparts ON PartsAtLocation.n_masterpartid = Masterparts.n_masterpartid INNER JOIN Storerooms ON PartsAtLocation.n_storeroomid = Storerooms.n_storeroomid";
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = conn;
+            //reader = cmd.ExecuteReader();
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.SelectCommand = cmd;
+            conn.Open();
+            da.Fill(ds);
+
+            conn.Close();
+
+            BindingSource partBindingSource = new BindingSource();
+            //partBindingSource.DataSource = reader;
+
+
+
+
+            if (ds.Tables.Count > 0)
+            {
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+
+                }
+
+            }
+
+            partBindingSource.DataSource = ds;
+
+            bindPart.DataSource = partBindingSource;
+            partIDLookUp.EditValue = bindPart;
+            BindingSource bindingPartsSource = new BindingSource();
+            bindingPartsSource.DataSource = ds;
+            //gridControl1.DataMember = "n_masterpartid";
+            gridControlParts.DataSource = ds.Tables[0];
+            //gridView1.Columns["n_jobstepid"].Visible = false;
+            //gridView1.Columns["n_jobid"].Visible = false;
+            //gridView1.Columns["T"].Visible = false;
+            //gridView1.Columns["A"].Visible = false;
+            //gridView1.Columns["step"].Visible = false;
+            //gridView1.Columns["Labor Class"].Visible = false;
+            //gridView1.Columns["Group"].Visible = false;
+            //gridView1.Columns["Supervisor"].Visible = false;
+            //gridView1.Columns["H"].Visible = false;
+            //gridView1.Columns["I"].Visible = false;
+            //gridView1.Columns["cReasoncode"].Visible = false;
+            //gridView1.Columns["AssignedTaskID"].Visible = false;
+            //gridView1.Columns["ApplyColor"].Visible = false;
+            //gridView1.Columns["FGColor"].Visible = false;
+            //gridView1.Columns["BGColor"].Visible = false;
+
+        }
+
+        private void simpleButton1_Click(object sender, EventArgs e)
+        {
+            var partID = partIDLookUp.Text;
+            int qty = Convert.ToInt32(QTYspinEdit.Value);
+
+            DataSet ds = new DataSet();
+            DataTable dt = new DataTable();
+            if (gridViewPartsAdded.DataSource == null)
+            {
+                //ds.Tables.Add();
+                // ds.Tables[0].Columns.Add("masterpartid");
+                // ds.Tables[0].Columns.Add("QTY");
+                dt.Columns.Add(new DataColumn("masterpartid"));
+                dt.Columns.Add(new DataColumn("QTY"));
+
+                DataRow row = dt.NewRow();
+                row["masterpartid"] = partID;
+                row["QTY"] = qty;
+                dt.Rows.Add(row);
+
+
+                ds.Tables.Add(dt);
+
+                gridControlPartsAdded.DataSource = ds.Tables[0];
+
+            }
+            else
+            {
+                //var count = gridViewPartsAdded.RowCount;
+                //dt.Columns.Add(new DataColumn("masterpartid"));
+                //dt.Columns.Add(new DataColumn("QTY"));
+                //DataRow row = dt.NewRow();
+                //row["masterpartid"] = partID;
+                //row["QTY"] = qty;
+                //dt.Rows.Add(row);
+
+
+                //ds.Tables[0].Rows.Add(dt);
+
+            }
+
+            gridViewPartsAdded.AddNewRow();
+            
+
+            int rowHandle = gridViewPartsAdded.GetRowHandle(gridViewPartsAdded.DataRowCount);
+
+
+               if (gridViewPartsAdded.IsNewItemRow(rowHandle))
+              {
+                   gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["masterpartid"], partID);
+                   gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["QTY"], qty);
+
+                }
+
+
+            
+        }
+
+        private void gridControlParts_MouseClick(object sender, MouseEventArgs e)
+        {
+            if(MouseButtons.Right == e.Button)
+            {
+                ContextMenu m = new ContextMenu();
+                m.MenuItems.Add(new MenuItem("Add selected rows"));
+                            
+                
+            }
+        }
+
+        private void AddSelectedRows()
+        {
+
+           
+            DataTable dt = new DataTable();
+           
+
+            if(gridViewPartsAdded.SelectedRowsCount > 0)
+            {
+                
+                foreach(var rows in gridViewPartsAdded.GetSelectedRows())
+                {
+                    DataRow row = gridViewPartsAdded.GetDataRow(rows);
+                    
+                }
+            }
+          
         }
     }
 }

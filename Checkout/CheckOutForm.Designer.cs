@@ -62,13 +62,20 @@
             this.employeesLabelControl = new DevExpress.XtraEditors.LabelControl();
             this.storeRoomCombo = new DevExpress.XtraEditors.LookUpEdit();
             this.customersNavigationPage = new DevExpress.XtraBars.Navigation.NavigationPage();
+            this.QTYLabel = new DevExpress.XtraEditors.LabelControl();
+            this.QTYspinEdit = new DevExpress.XtraEditors.SpinEdit();
+            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
+            this.gridControlPartsAdded = new DevExpress.XtraGrid.GridControl();
+            this.gridViewPartsAdded = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.masterpartid = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.QTY = new DevExpress.XtraGrid.Columns.GridColumn();
             this.checkOutButton = new DevExpress.XtraEditors.SimpleButton();
-            this.gridControl2 = new DevExpress.XtraGrid.GridControl();
+            this.gridControlParts = new DevExpress.XtraGrid.GridControl();
             this.gridView2 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.bindPart = new System.Windows.Forms.BindingSource(this.components);
             this.partIDLabel = new DevExpress.XtraEditors.LabelControl();
             this.addPartButton = new DevExpress.XtraEditors.SimpleButton();
             this.partIDLookUp = new DevExpress.XtraEditors.LookUpEdit();
+            this.bindPart = new System.Windows.Forms.BindingSource(this.components);
             this.customersLabelControl = new DevExpress.XtraEditors.LabelControl();
             this.navigationPage1 = new DevExpress.XtraBars.Navigation.NavigationPage();
             this.labelControl9 = new DevExpress.XtraEditors.LabelControl();
@@ -91,10 +98,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.userNameTextBox.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.storeRoomCombo.Properties)).BeginInit();
             this.customersNavigationPage.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QTYspinEdit.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControlPartsAdded)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridViewPartsAdded)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControlParts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindPart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.partIDLookUp.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindPart)).BeginInit();
             this.SuspendLayout();
             // 
             // tileBar
@@ -384,14 +394,81 @@
             // customersNavigationPage
             // 
             this.customersNavigationPage.Caption = "customersNavigationPage";
+            this.customersNavigationPage.Controls.Add(this.QTYLabel);
+            this.customersNavigationPage.Controls.Add(this.QTYspinEdit);
+            this.customersNavigationPage.Controls.Add(this.simpleButton1);
+            this.customersNavigationPage.Controls.Add(this.gridControlPartsAdded);
             this.customersNavigationPage.Controls.Add(this.checkOutButton);
-            this.customersNavigationPage.Controls.Add(this.gridControl2);
+            this.customersNavigationPage.Controls.Add(this.gridControlParts);
             this.customersNavigationPage.Controls.Add(this.partIDLabel);
             this.customersNavigationPage.Controls.Add(this.addPartButton);
             this.customersNavigationPage.Controls.Add(this.partIDLookUp);
             this.customersNavigationPage.Controls.Add(this.customersLabelControl);
             this.customersNavigationPage.Name = "customersNavigationPage";
             this.customersNavigationPage.Size = new System.Drawing.Size(1007, 570);
+            // 
+            // QTYLabel
+            // 
+            this.QTYLabel.Location = new System.Drawing.Point(444, 47);
+            this.QTYLabel.Name = "QTYLabel";
+            this.QTYLabel.Size = new System.Drawing.Size(20, 13);
+            this.QTYLabel.TabIndex = 12;
+            this.QTYLabel.Text = "QTY";
+            // 
+            // QTYspinEdit
+            // 
+            this.QTYspinEdit.EditValue = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.QTYspinEdit.Location = new System.Drawing.Point(444, 67);
+            this.QTYspinEdit.Name = "QTYspinEdit";
+            this.QTYspinEdit.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.QTYspinEdit.Size = new System.Drawing.Size(100, 20);
+            this.QTYspinEdit.TabIndex = 11;
+            // 
+            // simpleButton1
+            // 
+            this.simpleButton1.Location = new System.Drawing.Point(332, 65);
+            this.simpleButton1.Name = "simpleButton1";
+            this.simpleButton1.Size = new System.Drawing.Size(75, 23);
+            this.simpleButton1.TabIndex = 10;
+            this.simpleButton1.Text = "Add Part";
+            this.simpleButton1.Click += new System.EventHandler(this.simpleButton1_Click);
+            // 
+            // gridControlPartsAdded
+            // 
+            this.gridControlPartsAdded.Location = new System.Drawing.Point(134, 361);
+            this.gridControlPartsAdded.MainView = this.gridViewPartsAdded;
+            this.gridControlPartsAdded.Name = "gridControlPartsAdded";
+            this.gridControlPartsAdded.Size = new System.Drawing.Size(644, 155);
+            this.gridControlPartsAdded.TabIndex = 9;
+            this.gridControlPartsAdded.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridViewPartsAdded});
+            // 
+            // gridViewPartsAdded
+            // 
+            this.gridViewPartsAdded.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.masterpartid,
+            this.QTY});
+            this.gridViewPartsAdded.GridControl = this.gridControlPartsAdded;
+            this.gridViewPartsAdded.Name = "gridViewPartsAdded";
+            // 
+            // masterpartid
+            // 
+            this.masterpartid.FieldName = "masterpartid";
+            this.masterpartid.Name = "masterpartid";
+            this.masterpartid.Visible = true;
+            this.masterpartid.VisibleIndex = 0;
+            // 
+            // QTY
+            // 
+            this.QTY.FieldName = "QTY";
+            this.QTY.Name = "QTY";
+            this.QTY.Visible = true;
+            this.QTY.VisibleIndex = 1;
             // 
             // checkOutButton
             // 
@@ -400,30 +477,31 @@
             this.checkOutButton.AppearancePressed.BackColor = System.Drawing.Color.DarkGreen;
             this.checkOutButton.AppearancePressed.Options.UseBackColor = true;
             this.checkOutButton.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.Style3D;
-            this.checkOutButton.Location = new System.Drawing.Point(816, 498);
+            this.checkOutButton.Location = new System.Drawing.Point(816, 467);
             this.checkOutButton.Name = "checkOutButton";
             this.checkOutButton.Size = new System.Drawing.Size(156, 49);
             this.checkOutButton.TabIndex = 8;
             this.checkOutButton.Text = "Check out";
             // 
-            // gridControl2
+            // gridControlParts
             // 
-            this.gridControl2.Location = new System.Drawing.Point(79, 195);
-            this.gridControl2.MainView = this.gridView2;
-            this.gridControl2.Name = "gridControl2";
-            this.gridControl2.Size = new System.Drawing.Size(839, 239);
-            this.gridControl2.TabIndex = 7;
-            this.gridControl2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridControlParts.Location = new System.Drawing.Point(134, 105);
+            this.gridControlParts.MainView = this.gridView2;
+            this.gridControlParts.Name = "gridControlParts";
+            this.gridControlParts.Size = new System.Drawing.Size(839, 239);
+            this.gridControlParts.TabIndex = 7;
+            this.gridControlParts.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView2});
+            this.gridControlParts.MouseClick += new System.Windows.Forms.MouseEventHandler(this.gridControlParts_MouseClick);
             // 
             // gridView2
             // 
-            this.gridView2.GridControl = this.gridControl2;
+            this.gridView2.GridControl = this.gridControlParts;
             this.gridView2.Name = "gridView2";
             // 
             // partIDLabel
             // 
-            this.partIDLabel.Location = new System.Drawing.Point(79, 47);
+            this.partIDLabel.Location = new System.Drawing.Point(134, 49);
             this.partIDLabel.Name = "partIDLabel";
             this.partIDLabel.Size = new System.Drawing.Size(34, 13);
             this.partIDLabel.TabIndex = 5;
@@ -431,15 +509,16 @@
             // 
             // addPartButton
             // 
-            this.addPartButton.Location = new System.Drawing.Point(79, 150);
+            this.addPartButton.Location = new System.Drawing.Point(0, 105);
             this.addPartButton.Name = "addPartButton";
-            this.addPartButton.Size = new System.Drawing.Size(75, 23);
+            this.addPartButton.Size = new System.Drawing.Size(128, 23);
             this.addPartButton.TabIndex = 4;
-            this.addPartButton.Text = "Add Part";
+            this.addPartButton.Text = "Get all Storeroom parts";
+            this.addPartButton.Click += new System.EventHandler(this.addPartButton_Click);
             // 
             // partIDLookUp
             // 
-            this.partIDLookUp.Location = new System.Drawing.Point(79, 67);
+            this.partIDLookUp.Location = new System.Drawing.Point(134, 68);
             this.partIDLookUp.Name = "partIDLookUp";
             this.partIDLookUp.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -523,10 +602,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.storeRoomCombo.Properties)).EndInit();
             this.customersNavigationPage.ResumeLayout(false);
             this.customersNavigationPage.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QTYspinEdit.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControlPartsAdded)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridViewPartsAdded)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControlParts)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindPart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.partIDLookUp.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindPart)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -569,11 +651,18 @@
         private System.Windows.Forms.BindingSource bindOpenJobs;
         private DevExpress.XtraEditors.SimpleButton GetJobButton;
         private DevExpress.XtraEditors.SimpleButton checkOutButton;
-        private DevExpress.XtraGrid.GridControl gridControl2;
+        private DevExpress.XtraGrid.GridControl gridControlParts;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView2;
         private DevExpress.XtraEditors.LabelControl partIDLabel;
         private DevExpress.XtraEditors.SimpleButton addPartButton;
         private DevExpress.XtraEditors.LookUpEdit partIDLookUp;
         private System.Windows.Forms.BindingSource bindPart;
+        private DevExpress.XtraGrid.GridControl gridControlPartsAdded;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridViewPartsAdded;
+        private DevExpress.XtraEditors.SimpleButton simpleButton1;
+        private DevExpress.XtraEditors.LabelControl QTYLabel;
+        private DevExpress.XtraEditors.SpinEdit QTYspinEdit;
+        private DevExpress.XtraGrid.Columns.GridColumn masterpartid;
+        private DevExpress.XtraGrid.Columns.GridColumn QTY;
     }
 }
