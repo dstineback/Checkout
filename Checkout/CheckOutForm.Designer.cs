@@ -82,6 +82,10 @@
             this.navigationPage1 = new DevExpress.XtraBars.Navigation.NavigationPage();
             this.labelControl9 = new DevExpress.XtraEditors.LabelControl();
             this.userNameLabel = new DevExpress.XtraEditors.LabelControl();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.navigationFrame)).BeginInit();
             this.navigationFrame.SuspendLayout();
             this.employeesNavigationPage.SuspendLayout();
@@ -108,6 +112,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.partIDLookUp.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindPart)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
+            this.contextMenuStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tileBar
@@ -474,6 +480,7 @@
             this.gridControlPartsAdded.TabIndex = 9;
             this.gridControlPartsAdded.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewPartsAdded});
+            this.gridControlPartsAdded.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gridControlPartsAdded_MouseClick);
             // 
             // gridViewPartsAdded
             // 
@@ -487,6 +494,8 @@
             // 
             this.masterpartid.FieldName = "masterpartid";
             this.masterpartid.Name = "masterpartid";
+            this.masterpartid.OptionsColumn.AllowEdit = false;
+            this.masterpartid.OptionsColumn.ReadOnly = true;
             this.masterpartid.Visible = true;
             this.masterpartid.VisibleIndex = 0;
             // 
@@ -525,6 +534,9 @@
             // 
             this.gridView2.GridControl = this.gridControlParts;
             this.gridView2.Name = "gridView2";
+            this.gridView2.OptionsBehavior.Editable = false;
+            this.gridView2.OptionsBehavior.ReadOnly = true;
+            this.gridView2.OptionsSelection.MultiSelect = true;
             // 
             // partIDLabel
             // 
@@ -552,6 +564,7 @@
             this.partIDLookUp.Properties.DataSource = this.bindPart;
             this.partIDLookUp.Properties.DisplayMember = "masterpartid";
             this.partIDLookUp.Properties.DropDownRows = 10;
+            this.partIDLookUp.Properties.NullText = "";
             this.partIDLookUp.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
             this.partIDLookUp.Properties.ValueMember = "n_masterpartid";
             this.partIDLookUp.Properties.Enter += new System.EventHandler(this.partEnter);
@@ -596,6 +609,33 @@
             this.userNameLabel.TabIndex = 3;
             this.userNameLabel.Text = "UserName";
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 26);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem1.Text = "toolStripMenuItem1";
+            // 
+            // contextMenuStrip2
+            // 
+            this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem2});
+            this.contextMenuStrip2.Name = "contextMenuStrip2";
+            this.contextMenuStrip2.Size = new System.Drawing.Size(126, 26);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(125, 22);
+            this.toolStripMenuItem2.Text = "Add Parts";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.addPartButton_Click);
+            // 
             // CheckOutForm
             // 
             this.Appearance.BackColor = System.Drawing.Color.White;
@@ -637,6 +677,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridView2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.partIDLookUp.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindPart)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
+            this.contextMenuStrip2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -694,5 +736,9 @@
         private DevExpress.XtraGrid.Columns.GridColumn QTY;
         private DevExpress.XtraEditors.LabelControl storeroomPartsLabel;
         private DevExpress.XtraEditors.LookUpEdit storeroomLookUp;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
     }
 }

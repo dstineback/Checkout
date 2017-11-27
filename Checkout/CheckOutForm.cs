@@ -10,6 +10,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
+using DevExpress.XtraGrid.Views.Base;
+using DevExpress.XtraGrid.Views.Grid;
 using MPETDSFactory;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Storage.Blob;
@@ -197,10 +199,20 @@ namespace Checkout
 
         private void partEnter(object sender, EventArgs e)
         {
-            var storeroomName = storeRoom.Text;
-            //NonSortedList param = new NonSortedList();
-            
-            DataSet ds = new DataSet();
+            if (storeRoom.Text != "" || storeroomLookUp.Text != "")
+            {
+                var storeroomName = "";
+                if (storeroomLookUp.Visible == true && storeroomLookUp.Text != "")
+                {
+                    storeroomName = storeroomLookUp.Text;
+                }
+                if (storeRoom.Text != "")
+                {
+                    storeroomName = storeRoom.Text;
+                }
+                //NonSortedList param = new NonSortedList();
+
+                DataSet ds = new DataSet();
 
             SqlConnection conn = new SqlConnection(dbConnection);
             SqlCommand cmd = new SqlCommand();
@@ -259,7 +271,15 @@ namespace Checkout
             
             bindPart.DataSource = ds.Tables[0];
             partIDLookUp.EditValue = bindPart;
-            
+            }
+            else
+            {
+                MessageBox.Show("Please pick a valid storeroom");
+                storeRoom.Visible = false;
+                storeroomLookUp.Visible = true;
+                storeroomLookUp.Focus();
+
+            }
         }
 
         private void ShowSplashScreen()
@@ -347,9 +367,19 @@ namespace Checkout
 
         private void addPartButton_Click(object sender, EventArgs e)
         {
-            if(storeRoom.Text != "")
+            if(storeRoom.Text != "" || storeroomLookUp.Text != "")
             {
-                var storeroomName = storeRoom.Text;
+                var storeroomName = "";
+                if(storeroomLookUp.Visible == true && storeroomLookUp.Text != "")
+                {
+                    storeroomName = storeroomLookUp.Text;
+                }
+                if(storeRoom.Text != "")
+                {
+                    storeroomName = storeRoom.Text;
+                }
+                
+               
            
             //NonSortedList param = new NonSortedList();
 
@@ -417,6 +447,7 @@ namespace Checkout
             else
             {
                 MessageBox.Show("Please pick a valid storeroom");
+                storeRoom.Visible = false;
                 storeroomLookUp.Visible = true;
                 storeroomLookUp.Focus();
                 
@@ -485,31 +516,93 @@ namespace Checkout
         {
             if(MouseButtons.Right == e.Button)
             {
-                ContextMenu m = new ContextMenu();
-                m.MenuItems.Add(new MenuItem("Add selected rows"));
-                            
-                
+                var selectedRows = gridView1.GetSelectedRows();
+                ContextMenuStrip m = new ContextMenuStrip();
+                m.Items.Add("Add selected rows");
+                m.Show(gridControlParts, new Point(e.X, e.Y));
+                m.ItemClicked += new ToolStripItemClickedEventHandler(AddSelectedRows_ItemClicked);                                     
             }
         }
 
-        private void AddSelectedRows()
+        private void gridControlPartsAdded_MouseClick(object sender, MouseEventArgs e)
         {
-
-           
-            DataTable dt = new DataTable();
-           
-
-            if(gridViewPartsAdded.SelectedRowsCount > 0)
+            if(MouseButtons.Right == e.Button)
             {
-                
-                foreach(var rows in gridViewPartsAdded.GetSelectedRows())
-                {
-                    DataRow row = gridViewPartsAdded.GetDataRow(rows);
-                    
-                }
+                var selectedRows = gridView2.GetSelectedRows();
+                ContextMenuStrip m = new ContextMenuStrip();
+                m.Items.Add("Delete Selected Rows");
+                m.Show(gridControlPartsAdded, new Point(e.X, e.Y));
+                m.ItemClicked += M_ItemClicked;
             }
-          
         }
+
+        private void M_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            var selectedRows = GetSelectedRows(gridViewPartsAdded, "masterpartid");
+            var count = 0;
+            foreach(var rows in selectedRows)
+            {
+                gridViewPartsAdded.DeleteRow(count);
+                count++;
+            }
+        }
+
+        private object[] GetSelectedRows(DevExpress.XtraGrid.Views.Grid.GridView view, string fieldName)
+        {
+            int[] selectedRows = view.GetSelectedRows();
+            object[] result = new object[selectedRows.Length];
+            for (int i = 0; i < selectedRows.Length; i++)
+            {
+                int rowHandle = selectedRows[i];
+                if (!gridView1.IsGroupRow(rowHandle))
+                {
+                    result[i] = view.GetRowCellValue(rowHandle, fieldName);                 
+                }
+                else
+                    result[i] = -1; // default value
+            }
+            return result;
+
+        }
+
+        void AddSelectedRows_ItemClicked( object sender, ToolStripItemClickedEventArgs  e)
+        {
+            ToolStripItem item = e.ClickedItem;
+            var selectedrows = GetSelectedRows(gridView2, "masterpartid");
+
+            DataTable dt = new DataTable();
+            DataSet ds = new DataSet();
+            dt.Columns.Add(new DataColumn("masterpartid"));
+            dt.Columns.Add(new DataColumn("QTY"));
+
+            if (selectedrows.Count() > 0)
+            {
+                var partID = 0;
+                var qty = 0;
+                var count = 0;
+
+                foreach (var rows in selectedrows)
+                {                    
+                    DataRow row = dt.NewRow();
+                    row["masterpartid"] = selectedrows.GetValue(Convert.ToInt32(count));
+                    row["QTY"] = qty;
+                    dt.Rows.Add(row);
+                 
+                    int rowHandle = gridViewPartsAdded.GetRowHandle(gridViewPartsAdded.DataRowCount);
+
+                    if (gridViewPartsAdded.IsNewItemRow(rowHandle))
+                    {
+                        gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["masterpartid"], partID);
+                        gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["QTY"], qty);
+                    }
+                    count++;
+                }
+            ds.Tables.Add(dt);
+
+            gridControlPartsAdded.DataSource = ds.Tables[0];
+            }
+        }
+
 
         private void storeroomLookUpEnter(object sender, EventArgs e)
         {
@@ -517,6 +610,7 @@ namespace Checkout
             storeRoomBindingSource.DataSource = _oCheckOut.GetAllStorerooms(ref loadOK);
             bindStoreroom.DataSource = storeRoomBindingSource;
             storeroomLookUp.EditValue = bindStoreroom;
+            
         }
     }
 }
