@@ -146,6 +146,8 @@ namespace Checkout
                 reasonLabel.Visible = false;
 
             }
+            storeRoom.BackColor = Color.PaleVioletRed;
+            storeroomLookUp.Visible = false;
         }
 
         private void LoginFormClosing(object sender, FormClosedEventArgs e)
@@ -204,7 +206,7 @@ namespace Checkout
             SqlCommand cmd = new SqlCommand();
             SqlParameterCollection param = cmd.Parameters;
             //param.AddWithValue("@StoreroomLock", -1);
-            //param.AddWithValue("@StoreroomFilter",  storeroomName);
+            param.AddWithValue("@StoreroomFilter",  storeroomName);
             //param.AddWithValue("@PartNameContains", "");
             //param.AddWithValue("@DescLike", "");
             //param.AddWithValue("@AssignedToBuyer", "");
@@ -226,7 +228,7 @@ namespace Checkout
 
             //cmd.CommandText = "filter_GetFilteredStoreroomPartsList";
             param = cmd.Parameters;
-            cmd.CommandText = "SELECT Storerooms.n_storeroomid, Storerooms.storeroomid, Storerooms.descr, PartsAtLocation.qtyonhand, PartsAtLocation.n_masterpartid, Masterparts.n_masterpartid AS Expr1, Masterparts.masterpartid,  Masterparts.Description FROM PartsAtLocation INNER JOIN Masterparts ON PartsAtLocation.n_masterpartid = Masterparts.n_masterpartid INNER JOIN Storerooms ON PartsAtLocation.n_storeroomid = Storerooms.n_storeroomid";
+            cmd.CommandText = "SELECT Storerooms.n_storeroomid, Storerooms.storeroomid, Storerooms.descr, PartsAtLocation.qtyonhand, PartsAtLocation.n_masterpartid, Masterparts.n_masterpartid AS Expr1, Masterparts.masterpartid,  Masterparts.Description FROM PartsAtLocation INNER JOIN Masterparts ON PartsAtLocation.n_masterpartid = Masterparts.n_masterpartid INNER JOIN Storerooms ON PartsAtLocation.n_storeroomid = Storerooms.n_storeroomid WHERE storeroomid = @StoreroomFilter";
             cmd.CommandType = CommandType.Text;
             cmd.Connection = conn;
             //reader = cmd.ExecuteReader();
@@ -345,7 +347,10 @@ namespace Checkout
 
         private void addPartButton_Click(object sender, EventArgs e)
         {
-            var storeroomName = storeRoom.Text;
+            if(storeRoom.Text != "")
+            {
+                var storeroomName = storeRoom.Text;
+           
             //NonSortedList param = new NonSortedList();
 
             DataSet ds = new DataSet();
@@ -353,11 +358,12 @@ namespace Checkout
             SqlConnection conn = new SqlConnection(dbConnection);
             SqlCommand cmd = new SqlCommand();
             SqlParameterCollection param = cmd.Parameters;
+            param.AddWithValue("@StoreroomFilter", storeroomName);
             
-            SqlDataReader reader;
+            //SqlDataReader reader;
         
             param = cmd.Parameters;
-            cmd.CommandText = "SELECT Storerooms.n_storeroomid, Storerooms.storeroomid, Storerooms.descr, PartsAtLocation.qtyonhand, PartsAtLocation.n_masterpartid, Masterparts.n_masterpartid AS Expr1, Masterparts.masterpartid,  Masterparts.Description FROM PartsAtLocation INNER JOIN Masterparts ON PartsAtLocation.n_masterpartid = Masterparts.n_masterpartid INNER JOIN Storerooms ON PartsAtLocation.n_storeroomid = Storerooms.n_storeroomid";
+            cmd.CommandText = "SELECT Storerooms.n_storeroomid, Storerooms.storeroomid, Storerooms.descr, PartsAtLocation.qtyonhand, PartsAtLocation.n_masterpartid, Masterparts.n_masterpartid AS Expr1, Masterparts.masterpartid,  Masterparts.Description FROM PartsAtLocation INNER JOIN Masterparts ON PartsAtLocation.n_masterpartid = Masterparts.n_masterpartid INNER JOIN Storerooms ON PartsAtLocation.n_storeroomid = Storerooms.n_storeroomid WHERE storeroomid = @StoreroomFilter";
             cmd.CommandType = CommandType.Text;
             cmd.Connection = conn;
             //reader = cmd.ExecuteReader();
@@ -392,22 +398,29 @@ namespace Checkout
             bindingPartsSource.DataSource = ds;
             //gridControl1.DataMember = "n_masterpartid";
             gridControlParts.DataSource = ds.Tables[0];
-            //gridView1.Columns["n_jobstepid"].Visible = false;
-            //gridView1.Columns["n_jobid"].Visible = false;
-            //gridView1.Columns["T"].Visible = false;
-            //gridView1.Columns["A"].Visible = false;
-            //gridView1.Columns["step"].Visible = false;
-            //gridView1.Columns["Labor Class"].Visible = false;
-            //gridView1.Columns["Group"].Visible = false;
-            //gridView1.Columns["Supervisor"].Visible = false;
-            //gridView1.Columns["H"].Visible = false;
-            //gridView1.Columns["I"].Visible = false;
-            //gridView1.Columns["cReasoncode"].Visible = false;
-            //gridView1.Columns["AssignedTaskID"].Visible = false;
-            //gridView1.Columns["ApplyColor"].Visible = false;
-            //gridView1.Columns["FGColor"].Visible = false;
-            //gridView1.Columns["BGColor"].Visible = false;
-
+                //gridView1.Columns["n_jobstepid"].Visible = false;
+                //gridView1.Columns["n_jobid"].Visible = false;
+                //gridView1.Columns["T"].Visible = false;
+                //gridView1.Columns["A"].Visible = false;
+                //gridView1.Columns["step"].Visible = false;
+                //gridView1.Columns["Labor Class"].Visible = false;
+                //gridView1.Columns["Group"].Visible = false;
+                //gridView1.Columns["Supervisor"].Visible = false;
+                //gridView1.Columns["H"].Visible = false;
+                //gridView1.Columns["I"].Visible = false;
+                //gridView1.Columns["cReasoncode"].Visible = false;
+                //gridView1.Columns["AssignedTaskID"].Visible = false;
+                //gridView1.Columns["ApplyColor"].Visible = false;
+                //gridView1.Columns["FGColor"].Visible = false;
+                //gridView1.Columns["BGColor"].Visible = false;
+            }
+            else
+            {
+                MessageBox.Show("Please pick a valid storeroom");
+                storeroomLookUp.Visible = true;
+                storeroomLookUp.Focus();
+                
+            }
         }
 
         private void simpleButton1_Click(object sender, EventArgs e)
@@ -496,6 +509,14 @@ namespace Checkout
                 }
             }
           
+        }
+
+        private void storeroomLookUpEnter(object sender, EventArgs e)
+        {
+            BindingSource storeRoomBindingSource = new BindingSource();
+            storeRoomBindingSource.DataSource = _oCheckOut.GetAllStorerooms(ref loadOK);
+            bindStoreroom.DataSource = storeRoomBindingSource;
+            storeroomLookUp.EditValue = bindStoreroom;
         }
     }
 }

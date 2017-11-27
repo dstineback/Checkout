@@ -62,6 +62,8 @@
             this.employeesLabelControl = new DevExpress.XtraEditors.LabelControl();
             this.storeRoomCombo = new DevExpress.XtraEditors.LookUpEdit();
             this.customersNavigationPage = new DevExpress.XtraBars.Navigation.NavigationPage();
+            this.storeroomPartsLabel = new DevExpress.XtraEditors.LabelControl();
+            this.storeroomLookUp = new DevExpress.XtraEditors.LookUpEdit();
             this.QTYLabel = new DevExpress.XtraEditors.LabelControl();
             this.QTYspinEdit = new DevExpress.XtraEditors.SpinEdit();
             this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
@@ -98,6 +100,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.userNameTextBox.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.storeRoomCombo.Properties)).BeginInit();
             this.customersNavigationPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.storeroomLookUp.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.QTYspinEdit.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControlPartsAdded)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewPartsAdded)).BeginInit();
@@ -394,6 +397,8 @@
             // customersNavigationPage
             // 
             this.customersNavigationPage.Caption = "customersNavigationPage";
+            this.customersNavigationPage.Controls.Add(this.storeroomPartsLabel);
+            this.customersNavigationPage.Controls.Add(this.storeroomLookUp);
             this.customersNavigationPage.Controls.Add(this.QTYLabel);
             this.customersNavigationPage.Controls.Add(this.QTYspinEdit);
             this.customersNavigationPage.Controls.Add(this.simpleButton1);
@@ -406,6 +411,28 @@
             this.customersNavigationPage.Controls.Add(this.customersLabelControl);
             this.customersNavigationPage.Name = "customersNavigationPage";
             this.customersNavigationPage.Size = new System.Drawing.Size(1007, 570);
+            // 
+            // storeroomPartsLabel
+            // 
+            this.storeroomPartsLabel.Location = new System.Drawing.Point(629, 49);
+            this.storeroomPartsLabel.Name = "storeroomPartsLabel";
+            this.storeroomPartsLabel.Size = new System.Drawing.Size(56, 13);
+            this.storeroomPartsLabel.TabIndex = 14;
+            this.storeroomPartsLabel.Text = "Store Room";
+            // 
+            // storeroomLookUp
+            // 
+            this.storeroomLookUp.Location = new System.Drawing.Point(629, 67);
+            this.storeroomLookUp.Name = "storeroomLookUp";
+            this.storeroomLookUp.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.storeroomLookUp.Properties.DataSource = this.bindStoreroom;
+            this.storeroomLookUp.Properties.DisplayMember = "storeroomid";
+            this.storeroomLookUp.Properties.NullText = "";
+            this.storeroomLookUp.Properties.ValueMember = "n_storeroomid";
+            this.storeroomLookUp.Size = new System.Drawing.Size(276, 20);
+            this.storeroomLookUp.TabIndex = 13;
+            this.storeroomLookUp.Enter += new System.EventHandler(this.storeroomLookUpEnter);
             // 
             // QTYLabel
             // 
@@ -602,6 +629,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.storeRoomCombo.Properties)).EndInit();
             this.customersNavigationPage.ResumeLayout(false);
             this.customersNavigationPage.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.storeroomLookUp.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.QTYspinEdit.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControlPartsAdded)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewPartsAdded)).EndInit();
@@ -664,5 +692,7 @@
         private DevExpress.XtraEditors.SpinEdit QTYspinEdit;
         private DevExpress.XtraGrid.Columns.GridColumn masterpartid;
         private DevExpress.XtraGrid.Columns.GridColumn QTY;
+        private DevExpress.XtraEditors.LabelControl storeroomPartsLabel;
+        private DevExpress.XtraEditors.LookUpEdit storeroomLookUp;
     }
 }
