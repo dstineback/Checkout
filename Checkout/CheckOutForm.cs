@@ -144,12 +144,15 @@ namespace Checkout
             {
                 gridControl1.Visible = true;
                 GetJobButton.Visible = true;
+                JobIDTextEdit.Visible = true;
+                JobIDLabel.Visible = true;
                 reasonLookUp.Visible = false;
                 reasonLabel.Visible = false;
 
             }
             storeRoom.BackColor = Color.PaleVioletRed;
             storeroomLookUp.Visible = false;
+            storeroomPartsLabel.Visible = false;
         }
 
         private void LoginFormClosing(object sender, FormClosedEventArgs e)
@@ -320,21 +323,21 @@ namespace Checkout
             BindingSource bindingOpenJobsSource = new BindingSource();
             bindOpenJobs.DataSource = _oCheckOut.GetAllJobsList(ref loadOK, _nullDate);
             gridControl1.DataSource = bindOpenJobs;
-            gridView1.Columns["n_jobstepid"].Visible = false;
-            gridView1.Columns["n_jobid"].Visible = false;
-            gridView1.Columns["T"].Visible = false;
-            gridView1.Columns["A"].Visible = false;
-            gridView1.Columns["step"].Visible = false;
-            gridView1.Columns["Labor Class"].Visible = false;
-            gridView1.Columns["Group"].Visible = false;
-            gridView1.Columns["Supervisor"].Visible = false;
-            gridView1.Columns["H"].Visible = false;
-            gridView1.Columns["I"].Visible = false;
-            gridView1.Columns["cReasoncode"].Visible = false;
-            gridView1.Columns["AssignedTaskID"].Visible = false;
-            gridView1.Columns["ApplyColor"].Visible = false;
-            gridView1.Columns["FGColor"].Visible = false;
-            gridView1.Columns["BGColor"].Visible = false;
+            gridViewJobs.Columns["n_jobstepid"].Visible = false;
+            gridViewJobs.Columns["n_jobid"].Visible = false;
+            gridViewJobs.Columns["T"].Visible = false;
+            gridViewJobs.Columns["A"].Visible = false;
+            gridViewJobs.Columns["step"].Visible = false;
+            gridViewJobs.Columns["Labor Class"].Visible = false;
+            gridViewJobs.Columns["Group"].Visible = false;
+            gridViewJobs.Columns["Supervisor"].Visible = false;
+            gridViewJobs.Columns["H"].Visible = false;
+            gridViewJobs.Columns["I"].Visible = false;
+            gridViewJobs.Columns["cReasoncode"].Visible = false;
+            gridViewJobs.Columns["AssignedTaskID"].Visible = false;
+            gridViewJobs.Columns["ApplyColor"].Visible = false;
+            gridViewJobs.Columns["FGColor"].Visible = false;
+            gridViewJobs.Columns["BGColor"].Visible = false;
             
         }
 
@@ -344,6 +347,8 @@ namespace Checkout
             {
                 gridControl1.Visible = true;
                 GetJobButton.Visible = true;
+                JobIDTextEdit.Visible = true;
+                JobIDLabel.Visible = true;
                 reasonLookUp.Visible = false;
                 reasonLabel.Visible = false;
 
@@ -353,6 +358,8 @@ namespace Checkout
             {
                 gridControl1.Visible = false;
                 GetJobButton.Visible = false;
+                JobIDLabel.Visible = false;
+                JobIDTextEdit.Visible = false;
                 reasonLabel.Visible = true;
                 reasonLookUp.Visible = true;
 
@@ -448,9 +455,10 @@ namespace Checkout
             {
                 MessageBox.Show("Please pick a valid storeroom");
                 storeRoom.Visible = false;
+                storeroomLabel.Visible = false;
                 storeroomLookUp.Visible = true;
-                storeroomLookUp.Focus();
-                
+                storeroomPartsLabel.Visible = true;
+                storeroomLookUp.Focus();            
             }
         }
 
@@ -463,9 +471,6 @@ namespace Checkout
             DataTable dt = new DataTable();
             if (gridViewPartsAdded.DataSource == null)
             {
-                //ds.Tables.Add();
-                // ds.Tables[0].Columns.Add("masterpartid");
-                // ds.Tables[0].Columns.Add("QTY");
                 dt.Columns.Add(new DataColumn("masterpartid"));
                 dt.Columns.Add(new DataColumn("QTY"));
 
@@ -473,50 +478,31 @@ namespace Checkout
                 row["masterpartid"] = partID;
                 row["QTY"] = qty;
                 dt.Rows.Add(row);
-
-
                 ds.Tables.Add(dt);
 
                 gridControlPartsAdded.DataSource = ds.Tables[0];
 
-            }
-            else
+            } else
             {
-                //var count = gridViewPartsAdded.RowCount;
-                //dt.Columns.Add(new DataColumn("masterpartid"));
-                //dt.Columns.Add(new DataColumn("QTY"));
-                //DataRow row = dt.NewRow();
-                //row["masterpartid"] = partID;
-                //row["QTY"] = qty;
-                //dt.Rows.Add(row);
+                gridViewPartsAdded.AddNewRow();
+            
+                int rowHandle = gridViewPartsAdded.GetRowHandle(gridViewPartsAdded.DataRowCount);
 
-
-                //ds.Tables[0].Rows.Add(dt);
+                if (gridViewPartsAdded.IsNewItemRow(rowHandle))
+                {
+                    gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["masterpartid"], partID);
+                    gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["QTY"], qty);
+                }           
 
             }
 
-            gridViewPartsAdded.AddNewRow();
-            
-
-            int rowHandle = gridViewPartsAdded.GetRowHandle(gridViewPartsAdded.DataRowCount);
-
-
-               if (gridViewPartsAdded.IsNewItemRow(rowHandle))
-              {
-                   gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["masterpartid"], partID);
-                   gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["QTY"], qty);
-
-                }
-
-
-            
         }
 
         private void gridControlParts_MouseClick(object sender, MouseEventArgs e)
         {
             if(MouseButtons.Right == e.Button)
             {
-                var selectedRows = gridView1.GetSelectedRows();
+                var selectedRows = gridViewJobs.GetSelectedRows();
                 ContextMenuStrip m = new ContextMenuStrip();
                 m.Items.Add("Add selected rows");
                 m.Show(gridControlParts, new Point(e.X, e.Y));
@@ -528,12 +514,29 @@ namespace Checkout
         {
             if(MouseButtons.Right == e.Button)
             {
-                var selectedRows = gridView2.GetSelectedRows();
+                var selectedRows = gridViewParts.GetSelectedRows();
                 ContextMenuStrip m = new ContextMenuStrip();
                 m.Items.Add("Delete Selected Rows");
                 m.Show(gridControlPartsAdded, new Point(e.X, e.Y));
                 m.ItemClicked += M_ItemClicked;
             }
+        }
+
+        private void gridControlJobs_MouseClick(object sender, MouseEventArgs e)
+        {
+            if(MouseButtons.Right == e.Button)
+            {
+            ContextMenuStrip m = new ContextMenuStrip();
+            m.Items.Add("Select Job");
+            m.Show(gridControl1, new Point(e.X, e.Y));
+            m.ItemClicked += M_ItemClickedJob;
+            }
+        }
+
+        private void M_ItemClickedJob(object sender, ToolStripItemClickedEventArgs e)
+        {
+            var result = GetSelectedRows(gridViewJobs, "n_jobid");
+            JobIDTextEdit.Text = result[0].ToString();
         }
 
         private void M_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -545,7 +548,7 @@ namespace Checkout
                 gridViewPartsAdded.DeleteRow(count);
                 count++;
             }
-        }
+     }
 
         private object[] GetSelectedRows(DevExpress.XtraGrid.Views.Grid.GridView view, string fieldName)
         {
@@ -554,7 +557,7 @@ namespace Checkout
             for (int i = 0; i < selectedRows.Length; i++)
             {
                 int rowHandle = selectedRows[i];
-                if (!gridView1.IsGroupRow(rowHandle))
+                if (!gridViewJobs.IsGroupRow(rowHandle))
                 {
                     result[i] = view.GetRowCellValue(rowHandle, fieldName);                 
                 }
@@ -568,38 +571,37 @@ namespace Checkout
         void AddSelectedRows_ItemClicked( object sender, ToolStripItemClickedEventArgs  e)
         {
             ToolStripItem item = e.ClickedItem;
-            var selectedrows = GetSelectedRows(gridView2, "masterpartid");
-
-            DataTable dt = new DataTable();
-            DataSet ds = new DataSet();
-            dt.Columns.Add(new DataColumn("masterpartid"));
-            dt.Columns.Add(new DataColumn("QTY"));
+            var selectedrows = GetSelectedRows(gridViewParts, "masterpartid");
 
             if (selectedrows.Count() > 0)
             {
-                var partID = 0;
+                var partID = "";
                 var qty = 0;
                 var count = 0;
 
                 foreach (var rows in selectedrows)
-                {                    
-                    DataRow row = dt.NewRow();
-                    row["masterpartid"] = selectedrows.GetValue(Convert.ToInt32(count));
-                    row["QTY"] = qty;
-                    dt.Rows.Add(row);
-                 
+                {                                    
+                    partID = selectedrows.GetValue(count).ToString();
+                  
+                    gridViewPartsAdded.AddNewRow();
                     int rowHandle = gridViewPartsAdded.GetRowHandle(gridViewPartsAdded.DataRowCount);
 
                     if (gridViewPartsAdded.IsNewItemRow(rowHandle))
                     {
                         gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["masterpartid"], partID);
                         gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["QTY"], qty);
+
+                    } else
+                    {
+                        rowHandle = rowHandle + 1;
+                        if (gridViewPartsAdded.IsNewItemRow(rowHandle))
+                        {
+                            gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["masterpartid"], partID);
+                            gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["QTY"], qty);
+                        }
                     }
                     count++;
                 }
-            ds.Tables.Add(dt);
-
-            gridControlPartsAdded.DataSource = ds.Tables[0];
             }
         }
 

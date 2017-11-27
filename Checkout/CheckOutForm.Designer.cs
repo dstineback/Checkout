@@ -50,7 +50,7 @@
             this.bindStoreroom = new System.Windows.Forms.BindingSource(this.components);
             this.gridControl1 = new DevExpress.XtraGrid.GridControl();
             this.bindOpenJobs = new System.Windows.Forms.BindingSource(this.components);
-            this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.gridViewJobs = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.toggleSwitch1 = new DevExpress.XtraEditors.ToggleSwitch();
             this.dateLabel = new DevExpress.XtraEditors.LabelControl();
             this.dateEdit = new DevExpress.XtraEditors.DateEdit();
@@ -73,7 +73,7 @@
             this.QTY = new DevExpress.XtraGrid.Columns.GridColumn();
             this.checkOutButton = new DevExpress.XtraEditors.SimpleButton();
             this.gridControlParts = new DevExpress.XtraGrid.GridControl();
-            this.gridView2 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.gridViewParts = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.partIDLabel = new DevExpress.XtraEditors.LabelControl();
             this.addPartButton = new DevExpress.XtraEditors.SimpleButton();
             this.partIDLookUp = new DevExpress.XtraEditors.LookUpEdit();
@@ -86,6 +86,8 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.JobIDTextEdit = new DevExpress.XtraEditors.TextEdit();
+            this.JobIDLabel = new DevExpress.XtraEditors.LabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.navigationFrame)).BeginInit();
             this.navigationFrame.SuspendLayout();
             this.employeesNavigationPage.SuspendLayout();
@@ -97,7 +99,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.bindStoreroom)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindOpenJobs)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridViewJobs)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.toggleSwitch1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateEdit.Properties.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateEdit.Properties)).BeginInit();
@@ -109,11 +111,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridControlPartsAdded)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewPartsAdded)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControlParts)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridViewParts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.partIDLookUp.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindPart)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.JobIDTextEdit.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // tileBar
@@ -142,6 +145,7 @@
             this.tileBar.ScrollMode = DevExpress.XtraEditors.TileControlScrollMode.None;
             this.tileBar.SelectedItem = this.eployeesTileBarItem;
             this.tileBar.SelectionBorderWidth = 2;
+            this.tileBar.SelectionColor = System.Drawing.Color.DodgerBlue;
             this.tileBar.SelectionColorMode = DevExpress.XtraBars.Navigation.SelectionColorMode.UseItemBackColor;
             this.tileBar.ShowGroupText = false;
             this.tileBar.Size = new System.Drawing.Size(1007, 110);
@@ -162,6 +166,10 @@
             // 
             this.eployeesTileBarItem.AppearanceItem.Normal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(115)))), ((int)(((byte)(196)))));
             this.eployeesTileBarItem.AppearanceItem.Normal.Options.UseBackColor = true;
+            this.eployeesTileBarItem.AppearanceItem.Pressed.BackColor = System.Drawing.Color.Cyan;
+            this.eployeesTileBarItem.AppearanceItem.Pressed.Options.UseBackColor = true;
+            this.eployeesTileBarItem.AppearanceItem.Selected.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(115)))), ((int)(((byte)(196)))));
+            this.eployeesTileBarItem.AppearanceItem.Selected.Options.UseBackColor = true;
             this.eployeesTileBarItem.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
             tileItemElement1.ImageUri.Uri = "Cube;Size32x32;GrayScaled";
             tileItemElement1.Text = "Jobs";
@@ -210,6 +218,8 @@
             // employeesNavigationPage
             // 
             this.employeesNavigationPage.Caption = "employeesNavigationPage";
+            this.employeesNavigationPage.Controls.Add(this.JobIDLabel);
+            this.employeesNavigationPage.Controls.Add(this.JobIDTextEdit);
             this.employeesNavigationPage.Controls.Add(this.GetJobButton);
             this.employeesNavigationPage.Controls.Add(this.reasonLookUp);
             this.employeesNavigationPage.Controls.Add(this.takenByLookUp);
@@ -289,17 +299,18 @@
             // 
             this.gridControl1.DataSource = this.bindOpenJobs;
             this.gridControl1.Location = new System.Drawing.Point(124, 231);
-            this.gridControl1.MainView = this.gridView1;
+            this.gridControl1.MainView = this.gridViewJobs;
             this.gridControl1.Name = "gridControl1";
             this.gridControl1.Size = new System.Drawing.Size(794, 246);
             this.gridControl1.TabIndex = 22;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridView1});
+            this.gridViewJobs});
             // 
-            // gridView1
+            // gridViewJobs
             // 
-            this.gridView1.GridControl = this.gridControl1;
-            this.gridView1.Name = "gridView1";
+            this.gridViewJobs.GridControl = this.gridControl1;
+            this.gridViewJobs.Name = "gridViewJobs";
+            this.gridViewJobs.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gridControlJobs_MouseClick);
             // 
             // toggleSwitch1
             // 
@@ -420,7 +431,7 @@
             // 
             // storeroomPartsLabel
             // 
-            this.storeroomPartsLabel.Location = new System.Drawing.Point(629, 49);
+            this.storeroomPartsLabel.Location = new System.Drawing.Point(629, 19);
             this.storeroomPartsLabel.Name = "storeroomPartsLabel";
             this.storeroomPartsLabel.Size = new System.Drawing.Size(56, 13);
             this.storeroomPartsLabel.TabIndex = 14;
@@ -428,7 +439,7 @@
             // 
             // storeroomLookUp
             // 
-            this.storeroomLookUp.Location = new System.Drawing.Point(629, 67);
+            this.storeroomLookUp.Location = new System.Drawing.Point(629, 38);
             this.storeroomLookUp.Name = "storeroomLookUp";
             this.storeroomLookUp.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -442,7 +453,7 @@
             // 
             // QTYLabel
             // 
-            this.QTYLabel.Location = new System.Drawing.Point(444, 47);
+            this.QTYLabel.Location = new System.Drawing.Point(444, 19);
             this.QTYLabel.Name = "QTYLabel";
             this.QTYLabel.Size = new System.Drawing.Size(20, 13);
             this.QTYLabel.TabIndex = 12;
@@ -455,7 +466,7 @@
             0,
             0,
             0});
-            this.QTYspinEdit.Location = new System.Drawing.Point(444, 67);
+            this.QTYspinEdit.Location = new System.Drawing.Point(444, 38);
             this.QTYspinEdit.Name = "QTYspinEdit";
             this.QTYspinEdit.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -464,7 +475,7 @@
             // 
             // simpleButton1
             // 
-            this.simpleButton1.Location = new System.Drawing.Point(332, 65);
+            this.simpleButton1.Location = new System.Drawing.Point(332, 35);
             this.simpleButton1.Name = "simpleButton1";
             this.simpleButton1.Size = new System.Drawing.Size(75, 23);
             this.simpleButton1.TabIndex = 10;
@@ -489,6 +500,7 @@
             this.QTY});
             this.gridViewPartsAdded.GridControl = this.gridControlPartsAdded;
             this.gridViewPartsAdded.Name = "gridViewPartsAdded";
+            this.gridViewPartsAdded.OptionsSelection.MultiSelect = true;
             // 
             // masterpartid
             // 
@@ -522,25 +534,25 @@
             // gridControlParts
             // 
             this.gridControlParts.Location = new System.Drawing.Point(134, 105);
-            this.gridControlParts.MainView = this.gridView2;
+            this.gridControlParts.MainView = this.gridViewParts;
             this.gridControlParts.Name = "gridControlParts";
             this.gridControlParts.Size = new System.Drawing.Size(839, 239);
             this.gridControlParts.TabIndex = 7;
             this.gridControlParts.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridView2});
+            this.gridViewParts});
             this.gridControlParts.MouseClick += new System.Windows.Forms.MouseEventHandler(this.gridControlParts_MouseClick);
             // 
-            // gridView2
+            // gridViewParts
             // 
-            this.gridView2.GridControl = this.gridControlParts;
-            this.gridView2.Name = "gridView2";
-            this.gridView2.OptionsBehavior.Editable = false;
-            this.gridView2.OptionsBehavior.ReadOnly = true;
-            this.gridView2.OptionsSelection.MultiSelect = true;
+            this.gridViewParts.GridControl = this.gridControlParts;
+            this.gridViewParts.Name = "gridViewParts";
+            this.gridViewParts.OptionsBehavior.Editable = false;
+            this.gridViewParts.OptionsBehavior.ReadOnly = true;
+            this.gridViewParts.OptionsSelection.MultiSelect = true;
             // 
             // partIDLabel
             // 
-            this.partIDLabel.Location = new System.Drawing.Point(134, 49);
+            this.partIDLabel.Location = new System.Drawing.Point(134, 19);
             this.partIDLabel.Name = "partIDLabel";
             this.partIDLabel.Size = new System.Drawing.Size(34, 13);
             this.partIDLabel.TabIndex = 5;
@@ -548,7 +560,7 @@
             // 
             // addPartButton
             // 
-            this.addPartButton.Location = new System.Drawing.Point(0, 105);
+            this.addPartButton.Location = new System.Drawing.Point(134, 76);
             this.addPartButton.Name = "addPartButton";
             this.addPartButton.Size = new System.Drawing.Size(128, 23);
             this.addPartButton.TabIndex = 4;
@@ -557,7 +569,7 @@
             // 
             // partIDLookUp
             // 
-            this.partIDLookUp.Location = new System.Drawing.Point(134, 68);
+            this.partIDLookUp.Location = new System.Drawing.Point(134, 38);
             this.partIDLookUp.Name = "partIDLookUp";
             this.partIDLookUp.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -636,6 +648,21 @@
             this.toolStripMenuItem2.Text = "Add Parts";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.addPartButton_Click);
             // 
+            // JobIDTextEdit
+            // 
+            this.JobIDTextEdit.Location = new System.Drawing.Point(284, 115);
+            this.JobIDTextEdit.Name = "JobIDTextEdit";
+            this.JobIDTextEdit.Size = new System.Drawing.Size(211, 20);
+            this.JobIDTextEdit.TabIndex = 29;
+            // 
+            // JobIDLabel
+            // 
+            this.JobIDLabel.Location = new System.Drawing.Point(209, 118);
+            this.JobIDLabel.Name = "JobIDLabel";
+            this.JobIDLabel.Size = new System.Drawing.Size(31, 13);
+            this.JobIDLabel.TabIndex = 30;
+            this.JobIDLabel.Text = "Job ID";
+            // 
             // CheckOutForm
             // 
             this.Appearance.BackColor = System.Drawing.Color.White;
@@ -661,7 +688,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.bindStoreroom)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindOpenJobs)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridViewJobs)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.toggleSwitch1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateEdit.Properties.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateEdit.Properties)).EndInit();
@@ -674,11 +701,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridControlPartsAdded)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewPartsAdded)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControlParts)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridViewParts)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.partIDLookUp.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindPart)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
             this.contextMenuStrip2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.JobIDTextEdit.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -698,7 +726,7 @@
         private DevExpress.XtraEditors.TextEdit userNameTextBox;
         
         private DevExpress.XtraGrid.GridControl gridControl1;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridViewJobs;
         private DevExpress.XtraEditors.ToggleSwitch toggleSwitch1;
         private DevExpress.XtraEditors.LabelControl dateLabel;
         private DevExpress.XtraEditors.DateEdit dateEdit;
@@ -722,7 +750,7 @@
         private DevExpress.XtraEditors.SimpleButton GetJobButton;
         private DevExpress.XtraEditors.SimpleButton checkOutButton;
         private DevExpress.XtraGrid.GridControl gridControlParts;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView2;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridViewParts;
         private DevExpress.XtraEditors.LabelControl partIDLabel;
         private DevExpress.XtraEditors.SimpleButton addPartButton;
         private DevExpress.XtraEditors.LookUpEdit partIDLookUp;
@@ -740,5 +768,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private DevExpress.XtraEditors.LabelControl JobIDLabel;
+        private DevExpress.XtraEditors.TextEdit JobIDTextEdit;
     }
 }
