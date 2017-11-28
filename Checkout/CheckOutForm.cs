@@ -50,19 +50,19 @@ namespace Checkout
 
     public partial class CheckOutForm : DevExpress.XtraEditors.XtraForm
     {
-        public PersonnelLogonObjectClass _oLogon = new PersonnelLogonObjectClass();   
+        public PersonnelLogonObjectClass _oLogon = new PersonnelLogonObjectClass();
         private readonly CheckOutType _checkOutType;
         private readonly DateTime _nullDate = Convert.ToDateTime("1/1/1960 23:59:59");
         private readonly bool _viewOnly;
         private readonly DbCheckOut _oCheckOut;
-       
+
         private readonly Masterparts _oMaster;
         private readonly JobstepJobParts _oParts;
         private readonly StoresIssue _oSi;
 
 
 
-        
+
 
         private const int AssignedFormID = 76;
         private bool _editMode;
@@ -103,7 +103,7 @@ namespace Checkout
         private bool _storeroomsLoaded;
         private bool _storesIssuesLoaded;
         private bool _takenByLoaded;
-       // private string dbConnection = ConfigurationManager.ConnectionStrings["DatabaseConnectionString"].ConnectionString;
+        // private string dbConnection = ConfigurationManager.ConnectionStrings["DatabaseConnectionString"].ConnectionString;
         private string dbConnection = System.Configuration.ConfigurationManager.ConnectionStrings["DatabaseConnectionString"].ConnectionString;
         private static string _storageConnectionStringSetting = "StorageConnectionString";
         private static string _storageConnectionString = CloudConfigurationManager.GetSetting(_storageConnectionStringSetting);
@@ -118,22 +118,22 @@ namespace Checkout
         {
             //ShowSplashScreen();
             //dateEdit.DateTime = DateTime.Now;
-            
+
             _oCheckOut = new DbCheckOut(dbConnection, false);
             InitializeComponent();
-            if ( _oLogon.UserID < 1)
+            if (_oLogon.UserID < 1)
             {
-               
+
                 LoginForm logonForm = new LoginForm();
                 logonForm.FormClosed += new FormClosedEventHandler(LoginFormClosing);
                 logonForm.Show();
-                
+
                 this.SendToBack();
                 logonForm.BringToFront();
                 logonForm.Focus();
-                              
+
             }
-            if( _oLogon.UserID > 0)
+            if (_oLogon.UserID > 0)
             {
                 userNameLabel.Text = _oLogon.Username;
                 userNameTextBox.Text = _oLogon.Username;
@@ -174,15 +174,15 @@ namespace Checkout
 
         private void storeRoomEnter(object sender, EventArgs e)
         {
-            
+
             BindingSource storeRoomBindingSource = new BindingSource();
             storeRoomBindingSource.DataSource = _oCheckOut.GetAllStorerooms(ref loadOK);
             bindStoreroom.DataSource = storeRoomBindingSource;
             storeRoom.EditValue = bindStoreroom;
-                        
+
         }
 
-        private void reasonEnter(object sender, EventArgs e) 
+        private void reasonEnter(object sender, EventArgs e)
         {
             BindingSource reasonBindingSource = new BindingSource();
             reasonBindingSource.DataSource = _oCheckOut.GetAllCheckOutReasons(ref loadOK);
@@ -196,8 +196,8 @@ namespace Checkout
             BindingSource takenByBindingSource = new BindingSource();
             takenByBindingSource.DataSource = _oCheckOut.GetAllActiveMpetUsers(ref loadOK);
             bindUser.DataSource = takenByBindingSource;
-            
-            takenByLookUp.EditValue = bindUser;      
+
+            takenByLookUp.EditValue = bindUser;
         }
 
         private void partEnter(object sender, EventArgs e)
@@ -217,63 +217,63 @@ namespace Checkout
 
                 DataSet ds = new DataSet();
 
-            SqlConnection conn = new SqlConnection(dbConnection);
-            SqlCommand cmd = new SqlCommand();
-            SqlParameterCollection param = cmd.Parameters;
-            //param.AddWithValue("@StoreroomLock", -1);
-            param.AddWithValue("@StoreroomFilter",  storeroomName);
-            //param.AddWithValue("@PartNameContains", "");
-            //param.AddWithValue("@DescLike", "");
-            //param.AddWithValue("@AssignedToBuyer", "");
-            //param.AddWithValue("@PartTypeID", "");
-            //param.AddWithValue("@VendorID", "");
-            //param.AddWithValue("@MfgID", "");
-            //param.AddWithValue("@SpecialHandlingYNB", "");
-            //param.AddWithValue("@BuyerCommentContains", "");
-            //param.AddWithValue("@ListCostStart", 0);
-            //param.AddWithValue("@ListCostEnd", 0);
-            //param.AddWithValue("@VendorPartID", "");
-            //param.AddWithValue("MFGPartID", "");
-            //param.AddWithValue("@ActiveSetting", "");
-            //param.AddWithValue("@Aisle", "");
-            //param.AddWithValue("@Shelf", "");
-            //param.AddWithValue("@Bin", "");
-            //param.AddWithValue("@Notes", "");
-            SqlDataReader reader;
+                SqlConnection conn = new SqlConnection(dbConnection);
+                SqlCommand cmd = new SqlCommand();
+                SqlParameterCollection param = cmd.Parameters;
+                //param.AddWithValue("@StoreroomLock", -1);
+                param.AddWithValue("@StoreroomFilter", storeroomName);
+                //param.AddWithValue("@PartNameContains", "");
+                //param.AddWithValue("@DescLike", "");
+                //param.AddWithValue("@AssignedToBuyer", "");
+                //param.AddWithValue("@PartTypeID", "");
+                //param.AddWithValue("@VendorID", "");
+                //param.AddWithValue("@MfgID", "");
+                //param.AddWithValue("@SpecialHandlingYNB", "");
+                //param.AddWithValue("@BuyerCommentContains", "");
+                //param.AddWithValue("@ListCostStart", 0);
+                //param.AddWithValue("@ListCostEnd", 0);
+                //param.AddWithValue("@VendorPartID", "");
+                //param.AddWithValue("MFGPartID", "");
+                //param.AddWithValue("@ActiveSetting", "");
+                //param.AddWithValue("@Aisle", "");
+                //param.AddWithValue("@Shelf", "");
+                //param.AddWithValue("@Bin", "");
+                //param.AddWithValue("@Notes", "");
+                SqlDataReader reader;
 
-            //cmd.CommandText = "filter_GetFilteredStoreroomPartsList";
-            param = cmd.Parameters;
-            cmd.CommandText = "SELECT Storerooms.n_storeroomid, Storerooms.storeroomid, Storerooms.descr, PartsAtLocation.qtyonhand, PartsAtLocation.n_masterpartid, Masterparts.n_masterpartid AS Expr1, Masterparts.masterpartid,  Masterparts.Description FROM PartsAtLocation INNER JOIN Masterparts ON PartsAtLocation.n_masterpartid = Masterparts.n_masterpartid INNER JOIN Storerooms ON PartsAtLocation.n_storeroomid = Storerooms.n_storeroomid WHERE storeroomid = @StoreroomFilter";
-            cmd.CommandType = CommandType.Text;
-            cmd.Connection = conn;
-            //reader = cmd.ExecuteReader();
+                //cmd.CommandText = "filter_GetFilteredStoreroomPartsList";
+                param = cmd.Parameters;
+                cmd.CommandText = "SELECT Storerooms.n_storeroomid, Storerooms.storeroomid, Storerooms.descr, PartsAtLocation.qtyonhand, PartsAtLocation.n_masterpartid, Masterparts.n_masterpartid AS Expr1, Masterparts.masterpartid,  Masterparts.Description FROM PartsAtLocation INNER JOIN Masterparts ON PartsAtLocation.n_masterpartid = Masterparts.n_masterpartid INNER JOIN Storerooms ON PartsAtLocation.n_storeroomid = Storerooms.n_storeroomid WHERE storeroomid = @StoreroomFilter";
+                cmd.CommandType = CommandType.Text;
+                cmd.Connection = conn;
+                //reader = cmd.ExecuteReader();
 
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-            da.SelectCommand = cmd;
-            conn.Open();
-            da.Fill(ds);
-            
-            conn.Close();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.SelectCommand = cmd;
+                conn.Open();
+                da.Fill(ds);
 
-            BindingSource partBindingSource = new BindingSource();
-            //partBindingSource.DataSource = reader;
+                conn.Close();
+
+                BindingSource partBindingSource = new BindingSource();
+                //partBindingSource.DataSource = reader;
 
 
-            
-            
-                if(ds.Tables.Count > 0)
+
+
+                if (ds.Tables.Count > 0)
                 {
-                    if(ds.Tables[0].Rows.Count > 0)
+                    if (ds.Tables[0].Rows.Count > 0)
                     {
 
                     }
 
                 }
-            
-            partBindingSource.DataSource = ds.Tables[0];
-            
-            bindPart.DataSource = ds.Tables[0];
-            partIDLookUp.EditValue = bindPart;
+
+                partBindingSource.DataSource = ds.Tables[0];
+
+                bindPart.DataSource = ds.Tables[0];
+                partIDLookUp.EditValue = bindPart;
             }
             else
             {
@@ -308,9 +308,9 @@ namespace Checkout
             }
         }
 
-       private void CheckOutFormLoad(object sender, EventArgs e)
+        private void CheckOutFormLoad(object sender, EventArgs e)
         {
-           // DevExpress.XtraSplashScreen.SplashScreenManager.CloseForm();
+            // DevExpress.XtraSplashScreen.SplashScreenManager.CloseForm();
         }
 
         private void employeesLabelControl_Click(object sender, EventArgs e)
@@ -320,6 +320,7 @@ namespace Checkout
 
         private void GetJobButton_Click(object sender, EventArgs e)
         {
+            Cursor = Cursors.WaitCursor;
             BindingSource bindingOpenJobsSource = new BindingSource();
             bindOpenJobs.DataSource = _oCheckOut.GetAllJobsList(ref loadOK, _nullDate);
             gridControl1.DataSource = bindOpenJobs;
@@ -338,7 +339,8 @@ namespace Checkout
             gridViewJobs.Columns["ApplyColor"].Visible = false;
             gridViewJobs.Columns["FGColor"].Visible = false;
             gridViewJobs.Columns["BGColor"].Visible = false;
-            
+            Cursor = Cursors.Default;
+
         }
 
         private void toggleSwitch1_Toggled(object sender, EventArgs e)
@@ -354,7 +356,7 @@ namespace Checkout
 
             }
 
-            if(toggleSwitch1.IsOn == false)
+            if (toggleSwitch1.IsOn == false)
             {
                 gridControl1.Visible = false;
                 GetJobButton.Visible = false;
@@ -374,67 +376,67 @@ namespace Checkout
 
         private void addPartButton_Click(object sender, EventArgs e)
         {
-            if(storeRoom.Text != "" || storeroomLookUp.Text != "")
+            if (storeRoom.Text != "" || storeroomLookUp.Text != "")
             {
                 var storeroomName = "";
-                if(storeroomLookUp.Visible == true && storeroomLookUp.Text != "")
+                if (storeroomLookUp.Visible == true && storeroomLookUp.Text != "")
                 {
                     storeroomName = storeroomLookUp.Text;
                 }
-                if(storeRoom.Text != "")
+                if (storeRoom.Text != "")
                 {
                     storeroomName = storeRoom.Text;
                 }
-                
-               
-           
-            //NonSortedList param = new NonSortedList();
-
-            DataSet ds = new DataSet();
-
-            SqlConnection conn = new SqlConnection(dbConnection);
-            SqlCommand cmd = new SqlCommand();
-            SqlParameterCollection param = cmd.Parameters;
-            param.AddWithValue("@StoreroomFilter", storeroomName);
-            
-            //SqlDataReader reader;
-        
-            param = cmd.Parameters;
-            cmd.CommandText = "SELECT Storerooms.n_storeroomid, Storerooms.storeroomid, Storerooms.descr, PartsAtLocation.qtyonhand, PartsAtLocation.n_masterpartid, Masterparts.n_masterpartid AS Expr1, Masterparts.masterpartid,  Masterparts.Description FROM PartsAtLocation INNER JOIN Masterparts ON PartsAtLocation.n_masterpartid = Masterparts.n_masterpartid INNER JOIN Storerooms ON PartsAtLocation.n_storeroomid = Storerooms.n_storeroomid WHERE storeroomid = @StoreroomFilter";
-            cmd.CommandType = CommandType.Text;
-            cmd.Connection = conn;
-            //reader = cmd.ExecuteReader();
-
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-            da.SelectCommand = cmd;
-            conn.Open();
-            da.Fill(ds);
-
-            conn.Close();
-
-            BindingSource partBindingSource = new BindingSource();
-            //partBindingSource.DataSource = reader;
 
 
 
+                //NonSortedList param = new NonSortedList();
 
-            if (ds.Tables.Count > 0)
-            {
-                if (ds.Tables[0].Rows.Count > 0)
+                DataSet ds = new DataSet();
+
+                SqlConnection conn = new SqlConnection(dbConnection);
+                SqlCommand cmd = new SqlCommand();
+                SqlParameterCollection param = cmd.Parameters;
+                param.AddWithValue("@StoreroomFilter", storeroomName);
+
+                //SqlDataReader reader;
+
+                param = cmd.Parameters;
+                cmd.CommandText = "SELECT Storerooms.n_storeroomid, Storerooms.storeroomid, Storerooms.descr, PartsAtLocation.qtyonhand, PartsAtLocation.n_masterpartid, Masterparts.n_masterpartid AS Expr1, Masterparts.masterpartid,  Masterparts.Description FROM PartsAtLocation INNER JOIN Masterparts ON PartsAtLocation.n_masterpartid = Masterparts.n_masterpartid INNER JOIN Storerooms ON PartsAtLocation.n_storeroomid = Storerooms.n_storeroomid WHERE storeroomid = @StoreroomFilter";
+                cmd.CommandType = CommandType.Text;
+                cmd.Connection = conn;
+                //reader = cmd.ExecuteReader();
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.SelectCommand = cmd;
+                conn.Open();
+                da.Fill(ds);
+
+                conn.Close();
+
+                BindingSource partBindingSource = new BindingSource();
+                //partBindingSource.DataSource = reader;
+
+
+
+
+                if (ds.Tables.Count > 0)
                 {
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+
+                    }
 
                 }
 
-            }
+                partBindingSource.DataSource = ds;
 
-            partBindingSource.DataSource = ds;
-
-            bindPart.DataSource = partBindingSource;
-            partIDLookUp.EditValue = bindPart;
-            BindingSource bindingPartsSource = new BindingSource();
-            bindingPartsSource.DataSource = ds;
-            //gridControl1.DataMember = "n_masterpartid";
-            gridControlParts.DataSource = ds.Tables[0];
+                bindPart.DataSource = partBindingSource;
+                partIDLookUp.EditValue = bindPart;
+                BindingSource bindingPartsSource = new BindingSource();
+                bindingPartsSource.DataSource = ds;
+                //gridControl1.DataMember = "n_masterpartid";
+                gridControlParts.DataSource = ds.Tables[0];
                 //gridView1.Columns["n_jobstepid"].Visible = false;
                 //gridView1.Columns["n_jobid"].Visible = false;
                 //gridView1.Columns["T"].Visible = false;
@@ -458,7 +460,7 @@ namespace Checkout
                 storeroomLabel.Visible = false;
                 storeroomLookUp.Visible = true;
                 storeroomPartsLabel.Visible = true;
-                storeroomLookUp.Focus();            
+                storeroomLookUp.Focus();
             }
         }
 
@@ -482,17 +484,18 @@ namespace Checkout
 
                 gridControlPartsAdded.DataSource = ds.Tables[0];
 
-            } else
+            }
+            else
             {
                 gridViewPartsAdded.AddNewRow();
-            
+
                 int rowHandle = gridViewPartsAdded.GetRowHandle(gridViewPartsAdded.DataRowCount);
 
                 if (gridViewPartsAdded.IsNewItemRow(rowHandle))
                 {
                     gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["masterpartid"], partID);
                     gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["QTY"], qty);
-                }           
+                }
 
             }
 
@@ -500,19 +503,19 @@ namespace Checkout
 
         private void gridControlParts_MouseClick(object sender, MouseEventArgs e)
         {
-            if(MouseButtons.Right == e.Button)
+            if (MouseButtons.Right == e.Button)
             {
                 var selectedRows = gridViewJobs.GetSelectedRows();
                 ContextMenuStrip m = new ContextMenuStrip();
                 m.Items.Add("Add selected rows");
                 m.Show(gridControlParts, new Point(e.X, e.Y));
-                m.ItemClicked += new ToolStripItemClickedEventHandler(AddSelectedRows_ItemClicked);                                     
+                m.ItemClicked += new ToolStripItemClickedEventHandler(AddSelectedRows_ItemClicked);
             }
         }
 
         private void gridControlPartsAdded_MouseClick(object sender, MouseEventArgs e)
         {
-            if(MouseButtons.Right == e.Button)
+            if (MouseButtons.Right == e.Button)
             {
                 var selectedRows = gridViewParts.GetSelectedRows();
                 ContextMenuStrip m = new ContextMenuStrip();
@@ -524,12 +527,12 @@ namespace Checkout
 
         private void gridControlJobs_MouseClick(object sender, MouseEventArgs e)
         {
-            if(MouseButtons.Right == e.Button)
+            if (MouseButtons.Right == e.Button)
             {
-            ContextMenuStrip m = new ContextMenuStrip();
-            m.Items.Add("Select Job");
-            m.Show(gridControl1, new Point(e.X, e.Y));
-            m.ItemClicked += M_ItemClickedJob;
+                ContextMenuStrip m = new ContextMenuStrip();
+                m.Items.Add("Select Job");
+                m.Show(gridControl1, new Point(e.X, e.Y));
+                m.ItemClicked += M_ItemClickedJob;
             }
         }
 
@@ -543,12 +546,12 @@ namespace Checkout
         {
             var selectedRows = GetSelectedRows(gridViewPartsAdded, "masterpartid");
             var count = 0;
-            foreach(var rows in selectedRows)
+            foreach (var rows in selectedRows)
             {
                 gridViewPartsAdded.DeleteRow(count);
                 count++;
             }
-     }
+        }
 
         private object[] GetSelectedRows(DevExpress.XtraGrid.Views.Grid.GridView view, string fieldName)
         {
@@ -559,7 +562,7 @@ namespace Checkout
                 int rowHandle = selectedRows[i];
                 if (!gridViewJobs.IsGroupRow(rowHandle))
                 {
-                    result[i] = view.GetRowCellValue(rowHandle, fieldName);                 
+                    result[i] = view.GetRowCellValue(rowHandle, fieldName);
                 }
                 else
                     result[i] = -1; // default value
@@ -568,7 +571,7 @@ namespace Checkout
 
         }
 
-        void AddSelectedRows_ItemClicked( object sender, ToolStripItemClickedEventArgs  e)
+        void AddSelectedRows_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
             ToolStripItem item = e.ClickedItem;
             var selectedrows = GetSelectedRows(gridViewParts, "masterpartid");
@@ -580,9 +583,9 @@ namespace Checkout
                 var count = 0;
 
                 foreach (var rows in selectedrows)
-                {                                    
+                {
                     partID = selectedrows.GetValue(count).ToString();
-                  
+
                     gridViewPartsAdded.AddNewRow();
                     int rowHandle = gridViewPartsAdded.GetRowHandle(gridViewPartsAdded.DataRowCount);
 
@@ -591,7 +594,8 @@ namespace Checkout
                         gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["masterpartid"], partID);
                         gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["QTY"], qty);
 
-                    } else
+                    }
+                    else
                     {
                         rowHandle = rowHandle + 1;
                         if (gridViewPartsAdded.IsNewItemRow(rowHandle))
@@ -612,7 +616,290 @@ namespace Checkout
             storeRoomBindingSource.DataSource = _oCheckOut.GetAllStorerooms(ref loadOK);
             bindStoreroom.DataSource = storeRoomBindingSource;
             storeroomLookUp.EditValue = bindStoreroom;
-            
+
+        }
+
+        private void checkOutButton_Click(object sender, EventArgs e)
+        {
+            GridView dg = gridViewPartsAdded;
+            ProcessMaterialSelections(dg);
+        }
+        private void ProcessMaterialSelections(GridView dg)
+        {
+            #region Checkout for Other
+            ///Checkout for Other
+            if (dg.RowCount > 0)
+            {
+                var selectedRows = new NonSortedList();
+                for (var a = 0; a < dg.RowCount; a++)
+                {
+                    selectedRows.Add(a.ToString(), dg.GetRowCellValue(a, "n_masterpartid"));
+                }
+
+                if (selectedRows.Count() > 0)
+                {
+                    var continueProcessing = true;
+                    var itemsAdded = 0;
+                    Cursor = Cursors.WaitCursor;
+                    _oCheckOut.ClearErrors();
+                    if (toggleSwitch1.IsOn == true)
+                    {
+                        if (dateEdit.EditValue != null && dateEdit.EditValue.ToString() != "")
+                        {
+                            _editingReceivedDate = Convert.ToDateTime(dateEdit.EditValue.ToString());
+                        }
+                        else
+                        {
+                            _editingReceivedDate = DateTime.Now;
+                        }
+
+                        if (takenByLookUp.EditValue != null)
+                        {
+                            _editingTakenBy = Convert.ToInt32(takenByLookUp.EditValue.ToString());
+                        }
+                        else
+                        {
+                            _editingTakenBy = -1;
+                        }
+
+                        if (storeRoom.EditValue != null || storeroomLookUp.EditValue != null)
+                        {
+                            _editingStoreroomID = (storeRoom.EditValue == null) ? Convert.ToInt32(storeroomLookUp.EditValue.ToString()) : Convert.ToInt32(storeRoom.EditValue);
+                        }
+                        else
+                        {
+                            _editingStoreroomID = -1;
+                        }
+
+                        if (userNameTextBox.EditValue != null)
+                        {
+                            _editingGivenByID = Convert.ToInt32(userNameTextBox.EditValue.ToString());
+                        }
+                        else
+                        {
+                            _editingGivenByID = -1;
+                        }
+
+                        if (_editingTransactionID <= 0)
+                        {
+                            var transactionID = "";
+                            _oCheckOut.ClearErrors();
+                            if (!_oCheckOut.GetNextTransactionID(ref transactionID, _oLogon.UserID))
+                            {
+                                Cursor = Cursors.Default;
+                                MessageBox.Show(
+                                            @"Error Getting Next Transaction Number - " + _oCheckOut.LastError,
+                                            @"Transaction Error");
+                                continueProcessing = false;
+                            }
+                            else
+                            {
+                                _editingTransactionID = Convert.ToInt32(transactionID);
+                                _editingActionNum = Convert.ToString((_editingTransactionID + 1000000));
+                                txtTransactionNumber.Text = _editingActionNum;
+                            }
+
+                            if (continueProcessing)
+                            {
+                                if (_oCheckOut.AddTransaction(_editingTransactionID,
+                                                                        _editingActionNum,
+                                                                        _editingCarrierID,
+                                                                        -1,
+                                                                        -1,
+                                                                        _editingGivenByID,
+                                                                        _editingJobID,
+                                                                        _editingPurchaseOrderID,
+                                                                        _editingStoreroomID,
+                                                                        _editingTakenBy,
+                                                                        _editingVendorID,
+                                                                        _editingStoresIssueID,
+                                                                        "N",
+                                                                        _editingReceivedDate,
+                                                                        _editingInvoiceNum,
+                                                                        _editingNotes,
+                                                                        _editingReceiptID,
+                                                                        _editingJobStepID,
+                                                                        _oLogon.UserID))
+                                {
+
+
+                                }
+                                else
+                                {
+                                    Cursor = Cursors.Default;
+                                    MessageBox.Show(@"Error Creating Transaction - " + _oCheckOut.LastError,
+                                                            @"Transaction Error");
+                                    continueProcessing = false;
+                                }
+
+                                if (continueProcessing)
+                                {
+                                    var gotData = true;
+                                    for (var i = 0; i < selectedRows.Count(); i++)
+                                    {
+                                        var rowIndex = Convert.ToInt32(selectedRows.Keys[i].ToString());
+                                        _oMaster.ClearErrors();
+                                        var masterpartID = Convert.ToInt32(dg.GetRowCellValue(rowIndex, "n_masterpartid"));
+                                        var masterpartDetail = _oMaster.GetMasterpartDetail(masterpartID, _oLogon.UserID, ref gotData);
+                                        if (gotData)
+                                        {
+                                            if (masterpartDetail.Tables.Count > 0)
+                                            {
+                                                if (masterpartDetail.Tables[0].Rows.Count > 0)
+                                                {
+                                                    _editingPartID =
+                                                        Convert.ToInt32(masterpartDetail.Tables[0].Rows[0][0]);
+                                                    _editingUnits = masterpartDetail.Tables[0].Rows[0][16].ToString();
+                                                    var partID = masterpartDetail.Tables[0].Rows[0][1].ToString();
+                                                    var partCost = Convert.ToDecimal(
+                                                        masterpartDetail.Tables[0].Rows[0][3].ToString());
+                                                    var prefMfgPartID = Convert.ToInt32(
+                                                        masterpartDetail.Tables[0].Rows[0][10].ToString());
+                                                    var partDesc = masterpartDetail.Tables[0].Rows[0][2].ToString();
+
+                                                    //Add New Part To Job Record
+                                                    if (!_oParts.Add(_editingPartID,
+                                                                        _editingStoreroomID,
+                                                                        false,
+                                                                        false,
+                                                                        "",
+                                                                        partID,
+                                                                        partCost,
+                                                                        "",
+                                                                        partDesc,
+                                                                        0,
+                                                                        0,
+                                                                        _editingReceivedDate,
+                                                                        prefMfgPartID,
+                                                                        -1,
+                                                                        _oLogon.UserID,
+                                                                        -1,
+                                                                        -1))
+                                                    {
+                                                        Cursor = Cursors.Default;
+                                                        MessageBox.Show(
+                                                            @"Error Adding New Part To Jobstep - " + _oParts.LastError,
+                                                            @"Error Adding Part");
+                                                        // ReSharper disable RedundantAssignment
+                                                        continueProcessing = false;
+                                                        // ReSharper restore RedundantAssignment
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    Cursor = Cursors.Default;
+                                                    MessageBox.Show(@"Mastpart (" + masterpartID +
+                                                                    @") No Longer Exists");
+                                                    // ReSharper disable RedundantAssignment
+                                                    continueProcessing = false;
+                                                    // ReSharper restore RedundantAssignment
+                                                    break;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                Cursor = Cursors.Default;
+                                                MessageBox.Show(@"Masterpart Table Expected");
+                                                // ReSharper disable RedundantAssignment
+                                                continueProcessing = false;
+                                                // ReSharper restore RedundantAssignment
+                                                break;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            Cursor = Cursors.Default;
+                                            MessageBox.Show(_oMaster.LastError,
+                                                            @"Error Getting Masterparts Information");
+                                            // ReSharper disable RedundantAssignment
+                                            continueProcessing = false;
+                                            // ReSharper restore RedundantAssignment
+                                            break;
+                                        }
+
+                                        var newItemKey = -1;
+                                        var newPartAtLocID = -1;
+
+                                        //Determine If We Have A Valid Part At Location ID
+                                        _editingPartAtLocationID =
+                                            Convert.ToInt32(dg.GetRowCellValue(rowIndex, "n_partatlocid"));
+
+                                        if (_editingPartAtLocationID == -1)
+                                        {
+                                            if (_oCheckOut.GetPartAtLocationID(_editingPartID,
+                                                                                _editingStoreroomID,
+                                                                                _oLogon.UserID,
+                                                                                ref newPartAtLocID))
+                                            {
+                                                _editingPartAtLocationID = newPartAtLocID;
+                                            }
+                                            else
+                                            {
+                                                Cursor = Cursors.Default;
+                                                MessageBox.Show(
+                                                    @"Error Getting Part At Location ID - " + _oCheckOut.LastError,
+                                                    @"Part At Location Error");
+                                                // ReSharper disable RedundantAssignment
+                                                continueProcessing = false;
+                                                // ReSharper restore RedundantAssignment
+                                                break;
+                                            }
+                                        }
+
+                                        if (_oCheckOut.Add(_editingTransactionID,
+                                                            _editingPartAtLocationID,
+                                                            _editingPartID,
+                                                            _editingStoreroomID,
+                                                            _editingReqID,
+                                                            _editingReqItemID,
+                                                            false,
+                                                            _editingExpDate,
+                                                            _editingActionNum,
+                                                            _editingReqQty,
+                                                            _editingQty,
+                                                            "",
+                                                            _oLogon.UserID,
+                                                            _oParts.RecordID,
+                                                            ref newItemKey))
+                                        {
+                                            itemsAdded++;
+                                        }
+                                        else
+                                        {
+                                            Cursor = Cursors.Default;
+                                            MessageBox.Show(
+                                                @"Error Adding Item To Check Out Transaction - " +
+                                                _oCheckOut.LastError, @"Error Adding Item");
+                                            // ReSharper disable RedundantAssignment
+                                            continueProcessing = false;
+                                            // ReSharper restore RedundantAssignment
+                                            break;
+                                        }
+                                    }
+                                    Cursor = Cursors.Default;
+                                    if (itemsAdded > 0)
+                                    {
+                                        MessageBox.Show(itemsAdded + @" Parts Added");
+                                    }
+
+                                }
+
+                            }
+                        }
+
+
+
+                    }
+                    else
+                    {
+
+                    }
+                }
+                #endregion
+                #region Checkout for Job
+                ///Checkout for Job
+                #endregion
+            }
         }
     }
 }

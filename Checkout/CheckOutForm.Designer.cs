@@ -41,6 +41,8 @@
             this.tileBarItem2 = new DevExpress.XtraBars.Navigation.TileBarItem();
             this.navigationFrame = new DevExpress.XtraBars.Navigation.NavigationFrame();
             this.employeesNavigationPage = new DevExpress.XtraBars.Navigation.NavigationPage();
+            this.JobIDLabel = new DevExpress.XtraEditors.LabelControl();
+            this.JobIDTextEdit = new DevExpress.XtraEditors.TextEdit();
             this.GetJobButton = new DevExpress.XtraEditors.SimpleButton();
             this.reasonLookUp = new DevExpress.XtraEditors.LookUpEdit();
             this.bindReason = new System.Windows.Forms.BindingSource(this.components);
@@ -80,17 +82,21 @@
             this.bindPart = new System.Windows.Forms.BindingSource(this.components);
             this.customersLabelControl = new DevExpress.XtraEditors.LabelControl();
             this.navigationPage1 = new DevExpress.XtraBars.Navigation.NavigationPage();
+            this.transactionHistoryGridControl = new DevExpress.XtraGrid.GridControl();
+            this.gridViewTrransactionHistory = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.TextTransactionNumber = new DevExpress.XtraGrid.Columns.GridColumn();
             this.labelControl9 = new DevExpress.XtraEditors.LabelControl();
             this.userNameLabel = new DevExpress.XtraEditors.LabelControl();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.JobIDTextEdit = new DevExpress.XtraEditors.TextEdit();
-            this.JobIDLabel = new DevExpress.XtraEditors.LabelControl();
+            this.txtTransactionNumber = new DevExpress.XtraEditors.TextEdit();
+            this.transactionNumberLabel = new DevExpress.XtraEditors.LabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.navigationFrame)).BeginInit();
             this.navigationFrame.SuspendLayout();
             this.employeesNavigationPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.JobIDTextEdit.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.reasonLookUp.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindReason)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.takenByLookUp.Properties)).BeginInit();
@@ -114,9 +120,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridViewParts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.partIDLookUp.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindPart)).BeginInit();
+            this.navigationPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.transactionHistoryGridControl)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridViewTrransactionHistory)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.JobIDTextEdit.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTransactionNumber.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // tileBar
@@ -237,6 +246,21 @@
             this.employeesNavigationPage.Controls.Add(this.storeRoomCombo);
             this.employeesNavigationPage.Name = "employeesNavigationPage";
             this.employeesNavigationPage.Size = new System.Drawing.Size(1007, 570);
+            // 
+            // JobIDLabel
+            // 
+            this.JobIDLabel.Location = new System.Drawing.Point(209, 118);
+            this.JobIDLabel.Name = "JobIDLabel";
+            this.JobIDLabel.Size = new System.Drawing.Size(31, 13);
+            this.JobIDLabel.TabIndex = 30;
+            this.JobIDLabel.Text = "Job ID";
+            // 
+            // JobIDTextEdit
+            // 
+            this.JobIDTextEdit.Location = new System.Drawing.Point(284, 115);
+            this.JobIDTextEdit.Name = "JobIDTextEdit";
+            this.JobIDTextEdit.Size = new System.Drawing.Size(211, 20);
+            this.JobIDTextEdit.TabIndex = 29;
             // 
             // GetJobButton
             // 
@@ -530,6 +554,7 @@
             this.checkOutButton.Size = new System.Drawing.Size(156, 49);
             this.checkOutButton.TabIndex = 8;
             this.checkOutButton.Text = "Check out";
+            this.checkOutButton.Click += new System.EventHandler(this.checkOutButton_Click);
             // 
             // gridControlParts
             // 
@@ -602,8 +627,35 @@
             // navigationPage1
             // 
             this.navigationPage1.Caption = "navigationPage1";
+            this.navigationPage1.Controls.Add(this.transactionNumberLabel);
+            this.navigationPage1.Controls.Add(this.txtTransactionNumber);
+            this.navigationPage1.Controls.Add(this.transactionHistoryGridControl);
             this.navigationPage1.Name = "navigationPage1";
             this.navigationPage1.Size = new System.Drawing.Size(1007, 570);
+            // 
+            // transactionHistoryGridControl
+            // 
+            this.transactionHistoryGridControl.Location = new System.Drawing.Point(36, 104);
+            this.transactionHistoryGridControl.MainView = this.gridViewTrransactionHistory;
+            this.transactionHistoryGridControl.Name = "transactionHistoryGridControl";
+            this.transactionHistoryGridControl.Size = new System.Drawing.Size(939, 257);
+            this.transactionHistoryGridControl.TabIndex = 0;
+            this.transactionHistoryGridControl.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridViewTrransactionHistory});
+            // 
+            // gridViewTrransactionHistory
+            // 
+            this.gridViewTrransactionHistory.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.TextTransactionNumber});
+            this.gridViewTrransactionHistory.GridControl = this.transactionHistoryGridControl;
+            this.gridViewTrransactionHistory.Name = "gridViewTrransactionHistory";
+            // 
+            // TextTransactionNumber
+            // 
+            this.TextTransactionNumber.Caption = "gridColumn1";
+            this.TextTransactionNumber.Name = "TextTransactionNumber";
+            this.TextTransactionNumber.Visible = true;
+            this.TextTransactionNumber.VisibleIndex = 0;
             // 
             // labelControl9
             // 
@@ -648,20 +700,20 @@
             this.toolStripMenuItem2.Text = "Add Parts";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.addPartButton_Click);
             // 
-            // JobIDTextEdit
+            // txtTransactionNumber
             // 
-            this.JobIDTextEdit.Location = new System.Drawing.Point(284, 115);
-            this.JobIDTextEdit.Name = "JobIDTextEdit";
-            this.JobIDTextEdit.Size = new System.Drawing.Size(211, 20);
-            this.JobIDTextEdit.TabIndex = 29;
+            this.txtTransactionNumber.Location = new System.Drawing.Point(36, 37);
+            this.txtTransactionNumber.Name = "txtTransactionNumber";
+            this.txtTransactionNumber.Size = new System.Drawing.Size(323, 20);
+            this.txtTransactionNumber.TabIndex = 1;
             // 
-            // JobIDLabel
+            // transactionNumberLabel
             // 
-            this.JobIDLabel.Location = new System.Drawing.Point(209, 118);
-            this.JobIDLabel.Name = "JobIDLabel";
-            this.JobIDLabel.Size = new System.Drawing.Size(31, 13);
-            this.JobIDLabel.TabIndex = 30;
-            this.JobIDLabel.Text = "Job ID";
+            this.transactionNumberLabel.Location = new System.Drawing.Point(36, 17);
+            this.transactionNumberLabel.Name = "transactionNumberLabel";
+            this.transactionNumberLabel.Size = new System.Drawing.Size(96, 13);
+            this.transactionNumberLabel.TabIndex = 2;
+            this.transactionNumberLabel.Text = "Transaction Number";
             // 
             // CheckOutForm
             // 
@@ -680,6 +732,7 @@
             this.navigationFrame.ResumeLayout(false);
             this.employeesNavigationPage.ResumeLayout(false);
             this.employeesNavigationPage.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.JobIDTextEdit.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.reasonLookUp.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindReason)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.takenByLookUp.Properties)).EndInit();
@@ -704,9 +757,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridViewParts)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.partIDLookUp.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindPart)).EndInit();
+            this.navigationPage1.ResumeLayout(false);
+            this.navigationPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.transactionHistoryGridControl)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridViewTrransactionHistory)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
             this.contextMenuStrip2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.JobIDTextEdit.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTransactionNumber.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -770,5 +827,10 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private DevExpress.XtraEditors.LabelControl JobIDLabel;
         private DevExpress.XtraEditors.TextEdit JobIDTextEdit;
+        private DevExpress.XtraGrid.GridControl transactionHistoryGridControl;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridViewTrransactionHistory;
+        private DevExpress.XtraGrid.Columns.GridColumn TextTransactionNumber;
+        private DevExpress.XtraEditors.LabelControl transactionNumberLabel;
+        private DevExpress.XtraEditors.TextEdit txtTransactionNumber;
     }
 }
