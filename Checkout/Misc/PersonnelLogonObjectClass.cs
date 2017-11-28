@@ -1332,6 +1332,7 @@ namespace Checkout
         public int UserID
         {
             get { return _nUserID; }
+            set { _nUserID = value;  }
         }
         /// <summary>
         /// 

@@ -97,3 +97,4 @@ C:\Users\stinebackd\Projects\Checkout\Checkout\obj\Debug\Checkout.csproj.Generat
 C:\Users\stinebackd\Projects\Checkout\Checkout\obj\Debug\Checkout.exe.licenses
 C:\Users\stinebackd\Projects\Checkout\Checkout\obj\Debug\Checkout.exe
 C:\Users\stinebackd\Projects\Checkout\Checkout\obj\Debug\Checkout.pdb
+C:\Users\stinebackd\Projects\Checkout\Checkout\obj\Debug\Checkout.csprojResolveAssemblyReference.cache

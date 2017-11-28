@@ -41,13 +41,17 @@
             this.tileBarItem2 = new DevExpress.XtraBars.Navigation.TileBarItem();
             this.navigationFrame = new DevExpress.XtraBars.Navigation.NavigationFrame();
             this.employeesNavigationPage = new DevExpress.XtraBars.Navigation.NavigationPage();
+            this.WorkOpLookUp = new DevExpress.XtraEditors.LookUpEdit();
+            this.bindWorkOp = new System.Windows.Forms.BindingSource(this.components);
+            this.WorkOpLabel = new DevExpress.XtraEditors.LabelControl();
+            this.lookUpEdit1 = new DevExpress.XtraEditors.LookUpEdit();
+            this.bindUser = new System.Windows.Forms.BindingSource(this.components);
             this.JobIDLabel = new DevExpress.XtraEditors.LabelControl();
             this.JobIDTextEdit = new DevExpress.XtraEditors.TextEdit();
             this.GetJobButton = new DevExpress.XtraEditors.SimpleButton();
             this.reasonLookUp = new DevExpress.XtraEditors.LookUpEdit();
             this.bindReason = new System.Windows.Forms.BindingSource(this.components);
             this.takenByLookUp = new DevExpress.XtraEditors.LookUpEdit();
-            this.bindUser = new System.Windows.Forms.BindingSource(this.components);
             this.storeRoom = new DevExpress.XtraEditors.LookUpEdit();
             this.bindStoreroom = new System.Windows.Forms.BindingSource(this.components);
             this.gridControl1 = new DevExpress.XtraGrid.GridControl();
@@ -60,9 +64,9 @@
             this.takenByLabel = new DevExpress.XtraEditors.LabelControl();
             this.storeroomLabel = new DevExpress.XtraEditors.LabelControl();
             this.userNameIDLabel = new DevExpress.XtraEditors.LabelControl();
-            this.userNameTextBox = new DevExpress.XtraEditors.TextEdit();
             this.employeesLabelControl = new DevExpress.XtraEditors.LabelControl();
             this.storeRoomCombo = new DevExpress.XtraEditors.LookUpEdit();
+            this.userNameTextBox = new DevExpress.XtraEditors.LookUpEdit();
             this.customersNavigationPage = new DevExpress.XtraBars.Navigation.NavigationPage();
             this.storeroomPartsLabel = new DevExpress.XtraEditors.LabelControl();
             this.storeroomLookUp = new DevExpress.XtraEditors.LookUpEdit();
@@ -82,25 +86,37 @@
             this.bindPart = new System.Windows.Forms.BindingSource(this.components);
             this.customersLabelControl = new DevExpress.XtraEditors.LabelControl();
             this.navigationPage1 = new DevExpress.XtraBars.Navigation.NavigationPage();
+            this.simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
+            this.transactionNumberLabel = new DevExpress.XtraEditors.LabelControl();
+            this.txtTransactionNumber = new DevExpress.XtraEditors.TextEdit();
             this.transactionHistoryGridControl = new DevExpress.XtraGrid.GridControl();
             this.gridViewTrransactionHistory = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.TextTransactionNumber = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.masterpart = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.Aisle = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.Shelf = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.Bin = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.ReqQty = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.QTYNumber = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.UOI = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.Description = new DevExpress.XtraGrid.Columns.GridColumn();
             this.labelControl9 = new DevExpress.XtraEditors.LabelControl();
             this.userNameLabel = new DevExpress.XtraEditors.LabelControl();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.txtTransactionNumber = new DevExpress.XtraEditors.TextEdit();
-            this.transactionNumberLabel = new DevExpress.XtraEditors.LabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.navigationFrame)).BeginInit();
             this.navigationFrame.SuspendLayout();
             this.employeesNavigationPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.WorkOpLookUp.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindWorkOp)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lookUpEdit1.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindUser)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.JobIDTextEdit.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.reasonLookUp.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindReason)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.takenByLookUp.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindUser)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.storeRoom.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindStoreroom)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
@@ -109,8 +125,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.toggleSwitch1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateEdit.Properties.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateEdit.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.userNameTextBox.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.storeRoomCombo.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.userNameTextBox.Properties)).BeginInit();
             this.customersNavigationPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.storeroomLookUp.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.QTYspinEdit.Properties)).BeginInit();
@@ -121,11 +137,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.partIDLookUp.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindPart)).BeginInit();
             this.navigationPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTransactionNumber.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.transactionHistoryGridControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewTrransactionHistory)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTransactionNumber.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // tileBar
@@ -227,6 +243,9 @@
             // employeesNavigationPage
             // 
             this.employeesNavigationPage.Caption = "employeesNavigationPage";
+            this.employeesNavigationPage.Controls.Add(this.WorkOpLookUp);
+            this.employeesNavigationPage.Controls.Add(this.WorkOpLabel);
+            this.employeesNavigationPage.Controls.Add(this.lookUpEdit1);
             this.employeesNavigationPage.Controls.Add(this.JobIDLabel);
             this.employeesNavigationPage.Controls.Add(this.JobIDTextEdit);
             this.employeesNavigationPage.Controls.Add(this.GetJobButton);
@@ -241,11 +260,47 @@
             this.employeesNavigationPage.Controls.Add(this.takenByLabel);
             this.employeesNavigationPage.Controls.Add(this.storeroomLabel);
             this.employeesNavigationPage.Controls.Add(this.userNameIDLabel);
-            this.employeesNavigationPage.Controls.Add(this.userNameTextBox);
             this.employeesNavigationPage.Controls.Add(this.employeesLabelControl);
             this.employeesNavigationPage.Controls.Add(this.storeRoomCombo);
+            this.employeesNavigationPage.Controls.Add(this.userNameTextBox);
             this.employeesNavigationPage.Name = "employeesNavigationPage";
             this.employeesNavigationPage.Size = new System.Drawing.Size(1007, 570);
+            // 
+            // WorkOpLookUp
+            // 
+            this.WorkOpLookUp.Location = new System.Drawing.Point(641, 118);
+            this.WorkOpLookUp.Name = "WorkOpLookUp";
+            this.WorkOpLookUp.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.WorkOpLookUp.Properties.DataSource = this.bindWorkOp;
+            this.WorkOpLookUp.Properties.DisplayMember = "WorkOpID";
+            this.WorkOpLookUp.Properties.NullText = "";
+            this.WorkOpLookUp.Properties.ValueMember = "n_WorkOpID";
+            this.WorkOpLookUp.Size = new System.Drawing.Size(210, 20);
+            this.WorkOpLookUp.TabIndex = 34;
+            this.WorkOpLookUp.Enter += new System.EventHandler(this.WorkOpEnter);
+            // 
+            // WorkOpLabel
+            // 
+            this.WorkOpLabel.Location = new System.Drawing.Point(559, 121);
+            this.WorkOpLabel.Name = "WorkOpLabel";
+            this.WorkOpLabel.Size = new System.Drawing.Size(76, 13);
+            this.WorkOpLabel.TabIndex = 32;
+            this.WorkOpLabel.Text = "Work Operation";
+            // 
+            // lookUpEdit1
+            // 
+            this.lookUpEdit1.Location = new System.Drawing.Point(284, 24);
+            this.lookUpEdit1.Name = "lookUpEdit1";
+            this.lookUpEdit1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.lookUpEdit1.Properties.DataSource = this.bindUser;
+            this.lookUpEdit1.Properties.DisplayMember = "Name";
+            this.lookUpEdit1.Properties.NullText = "";
+            this.lookUpEdit1.Properties.ValueMember = "nUserID";
+            this.lookUpEdit1.Properties.Enter += new System.EventHandler(this.takenByEnter);
+            this.lookUpEdit1.Size = new System.Drawing.Size(211, 20);
+            this.lookUpEdit1.TabIndex = 31;
             // 
             // JobIDLabel
             // 
@@ -257,14 +312,14 @@
             // 
             // JobIDTextEdit
             // 
-            this.JobIDTextEdit.Location = new System.Drawing.Point(284, 115);
+            this.JobIDTextEdit.Location = new System.Drawing.Point(284, 119);
             this.JobIDTextEdit.Name = "JobIDTextEdit";
             this.JobIDTextEdit.Size = new System.Drawing.Size(211, 20);
             this.JobIDTextEdit.TabIndex = 29;
             // 
             // GetJobButton
             // 
-            this.GetJobButton.Location = new System.Drawing.Point(32, 231);
+            this.GetJobButton.Location = new System.Drawing.Point(35, 208);
             this.GetJobButton.Name = "GetJobButton";
             this.GetJobButton.Size = new System.Drawing.Size(75, 23);
             this.GetJobButton.TabIndex = 28;
@@ -273,7 +328,7 @@
             // 
             // reasonLookUp
             // 
-            this.reasonLookUp.Location = new System.Drawing.Point(640, 115);
+            this.reasonLookUp.Location = new System.Drawing.Point(284, 119);
             this.reasonLookUp.Name = "reasonLookUp";
             this.reasonLookUp.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -322,10 +377,10 @@
             // gridControl1
             // 
             this.gridControl1.DataSource = this.bindOpenJobs;
-            this.gridControl1.Location = new System.Drawing.Point(124, 231);
+            this.gridControl1.Location = new System.Drawing.Point(124, 208);
             this.gridControl1.MainView = this.gridViewJobs;
             this.gridControl1.Name = "gridControl1";
-            this.gridControl1.Size = new System.Drawing.Size(794, 246);
+            this.gridControl1.Size = new System.Drawing.Size(794, 338);
             this.gridControl1.TabIndex = 22;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewJobs});
@@ -334,6 +389,7 @@
             // 
             this.gridViewJobs.GridControl = this.gridControl1;
             this.gridViewJobs.Name = "gridViewJobs";
+            this.gridViewJobs.OptionsFind.ShowFindButton = false;
             this.gridViewJobs.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gridControlJobs_MouseClick);
             // 
             // toggleSwitch1
@@ -348,7 +404,7 @@
             // 
             // dateLabel
             // 
-            this.dateLabel.Location = new System.Drawing.Point(571, 26);
+            this.dateLabel.Location = new System.Drawing.Point(559, 26);
             this.dateLabel.Name = "dateLabel";
             this.dateLabel.Size = new System.Drawing.Size(23, 13);
             this.dateLabel.TabIndex = 18;
@@ -368,7 +424,7 @@
             // 
             // reasonLabel
             // 
-            this.reasonLabel.Location = new System.Drawing.Point(571, 122);
+            this.reasonLabel.Location = new System.Drawing.Point(209, 118);
             this.reasonLabel.Name = "reasonLabel";
             this.reasonLabel.Size = new System.Drawing.Size(36, 13);
             this.reasonLabel.TabIndex = 14;
@@ -384,7 +440,7 @@
             // 
             // storeroomLabel
             // 
-            this.storeroomLabel.Location = new System.Drawing.Point(571, 73);
+            this.storeroomLabel.Location = new System.Drawing.Point(559, 73);
             this.storeroomLabel.Name = "storeroomLabel";
             this.storeroomLabel.Size = new System.Drawing.Size(53, 13);
             this.storeroomLabel.TabIndex = 12;
@@ -397,13 +453,6 @@
             this.userNameIDLabel.Size = new System.Drawing.Size(52, 13);
             this.userNameIDLabel.TabIndex = 10;
             this.userNameIDLabel.Text = "User Name\r\n";
-            // 
-            // userNameTextBox
-            // 
-            this.userNameTextBox.Location = new System.Drawing.Point(284, 23);
-            this.userNameTextBox.Name = "userNameTextBox";
-            this.userNameTextBox.Size = new System.Drawing.Size(211, 20);
-            this.userNameTextBox.TabIndex = 8;
             // 
             // employeesLabelControl
             // 
@@ -435,6 +484,16 @@
             this.storeRoomCombo.Size = new System.Drawing.Size(100, 20);
             this.storeRoomCombo.TabIndex = 6;
             // 
+            // userNameTextBox
+            // 
+            this.userNameTextBox.Location = new System.Drawing.Point(284, 23);
+            this.userNameTextBox.Name = "userNameTextBox";
+            this.userNameTextBox.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.userNameTextBox.Properties.NullText = "";
+            this.userNameTextBox.Size = new System.Drawing.Size(211, 20);
+            this.userNameTextBox.TabIndex = 8;
+            // 
             // customersNavigationPage
             // 
             this.customersNavigationPage.Caption = "customersNavigationPage";
@@ -455,7 +514,7 @@
             // 
             // storeroomPartsLabel
             // 
-            this.storeroomPartsLabel.Location = new System.Drawing.Point(629, 19);
+            this.storeroomPartsLabel.Location = new System.Drawing.Point(523, 8);
             this.storeroomPartsLabel.Name = "storeroomPartsLabel";
             this.storeroomPartsLabel.Size = new System.Drawing.Size(56, 13);
             this.storeroomPartsLabel.TabIndex = 14;
@@ -463,7 +522,7 @@
             // 
             // storeroomLookUp
             // 
-            this.storeroomLookUp.Location = new System.Drawing.Point(629, 38);
+            this.storeroomLookUp.Location = new System.Drawing.Point(523, 26);
             this.storeroomLookUp.Name = "storeroomLookUp";
             this.storeroomLookUp.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -477,7 +536,7 @@
             // 
             // QTYLabel
             // 
-            this.QTYLabel.Location = new System.Drawing.Point(444, 19);
+            this.QTYLabel.Location = new System.Drawing.Point(374, 8);
             this.QTYLabel.Name = "QTYLabel";
             this.QTYLabel.Size = new System.Drawing.Size(20, 13);
             this.QTYLabel.TabIndex = 12;
@@ -490,7 +549,7 @@
             0,
             0,
             0});
-            this.QTYspinEdit.Location = new System.Drawing.Point(444, 38);
+            this.QTYspinEdit.Location = new System.Drawing.Point(374, 27);
             this.QTYspinEdit.Name = "QTYspinEdit";
             this.QTYspinEdit.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -499,7 +558,7 @@
             // 
             // simpleButton1
             // 
-            this.simpleButton1.Location = new System.Drawing.Point(332, 35);
+            this.simpleButton1.Location = new System.Drawing.Point(256, 24);
             this.simpleButton1.Name = "simpleButton1";
             this.simpleButton1.Size = new System.Drawing.Size(75, 23);
             this.simpleButton1.TabIndex = 10;
@@ -508,10 +567,10 @@
             // 
             // gridControlPartsAdded
             // 
-            this.gridControlPartsAdded.Location = new System.Drawing.Point(134, 361);
+            this.gridControlPartsAdded.Location = new System.Drawing.Point(58, 361);
             this.gridControlPartsAdded.MainView = this.gridViewPartsAdded;
             this.gridControlPartsAdded.Name = "gridControlPartsAdded";
-            this.gridControlPartsAdded.Size = new System.Drawing.Size(644, 155);
+            this.gridControlPartsAdded.Size = new System.Drawing.Size(720, 155);
             this.gridControlPartsAdded.TabIndex = 9;
             this.gridControlPartsAdded.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewPartsAdded});
@@ -558,10 +617,10 @@
             // 
             // gridControlParts
             // 
-            this.gridControlParts.Location = new System.Drawing.Point(134, 105);
+            this.gridControlParts.Location = new System.Drawing.Point(58, 105);
             this.gridControlParts.MainView = this.gridViewParts;
             this.gridControlParts.Name = "gridControlParts";
-            this.gridControlParts.Size = new System.Drawing.Size(839, 239);
+            this.gridControlParts.Size = new System.Drawing.Size(915, 239);
             this.gridControlParts.TabIndex = 7;
             this.gridControlParts.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewParts});
@@ -577,7 +636,7 @@
             // 
             // partIDLabel
             // 
-            this.partIDLabel.Location = new System.Drawing.Point(134, 19);
+            this.partIDLabel.Location = new System.Drawing.Point(58, 8);
             this.partIDLabel.Name = "partIDLabel";
             this.partIDLabel.Size = new System.Drawing.Size(34, 13);
             this.partIDLabel.TabIndex = 5;
@@ -585,7 +644,7 @@
             // 
             // addPartButton
             // 
-            this.addPartButton.Location = new System.Drawing.Point(134, 76);
+            this.addPartButton.Location = new System.Drawing.Point(58, 76);
             this.addPartButton.Name = "addPartButton";
             this.addPartButton.Size = new System.Drawing.Size(128, 23);
             this.addPartButton.TabIndex = 4;
@@ -594,7 +653,7 @@
             // 
             // partIDLookUp
             // 
-            this.partIDLookUp.Location = new System.Drawing.Point(134, 38);
+            this.partIDLookUp.Location = new System.Drawing.Point(58, 27);
             this.partIDLookUp.Name = "partIDLookUp";
             this.partIDLookUp.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -627,11 +686,36 @@
             // navigationPage1
             // 
             this.navigationPage1.Caption = "navigationPage1";
+            this.navigationPage1.Controls.Add(this.simpleButton2);
             this.navigationPage1.Controls.Add(this.transactionNumberLabel);
             this.navigationPage1.Controls.Add(this.txtTransactionNumber);
             this.navigationPage1.Controls.Add(this.transactionHistoryGridControl);
             this.navigationPage1.Name = "navigationPage1";
             this.navigationPage1.Size = new System.Drawing.Size(1007, 570);
+            // 
+            // simpleButton2
+            // 
+            this.simpleButton2.Location = new System.Drawing.Point(396, 35);
+            this.simpleButton2.Name = "simpleButton2";
+            this.simpleButton2.Size = new System.Drawing.Size(229, 23);
+            this.simpleButton2.TabIndex = 3;
+            this.simpleButton2.Text = "simpleButton2";
+            this.simpleButton2.Click += new System.EventHandler(this.simpleButton2_Click);
+            // 
+            // transactionNumberLabel
+            // 
+            this.transactionNumberLabel.Location = new System.Drawing.Point(36, 17);
+            this.transactionNumberLabel.Name = "transactionNumberLabel";
+            this.transactionNumberLabel.Size = new System.Drawing.Size(96, 13);
+            this.transactionNumberLabel.TabIndex = 2;
+            this.transactionNumberLabel.Text = "Transaction Number";
+            // 
+            // txtTransactionNumber
+            // 
+            this.txtTransactionNumber.Location = new System.Drawing.Point(36, 37);
+            this.txtTransactionNumber.Name = "txtTransactionNumber";
+            this.txtTransactionNumber.Size = new System.Drawing.Size(323, 20);
+            this.txtTransactionNumber.TabIndex = 1;
             // 
             // transactionHistoryGridControl
             // 
@@ -646,16 +730,89 @@
             // gridViewTrransactionHistory
             // 
             this.gridViewTrransactionHistory.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.TextTransactionNumber});
+            this.TextTransactionNumber,
+            this.masterpart,
+            this.Aisle,
+            this.Shelf,
+            this.Bin,
+            this.ReqQty,
+            this.QTYNumber,
+            this.UOI,
+            this.Description});
             this.gridViewTrransactionHistory.GridControl = this.transactionHistoryGridControl;
             this.gridViewTrransactionHistory.Name = "gridViewTrransactionHistory";
             // 
             // TextTransactionNumber
             // 
-            this.TextTransactionNumber.Caption = "gridColumn1";
+            this.TextTransactionNumber.Caption = "Transaction Number";
+            this.TextTransactionNumber.FieldName = "xactionnum";
             this.TextTransactionNumber.Name = "TextTransactionNumber";
             this.TextTransactionNumber.Visible = true;
             this.TextTransactionNumber.VisibleIndex = 0;
+            // 
+            // masterpart
+            // 
+            this.masterpart.Caption = "Master Part ID";
+            this.masterpart.FieldName = "masterpartid";
+            this.masterpart.Name = "masterpart";
+            this.masterpart.Visible = true;
+            this.masterpart.VisibleIndex = 1;
+            // 
+            // Aisle
+            // 
+            this.Aisle.Caption = "Aisle";
+            this.Aisle.FieldName = "aisle";
+            this.Aisle.Name = "Aisle";
+            this.Aisle.Visible = true;
+            this.Aisle.VisibleIndex = 2;
+            // 
+            // Shelf
+            // 
+            this.Shelf.Caption = "Shelf";
+            this.Shelf.FieldName = "shelf";
+            this.Shelf.Name = "Shelf";
+            this.Shelf.Visible = true;
+            this.Shelf.VisibleIndex = 3;
+            // 
+            // Bin
+            // 
+            this.Bin.Caption = "Bin";
+            this.Bin.FieldName = "bin";
+            this.Bin.Name = "Bin";
+            this.Bin.Visible = true;
+            this.Bin.VisibleIndex = 4;
+            // 
+            // ReqQty
+            // 
+            this.ReqQty.Caption = "ReqQty";
+            this.ReqQty.FieldName = "ReqQty";
+            this.ReqQty.Name = "ReqQty";
+            this.ReqQty.Visible = true;
+            this.ReqQty.VisibleIndex = 5;
+            // 
+            // QTYNumber
+            // 
+            this.QTYNumber.Caption = "QTY";
+            this.QTYNumber.FieldName = "qty";
+            this.QTYNumber.Name = "QTYNumber";
+            this.QTYNumber.Visible = true;
+            this.QTYNumber.VisibleIndex = 6;
+            // 
+            // UOI
+            // 
+            this.UOI.Caption = "UOI";
+            this.UOI.FieldName = "UnitOfIssue";
+            this.UOI.Name = "UOI";
+            this.UOI.Visible = true;
+            this.UOI.VisibleIndex = 7;
+            // 
+            // Description
+            // 
+            this.Description.Caption = "Description";
+            this.Description.FieldName = "Description";
+            this.Description.Name = "Description";
+            this.Description.Visible = true;
+            this.Description.VisibleIndex = 8;
             // 
             // labelControl9
             // 
@@ -700,21 +857,6 @@
             this.toolStripMenuItem2.Text = "Add Parts";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.addPartButton_Click);
             // 
-            // txtTransactionNumber
-            // 
-            this.txtTransactionNumber.Location = new System.Drawing.Point(36, 37);
-            this.txtTransactionNumber.Name = "txtTransactionNumber";
-            this.txtTransactionNumber.Size = new System.Drawing.Size(323, 20);
-            this.txtTransactionNumber.TabIndex = 1;
-            // 
-            // transactionNumberLabel
-            // 
-            this.transactionNumberLabel.Location = new System.Drawing.Point(36, 17);
-            this.transactionNumberLabel.Name = "transactionNumberLabel";
-            this.transactionNumberLabel.Size = new System.Drawing.Size(96, 13);
-            this.transactionNumberLabel.TabIndex = 2;
-            this.transactionNumberLabel.Text = "Transaction Number";
-            // 
             // CheckOutForm
             // 
             this.Appearance.BackColor = System.Drawing.Color.White;
@@ -732,11 +874,14 @@
             this.navigationFrame.ResumeLayout(false);
             this.employeesNavigationPage.ResumeLayout(false);
             this.employeesNavigationPage.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.WorkOpLookUp.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindWorkOp)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lookUpEdit1.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindUser)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.JobIDTextEdit.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.reasonLookUp.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindReason)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.takenByLookUp.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindUser)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.storeRoom.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindStoreroom)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
@@ -745,8 +890,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.toggleSwitch1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateEdit.Properties.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateEdit.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.userNameTextBox.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.storeRoomCombo.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.userNameTextBox.Properties)).EndInit();
             this.customersNavigationPage.ResumeLayout(false);
             this.customersNavigationPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.storeroomLookUp.Properties)).EndInit();
@@ -759,11 +904,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.bindPart)).EndInit();
             this.navigationPage1.ResumeLayout(false);
             this.navigationPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTransactionNumber.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.transactionHistoryGridControl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewTrransactionHistory)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
             this.contextMenuStrip2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.txtTransactionNumber.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -780,7 +925,6 @@
         private DevExpress.XtraBars.Navigation.NavigationPage customersNavigationPage;
         private DevExpress.XtraEditors.LabelControl employeesLabelControl;
         private DevExpress.XtraEditors.LabelControl customersLabelControl;
-        private DevExpress.XtraEditors.TextEdit userNameTextBox;
         
         private DevExpress.XtraGrid.GridControl gridControl1;
         private DevExpress.XtraGrid.Views.Grid.GridView gridViewJobs;
@@ -832,5 +976,19 @@
         private DevExpress.XtraGrid.Columns.GridColumn TextTransactionNumber;
         private DevExpress.XtraEditors.LabelControl transactionNumberLabel;
         private DevExpress.XtraEditors.TextEdit txtTransactionNumber;
+        private DevExpress.XtraEditors.SimpleButton simpleButton2;
+        private DevExpress.XtraEditors.LookUpEdit userNameTextBox;
+        private DevExpress.XtraEditors.LookUpEdit lookUpEdit1;
+        private DevExpress.XtraGrid.Columns.GridColumn Aisle;
+        private DevExpress.XtraGrid.Columns.GridColumn Shelf;
+        private DevExpress.XtraGrid.Columns.GridColumn Bin;
+        private DevExpress.XtraGrid.Columns.GridColumn QTYNumber;
+        private DevExpress.XtraGrid.Columns.GridColumn Description;
+        private DevExpress.XtraGrid.Columns.GridColumn masterpart;
+        private DevExpress.XtraGrid.Columns.GridColumn UOI;
+        private DevExpress.XtraGrid.Columns.GridColumn ReqQty;
+        private DevExpress.XtraEditors.LookUpEdit WorkOpLookUp;
+        private DevExpress.XtraEditors.LabelControl WorkOpLabel;
+        private System.Windows.Forms.BindingSource bindWorkOp;
     }
 }

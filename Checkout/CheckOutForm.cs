@@ -116,8 +116,9 @@ namespace Checkout
 
         public CheckOutForm()
         {
+            _oLogon.UserID = 1;
             //ShowSplashScreen();
-            //dateEdit.DateTime = DateTime.Now;
+            //dateEdit.EditValue = DateTime.Now;
 
             _oCheckOut = new DbCheckOut(dbConnection, false);
             InitializeComponent();
@@ -198,6 +199,16 @@ namespace Checkout
             bindUser.DataSource = takenByBindingSource;
 
             takenByLookUp.EditValue = bindUser;
+        }
+
+        private void WorkOpEnter(object sender, EventArgs e)
+        {
+            bool loadOk = true;
+            BindingSource WorkOpBindingSource = new BindingSource();
+            WorkOpBindingSource.DataSource = _oCheckOut.ExecuteStoredProc("GetAllWorkOps", ref loadOK);
+            bindWorkOp.DataSource = WorkOpBindingSource;
+            WorkOpLookUp.EditValue = bindWorkOp;
+
         }
 
         private void partEnter(object sender, EventArgs e)
@@ -340,7 +351,7 @@ namespace Checkout
             gridViewJobs.Columns["FGColor"].Visible = false;
             gridViewJobs.Columns["BGColor"].Visible = false;
             Cursor = Cursors.Default;
-
+            gridViewJobs.OptionsFind.AlwaysVisible = true;
         }
 
         private void toggleSwitch1_Toggled(object sender, EventArgs e)
@@ -619,11 +630,13 @@ namespace Checkout
 
         }
 
+        #region Checkout Process
         private void checkOutButton_Click(object sender, EventArgs e)
         {
             GridView dg = gridViewPartsAdded;
             ProcessMaterialSelections(dg);
         }
+
         private void ProcessMaterialSelections(GridView dg)
         {
             #region Checkout for Other
@@ -738,6 +751,7 @@ namespace Checkout
                                     for (var i = 0; i < selectedRows.Count(); i++)
                                     {
                                         var rowIndex = Convert.ToInt32(selectedRows.Keys[i].ToString());
+                                        var _oMaster = new Masterparts(dbConnection, false);
                                         _oMaster.ClearErrors();
                                         var masterpartID = Convert.ToInt32(dg.GetRowCellValue(rowIndex, "n_masterpartid"));
                                         var masterpartDetail = _oMaster.GetMasterpartDetail(masterpartID, _oLogon.UserID, ref gotData);
@@ -900,6 +914,204 @@ namespace Checkout
                 ///Checkout for Job
                 #endregion
             }
+            Cursor = Cursors.Default;
+        }
+
+        #endregion
+
+        private void GetTransactionHistorytest()
+        {
+            using (PartTransactions Parts = new PartTransactions(dbConnection, false))
+            {
+                string CanceledYNB = "";
+                string TransNumber = "";
+                string TransactionType = "";
+                string TransactionInReason = "";
+                string TransactionOutReason = "";
+                string TransNotes = "";
+                string POID = "";
+                string PurchaseAuthority = "";
+                string ShipTo = "";
+                string PONotes = "";
+                string SWLID = "";
+                string CostCodeID = "";
+                string CostCodeDesc = "";
+                string SupplCode = "";
+                string AreaID = "";
+                string JobID = "";
+                string SWLNotes = "";
+                string StoresIssueID = "";
+                string OrigStoresIssueID = "";
+                string Instructions = "";
+                string PartID = "";
+                string PartDesc = "";
+                string PartType = "";
+                string MiscRef = "";
+                string Storeroom = "";
+                string Vendor = "";
+                string VendorDesc = "";
+                string VendorPart = "";
+                string MFGID = "";
+                string MFGDesc = "";
+                string MFGPart = "";
+                string SWLOriginator = "";
+                string AssignedBuyer = "";
+                string SWLLaborClass = "";
+                string SWLGroup = "";
+                string POCreator = "";
+                string SIRequestor = "";
+                string SIApprover = "";
+                string TransactionBy = "";
+                string TransactionFrom = "";
+                DateTime TransDateBegin = _nullDate ;
+                DateTime TransDateEnd = _nullDate;
+                DateTime SWLDateOpenedBegin = _nullDate;
+                DateTime SWLDateOpenedEnd = _nullDate;
+                DateTime SWLDateRequiredBegin = _nullDate;
+                DateTime SWLDateRequiredEnd = _nullDate;
+                DateTime SWLStatusDateBegin = _nullDate;
+                DateTime SWLStatusDateEnd = _nullDate;
+                DateTime SWLModifiedDateBegin = _nullDate;
+                DateTime SWLModifiedDateEnd = _nullDate;
+                DateTime SWLApprovedDateBegin = _nullDate;
+                DateTime SWLApprovedDateEnd = _nullDate;
+                DateTime SWLClosedDateBegin = _nullDate;
+                DateTime SWLClosedDateEnd = _nullDate;
+                DateTime POCreatedDateBegin = _nullDate;
+                DateTime POCreatedDateEnd = _nullDate;
+                DateTime POStatusDateBegin = _nullDate;
+                DateTime POStatusDateEnd = _nullDate;
+                DateTime POModifiedDateBegin = _nullDate;
+                DateTime POModifiedDateEnd = _nullDate;
+                DateTime POApprovedDateBegin = _nullDate;
+                DateTime POApprovedDateEnd = _nullDate;
+                DateTime POClosedDateBegin = _nullDate;
+                DateTime POClosedDateEnd = _nullDate;
+                DateTime SIRequestedDateBegin = _nullDate;
+                DateTime SIRequestedDateEnd = _nullDate;
+                DateTime SINeededDateBegin = _nullDate;
+                DateTime SINeededDateEnd = _nullDate;
+                DateTime SIStatusDateBegin = _nullDate;
+                DateTime SIStatusDateEnd = _nullDate;
+                DateTime SIApprovedDateBegin = _nullDate;
+                DateTime SIApprovedDateEnd = _nullDate;
+                int StoreroomID = _editingStoreroomID;
+                Parts.GetFilteredPartTransactions(CanceledYNB,
+                                                            TransNumber,
+                                                            TransactionType,
+                                                            TransactionInReason,
+                                                            TransactionOutReason,
+                                                            TransNotes,
+                                                            POID,
+                                                            PurchaseAuthority,
+                                                            ShipTo,
+                                                            PONotes,
+                                                            SWLID,
+                                                            CostCodeID,
+                                                            CostCodeDesc,
+                                                            SupplCode,
+                                                            AreaID,
+                                                            JobID,
+                                                            SWLNotes,
+                                                            StoresIssueID,
+                                                            OrigStoresIssueID,
+                                                            Instructions,
+                                                            PartID,
+                                                            PartDesc,
+                                                            PartType,
+                                                            MiscRef,
+                                                            Storeroom,
+                                                            Vendor,
+                                                            VendorDesc,
+                                                            VendorPart,
+                                                            MFGID,
+                                                            MFGDesc,
+                                                            MFGPart,
+                                                            SWLOriginator,
+                                                            AssignedBuyer,
+                                                            SWLLaborClass,
+                                                            SWLGroup,
+                                                            POCreator,
+                                                            SIRequestor,
+                                                            SIApprover,
+                                                            TransactionBy,
+                                                            TransactionFrom,
+                                                            TransDateBegin,
+                                                            TransDateEnd,
+                                                            SWLDateOpenedBegin,
+                                                            SWLDateOpenedEnd,
+                                                            SWLDateRequiredBegin,
+                                                            SWLDateRequiredEnd,
+                                                            SWLStatusDateBegin,
+                                                            SWLStatusDateEnd,
+                                                            SWLModifiedDateBegin,
+                                                            SWLModifiedDateEnd,
+                                                            SWLApprovedDateBegin,
+                                                            SWLApprovedDateEnd,
+                                                            SWLClosedDateBegin,
+                                                            SWLClosedDateEnd,
+                                                            POCreatedDateBegin,
+                                                            POCreatedDateEnd,
+                                                            POStatusDateBegin,
+                                                            POStatusDateEnd,
+                                                            POModifiedDateBegin,
+                                                            POModifiedDateEnd,
+                                                            POApprovedDateBegin,
+                                                            POApprovedDateEnd,
+                                                            POClosedDateBegin,
+                                                            POClosedDateEnd,
+                                                            SIRequestedDateBegin,
+                                                            SIRequestedDateEnd,
+                                                            SINeededDateBegin,
+                                                            SINeededDateEnd,
+                                                            SIStatusDateBegin,
+                                                            SIStatusDateEnd,
+                                                            SIApprovedDateBegin,
+                                                            SIApprovedDateEnd,
+                                                            StoreroomID);
+                {
+
+                   transactionHistoryGridControl.DataSource = Parts.Ds.Tables[0];
+
+                }
+            }
+
+            
+        }
+
+        private void GetTransactionHistory()
+        {
+            DataSet ds = new DataSet();
+
+            SqlConnection conn = new SqlConnection(dbConnection);
+            SqlCommand cmd = new SqlCommand();
+            SqlParameterCollection param = cmd.Parameters;
+            //param.AddWithValue("@StoreroomFilter", storeroomName);
+
+            //SqlDataReader reader;
+
+            param = cmd.Parameters;
+            cmd.CommandText = "SELECT xactionitems.xactionnum, Masterparts.masterpartid, PartsAtLocation.aisle, PartsAtLocation.shelf, PartsAtLocation.bin, xactionitems.ReqQty, xactionitems.qty, Masterparts.UnitOfIssue, Masterparts.Description" +
+                        " FROM xactionitems INNER JOIN" +
+                        " PartsAtLocation ON xactionitems.n_partatlocid = PartsAtLocation.n_partatlocid INNER JOIN" +
+                        " Masterparts ON xactionitems.n_masterpartid = Masterparts.n_masterpartid AND PartsAtLocation.n_masterpartid = Masterparts.n_masterpartid";
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = conn;
+            //reader = cmd.ExecuteReader();
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.SelectCommand = cmd;
+            conn.Open();
+            da.Fill(ds);
+
+            conn.Close();
+
+            transactionHistoryGridControl.DataSource = ds.Tables[0];
+        }
+
+        private void simpleButton2_Click(object sender, EventArgs e)
+        {
+            GetTransactionHistory();
         }
     }
 }
