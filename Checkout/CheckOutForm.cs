@@ -323,11 +323,7 @@ namespace Checkout
         {
             // DevExpress.XtraSplashScreen.SplashScreenManager.CloseForm();
         }
-
-        private void employeesLabelControl_Click(object sender, EventArgs e)
-        {
-
-        }
+        
 
         private void GetJobButton_Click(object sender, EventArgs e)
         {
@@ -380,10 +376,7 @@ namespace Checkout
             }
         }
 
-        private void gridViewPartsList_click(object sender, EventArgs e)
-        {
 
-        }
 
         private void addPartButton_Click(object sender, EventArgs e)
         {
@@ -478,6 +471,7 @@ namespace Checkout
         private void simpleButton1_Click(object sender, EventArgs e)
         {
             var partID = partIDLookUp.Text;
+            var n_masterpartid = partIDLookUp.EditValue;
             int qty = Convert.ToInt32(QTYspinEdit.Value);
 
             DataSet ds = new DataSet();
@@ -486,10 +480,13 @@ namespace Checkout
             {
                 dt.Columns.Add(new DataColumn("masterpartid"));
                 dt.Columns.Add(new DataColumn("QTY"));
+                dt.Columns.Add(new DataColumn("n_masterpartid"));
 
                 DataRow row = dt.NewRow();
                 row["masterpartid"] = partID;
                 row["QTY"] = qty;
+                row["n_masterpartid"] = n_masterpartid;
+                
                 dt.Rows.Add(row);
                 ds.Tables.Add(dt);
 
@@ -506,6 +503,7 @@ namespace Checkout
                 {
                     gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["masterpartid"], partID);
                     gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["QTY"], qty);
+                    gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["n_masterpartid"], n_masterpartid);
                 }
 
             }
@@ -549,13 +547,13 @@ namespace Checkout
 
         private void M_ItemClickedJob(object sender, ToolStripItemClickedEventArgs e)
         {
-            var result = GetSelectedRows(gridViewJobs, "n_jobid");
+            var result = GetSelectedRow(gridViewJobs, "n_jobid");
             JobIDTextEdit.Text = result[0].ToString();
         }
 
         private void M_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-            var selectedRows = GetSelectedRows(gridViewPartsAdded, "masterpartid");
+            var selectedRows = GetSelectedRow(gridViewPartsAdded, "masterpartid");
             var count = 0;
             foreach (var rows in selectedRows)
             {
@@ -564,16 +562,37 @@ namespace Checkout
             }
         }
 
-        private object[] GetSelectedRows(DevExpress.XtraGrid.Views.Grid.GridView view, string fieldName)
+        private object[] GetSelectedRow(DevExpress.XtraGrid.Views.Grid.GridView view, string fieldName)
         {
             int[] selectedRows = view.GetSelectedRows();
             object[] result = new object[selectedRows.Length];
+             
             for (int i = 0; i < selectedRows.Length; i++)
             {
                 int rowHandle = selectedRows[i];
                 if (!gridViewJobs.IsGroupRow(rowHandle))
                 {
                     result[i] = view.GetRowCellValue(rowHandle, fieldName);
+                   
+                }
+                else
+                    result[i] = -1; // default value
+            }
+            return result;
+
+        }
+
+        private object[] GetSelectedRows(DevExpress.XtraGrid.Views.Grid.GridView view, string fieldName, string QTY, string n_masterpartid)
+        {
+            int[] selectedRows = view.GetSelectedRows();
+            object[] result = new object[selectedRows.Length];
+            
+            for (int i = 0; i < selectedRows.Length; i++)
+            {
+                int rowHandle = selectedRows[i];
+                if (!gridViewJobs.IsGroupRow(rowHandle))
+                {                
+                    result[i] = new { masterpartid = view.GetRowCellValue(rowHandle, fieldName), QTY = view.GetRowCellValue(rowHandle, QTY), n_masterpartid = view.GetRowCellValue(rowHandle, n_masterpartid) };                
                 }
                 else
                     result[i] = -1; // default value
@@ -585,37 +604,78 @@ namespace Checkout
         void AddSelectedRows_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
             ToolStripItem item = e.ClickedItem;
-            var selectedrows = GetSelectedRows(gridViewParts, "masterpartid");
-
-            if (selectedrows.Count() > 0)
+            var selectedrows = GetSelectedRows(gridViewParts, "masterpartid", "QTY", "n_masterpartid");
+            if (gridControlPartsAdded.DataSource == null)
             {
-                var partID = "";
-                var qty = 0;
-                var count = 0;
+                DataSet ds = new DataSet();
+                DataTable dt = new DataTable();
+                
+                    dt.Columns.Add(new DataColumn("masterpartid"));
+                    dt.Columns.Add(new DataColumn("QTY"));
+                    dt.Columns.Add(new DataColumn("n_masterpartid"));
 
+                var count = 0;
+                var partID = "";
+                var n_masterpartid = 0;
+                var qty = 0;
+                
                 foreach (var rows in selectedrows)
                 {
-                    partID = selectedrows.GetValue(count).ToString();
+                    var x = selectedrows.GetValue(count);
+                    System.Type type = x.GetType();
+                    partID = type.GetProperty("masterpartid").GetValue(x).ToString();
+                    n_masterpartid = (int)type.GetProperty("n_masterpartid").GetValue(x);
+                    DataRow row = dt.NewRow();
+                    row["masterpartid"] = partID;
+                    row["QTY"] = qty;
+                    row["n_masterpartid"] = n_masterpartid;
 
-                    gridViewPartsAdded.AddNewRow();
-                    int rowHandle = gridViewPartsAdded.GetRowHandle(gridViewPartsAdded.DataRowCount);
+                    dt.Rows.Add(row);
+                    count++;
 
-                    if (gridViewPartsAdded.IsNewItemRow(rowHandle))
+                }
+                    ds.Tables.Add(dt);
+
+                    gridControlPartsAdded.DataSource = ds.Tables[0];
+                }
+            else
+            {
+                if (selectedrows.Count() > 0)
+                {
+                    var partID = "";
+                    var n_masterpartid = 0;
+                    var qty = 0;
+                    var count = 0;
+
+                    foreach (var rows in selectedrows)
                     {
-                        gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["masterpartid"], partID);
-                        gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["QTY"], qty);
+                        var x = selectedrows.GetValue(count);
+                        System.Type type = x.GetType();
+                        partID = type.GetProperty("masterpartid").GetValue(x).ToString();
+                        n_masterpartid = (int)type.GetProperty("n_masterpartid").GetValue(x);
 
-                    }
-                    else
-                    {
-                        rowHandle = rowHandle + 1;
+
+
+                        gridViewPartsAdded.AddNewRow();
+                        int rowHandle = gridViewPartsAdded.GetRowHandle(gridViewPartsAdded.DataRowCount);
+
                         if (gridViewPartsAdded.IsNewItemRow(rowHandle))
                         {
                             gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["masterpartid"], partID);
                             gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["QTY"], qty);
+                            gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["n_masterpartid"], n_masterpartid);
+
                         }
+                        else
+                        {
+
+                            gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["masterpartid"], partID);
+                            gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["QTY"], qty);
+                            gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["n_masterpartid"], n_masterpartid);
+
+                        }
+                        count++;
                     }
-                    count++;
                 }
             }
         }
@@ -634,12 +694,15 @@ namespace Checkout
         private void checkOutButton_Click(object sender, EventArgs e)
         {
             GridView dg = gridViewPartsAdded;
+
             ProcessMaterialSelections(dg);
         }
 
+        
+
         private void ProcessMaterialSelections(GridView dg)
         {
-            #region Checkout for Other
+            #region Checkout for Job
             ///Checkout for Other
             if (dg.RowCount > 0)
             {
@@ -691,6 +754,23 @@ namespace Checkout
                         else
                         {
                             _editingGivenByID = -1;
+                        }
+                        if(JobStepLookUp.Text != null)
+                        {
+                            _editingJobID = Convert.ToInt32(JobStepLookUp.Text);
+                        } else
+                        {
+                            MessageBox.Show("Please select a job to apply parts");
+                            JobIDTextEdit.Focus();
+                        }
+
+                        if (JobStepLookUp.EditValue != null)
+                        {
+                            _editingJobStepID = Convert.ToInt32(JobStepLookUp.EditValue);
+                        }
+                        else
+                        {
+                            MessageBox.Show("No JobStep ID avalible");
                         }
 
                         if (_editingTransactionID <= 0)
@@ -748,12 +828,14 @@ namespace Checkout
                                 if (continueProcessing)
                                 {
                                     var gotData = true;
+                                    #region loop through parts added grid
                                     for (var i = 0; i < selectedRows.Count(); i++)
                                     {
                                         var rowIndex = Convert.ToInt32(selectedRows.Keys[i].ToString());
                                         var _oMaster = new Masterparts(dbConnection, false);
                                         _oMaster.ClearErrors();
                                         var masterpartID = Convert.ToInt32(dg.GetRowCellValue(rowIndex, "n_masterpartid"));
+                                        _editingQty = Convert.ToInt32(dg.GetRowCellValue(rowIndex, "QTY"));
                                         var masterpartDetail = _oMaster.GetMasterpartDetail(masterpartID, _oLogon.UserID, ref gotData);
                                         if (gotData)
                                         {
@@ -770,7 +852,8 @@ namespace Checkout
                                                     var prefMfgPartID = Convert.ToInt32(
                                                         masterpartDetail.Tables[0].Rows[0][10].ToString());
                                                     var partDesc = masterpartDetail.Tables[0].Rows[0][2].ToString();
-
+                                                    JobstepJobParts _oParts = new JobstepJobParts(dbConnection, false);
+                                                    _oParts.SetJobstepInfo(_editingJobID, _editingJobStepID);
                                                     //Add New Part To Job Record
                                                     if (!_oParts.Add(_editingPartID,
                                                                         _editingStoreroomID,
@@ -782,7 +865,7 @@ namespace Checkout
                                                                         "",
                                                                         partDesc,
                                                                         0,
-                                                                        0,
+                                                                        _editingQty,
                                                                         _editingReceivedDate,
                                                                         prefMfgPartID,
                                                                         -1,
@@ -890,6 +973,7 @@ namespace Checkout
                                             break;
                                         }
                                     }
+                                    #endregion
                                     Cursor = Cursors.Default;
                                     if (itemsAdded > 0)
                                     {
@@ -910,8 +994,9 @@ namespace Checkout
                     }
                 }
                 #endregion
-                #region Checkout for Job
-                ///Checkout for Job
+                #region Checkout for Other
+                ///Checkout for Other
+                
                 #endregion
             }
             Cursor = Cursors.Default;
@@ -919,165 +1004,7 @@ namespace Checkout
 
         #endregion
 
-        private void GetTransactionHistorytest()
-        {
-            using (PartTransactions Parts = new PartTransactions(dbConnection, false))
-            {
-                string CanceledYNB = "";
-                string TransNumber = "";
-                string TransactionType = "";
-                string TransactionInReason = "";
-                string TransactionOutReason = "";
-                string TransNotes = "";
-                string POID = "";
-                string PurchaseAuthority = "";
-                string ShipTo = "";
-                string PONotes = "";
-                string SWLID = "";
-                string CostCodeID = "";
-                string CostCodeDesc = "";
-                string SupplCode = "";
-                string AreaID = "";
-                string JobID = "";
-                string SWLNotes = "";
-                string StoresIssueID = "";
-                string OrigStoresIssueID = "";
-                string Instructions = "";
-                string PartID = "";
-                string PartDesc = "";
-                string PartType = "";
-                string MiscRef = "";
-                string Storeroom = "";
-                string Vendor = "";
-                string VendorDesc = "";
-                string VendorPart = "";
-                string MFGID = "";
-                string MFGDesc = "";
-                string MFGPart = "";
-                string SWLOriginator = "";
-                string AssignedBuyer = "";
-                string SWLLaborClass = "";
-                string SWLGroup = "";
-                string POCreator = "";
-                string SIRequestor = "";
-                string SIApprover = "";
-                string TransactionBy = "";
-                string TransactionFrom = "";
-                DateTime TransDateBegin = _nullDate ;
-                DateTime TransDateEnd = _nullDate;
-                DateTime SWLDateOpenedBegin = _nullDate;
-                DateTime SWLDateOpenedEnd = _nullDate;
-                DateTime SWLDateRequiredBegin = _nullDate;
-                DateTime SWLDateRequiredEnd = _nullDate;
-                DateTime SWLStatusDateBegin = _nullDate;
-                DateTime SWLStatusDateEnd = _nullDate;
-                DateTime SWLModifiedDateBegin = _nullDate;
-                DateTime SWLModifiedDateEnd = _nullDate;
-                DateTime SWLApprovedDateBegin = _nullDate;
-                DateTime SWLApprovedDateEnd = _nullDate;
-                DateTime SWLClosedDateBegin = _nullDate;
-                DateTime SWLClosedDateEnd = _nullDate;
-                DateTime POCreatedDateBegin = _nullDate;
-                DateTime POCreatedDateEnd = _nullDate;
-                DateTime POStatusDateBegin = _nullDate;
-                DateTime POStatusDateEnd = _nullDate;
-                DateTime POModifiedDateBegin = _nullDate;
-                DateTime POModifiedDateEnd = _nullDate;
-                DateTime POApprovedDateBegin = _nullDate;
-                DateTime POApprovedDateEnd = _nullDate;
-                DateTime POClosedDateBegin = _nullDate;
-                DateTime POClosedDateEnd = _nullDate;
-                DateTime SIRequestedDateBegin = _nullDate;
-                DateTime SIRequestedDateEnd = _nullDate;
-                DateTime SINeededDateBegin = _nullDate;
-                DateTime SINeededDateEnd = _nullDate;
-                DateTime SIStatusDateBegin = _nullDate;
-                DateTime SIStatusDateEnd = _nullDate;
-                DateTime SIApprovedDateBegin = _nullDate;
-                DateTime SIApprovedDateEnd = _nullDate;
-                int StoreroomID = _editingStoreroomID;
-                Parts.GetFilteredPartTransactions(CanceledYNB,
-                                                            TransNumber,
-                                                            TransactionType,
-                                                            TransactionInReason,
-                                                            TransactionOutReason,
-                                                            TransNotes,
-                                                            POID,
-                                                            PurchaseAuthority,
-                                                            ShipTo,
-                                                            PONotes,
-                                                            SWLID,
-                                                            CostCodeID,
-                                                            CostCodeDesc,
-                                                            SupplCode,
-                                                            AreaID,
-                                                            JobID,
-                                                            SWLNotes,
-                                                            StoresIssueID,
-                                                            OrigStoresIssueID,
-                                                            Instructions,
-                                                            PartID,
-                                                            PartDesc,
-                                                            PartType,
-                                                            MiscRef,
-                                                            Storeroom,
-                                                            Vendor,
-                                                            VendorDesc,
-                                                            VendorPart,
-                                                            MFGID,
-                                                            MFGDesc,
-                                                            MFGPart,
-                                                            SWLOriginator,
-                                                            AssignedBuyer,
-                                                            SWLLaborClass,
-                                                            SWLGroup,
-                                                            POCreator,
-                                                            SIRequestor,
-                                                            SIApprover,
-                                                            TransactionBy,
-                                                            TransactionFrom,
-                                                            TransDateBegin,
-                                                            TransDateEnd,
-                                                            SWLDateOpenedBegin,
-                                                            SWLDateOpenedEnd,
-                                                            SWLDateRequiredBegin,
-                                                            SWLDateRequiredEnd,
-                                                            SWLStatusDateBegin,
-                                                            SWLStatusDateEnd,
-                                                            SWLModifiedDateBegin,
-                                                            SWLModifiedDateEnd,
-                                                            SWLApprovedDateBegin,
-                                                            SWLApprovedDateEnd,
-                                                            SWLClosedDateBegin,
-                                                            SWLClosedDateEnd,
-                                                            POCreatedDateBegin,
-                                                            POCreatedDateEnd,
-                                                            POStatusDateBegin,
-                                                            POStatusDateEnd,
-                                                            POModifiedDateBegin,
-                                                            POModifiedDateEnd,
-                                                            POApprovedDateBegin,
-                                                            POApprovedDateEnd,
-                                                            POClosedDateBegin,
-                                                            POClosedDateEnd,
-                                                            SIRequestedDateBegin,
-                                                            SIRequestedDateEnd,
-                                                            SINeededDateBegin,
-                                                            SINeededDateEnd,
-                                                            SIStatusDateBegin,
-                                                            SIStatusDateEnd,
-                                                            SIApprovedDateBegin,
-                                                            SIApprovedDateEnd,
-                                                            StoreroomID);
-                {
-
-                   transactionHistoryGridControl.DataSource = Parts.Ds.Tables[0];
-
-                }
-            }
-
-            
-        }
+       
 
         private void GetTransactionHistory()
         {
