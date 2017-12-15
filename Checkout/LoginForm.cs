@@ -14,6 +14,7 @@ using System.Configuration;
 
 
 
+
 namespace Checkout
 {
     public partial class LoginForm : DevExpress.XtraEditors.XtraForm
@@ -1191,6 +1192,8 @@ namespace Checkout
                                         //{
                                        
                                             LoggedIn = true;
+                                            _oLogon.UserID = oLogInUser.UserID;
+                                            _oLogon.Username =  oLogInUser.UserName;
                                             _nUserID = oLogInUser.UserID;
                                             _nAreaID = oLogInUser.NAreaId;
                                             _sFullName = oLogInUser.FirstName;

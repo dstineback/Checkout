@@ -1,4 +1,6 @@
-﻿namespace Checkout
+﻿using DevExpress.XtraEditors;
+
+namespace Checkout
 {
     partial class CheckOutForm
     {
@@ -29,6 +31,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             DevExpress.XtraEditors.TileItemElement tileItemElement1 = new DevExpress.XtraEditors.TileItemElement();
             DevExpress.XtraEditors.TileItemElement tileItemElement2 = new DevExpress.XtraEditors.TileItemElement();
             DevExpress.XtraEditors.TileItemElement tileItemElement3 = new DevExpress.XtraEditors.TileItemElement();
@@ -40,20 +43,22 @@
             this.tileBarItem2 = new DevExpress.XtraBars.Navigation.TileBarItem();
             this.navigationFrame = new DevExpress.XtraBars.Navigation.NavigationFrame();
             this.employeesNavigationPage = new DevExpress.XtraBars.Navigation.NavigationPage();
+            this.JobIDlookUp = new DevExpress.XtraEditors.LookUpEdit();
+            this.bindJobsList = new System.Windows.Forms.BindingSource(this.components);
             this.WorkOpLookUp = new DevExpress.XtraEditors.LookUpEdit();
-            this.bindWorkOp = new System.Windows.Forms.BindingSource();
+            this.bindWorkOp = new System.Windows.Forms.BindingSource(this.components);
             this.WorkOpLabel = new DevExpress.XtraEditors.LabelControl();
             this.lookUpEdit1 = new DevExpress.XtraEditors.LookUpEdit();
-            this.bindUser = new System.Windows.Forms.BindingSource();
+            this.bindUser = new System.Windows.Forms.BindingSource(this.components);
             this.JobIDLabel = new DevExpress.XtraEditors.LabelControl();
             this.GetJobButton = new DevExpress.XtraEditors.SimpleButton();
             this.reasonLookUp = new DevExpress.XtraEditors.LookUpEdit();
-            this.bindReason = new System.Windows.Forms.BindingSource();
+            this.bindReason = new System.Windows.Forms.BindingSource(this.components);
             this.takenByLookUp = new DevExpress.XtraEditors.LookUpEdit();
             this.storeRoom = new DevExpress.XtraEditors.LookUpEdit();
-            this.bindStoreroom = new System.Windows.Forms.BindingSource();
+            this.bindStoreroom = new System.Windows.Forms.BindingSource(this.components);
             this.gridControl1 = new DevExpress.XtraGrid.GridControl();
-            this.bindOpenJobs = new System.Windows.Forms.BindingSource();
+            this.bindOpenJobs = new System.Windows.Forms.BindingSource(this.components);
             this.gridViewJobs = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.toggleSwitch1 = new DevExpress.XtraEditors.ToggleSwitch();
             this.dateLabel = new DevExpress.XtraEditors.LabelControl();
@@ -84,7 +89,7 @@
             this.partIDLabel = new DevExpress.XtraEditors.LabelControl();
             this.addPartButton = new DevExpress.XtraEditors.SimpleButton();
             this.partIDLookUp = new DevExpress.XtraEditors.LookUpEdit();
-            this.bindPart = new System.Windows.Forms.BindingSource();
+            this.bindPart = new System.Windows.Forms.BindingSource(this.components);
             this.customersLabelControl = new DevExpress.XtraEditors.LabelControl();
             this.navigationPage1 = new DevExpress.XtraBars.Navigation.NavigationPage();
             this.simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
@@ -103,15 +108,15 @@
             this.Description = new DevExpress.XtraGrid.Columns.GridColumn();
             this.labelControl9 = new DevExpress.XtraEditors.LabelControl();
             this.userNameLabel = new DevExpress.XtraEditors.LabelControl();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip();
+            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.JobStepLookUp = new DevExpress.XtraEditors.GridLookUpEdit();
-            this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             ((System.ComponentModel.ISupportInitialize)(this.navigationFrame)).BeginInit();
             this.navigationFrame.SuspendLayout();
             this.employeesNavigationPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.JobIDlookUp.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindJobsList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.WorkOpLookUp.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindWorkOp)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lookUpEdit1.Properties)).BeginInit();
@@ -146,8 +151,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridViewTrransactionHistory)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.JobStepLookUp.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // tileBar
@@ -249,7 +252,7 @@
             // employeesNavigationPage
             // 
             this.employeesNavigationPage.Caption = "employeesNavigationPage";
-            this.employeesNavigationPage.Controls.Add(this.JobStepLookUp);
+            this.employeesNavigationPage.Controls.Add(this.JobIDlookUp);
             this.employeesNavigationPage.Controls.Add(this.WorkOpLookUp);
             this.employeesNavigationPage.Controls.Add(this.WorkOpLabel);
             this.employeesNavigationPage.Controls.Add(this.lookUpEdit1);
@@ -272,6 +275,24 @@
             this.employeesNavigationPage.Controls.Add(this.JobIDTextEdit);
             this.employeesNavigationPage.Name = "employeesNavigationPage";
             this.employeesNavigationPage.Size = new System.Drawing.Size(1007, 570);
+            // 
+            // JobIDlookUp
+            // 
+            this.JobIDlookUp.Location = new System.Drawing.Point(284, 145);
+            this.JobIDlookUp.Name = "JobIDlookUp";
+            this.JobIDlookUp.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.JobIDlookUp.Properties.Columns.AddRange(new DevExpress.XtraEditors.Controls.LookUpColumnInfo[] {
+            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("Jobid", "Job ID", 150, DevExpress.Utils.FormatType.None, "", true, DevExpress.Utils.HorzAlignment.Default, DevExpress.Data.ColumnSortOrder.None, DevExpress.Utils.DefaultBoolean.Default),
+            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("Step Title", "Description", 200, DevExpress.Utils.FormatType.None, "", true, DevExpress.Utils.HorzAlignment.Default, DevExpress.Data.ColumnSortOrder.None, DevExpress.Utils.DefaultBoolean.Default)});
+            this.JobIDlookUp.Properties.DataSource = this.bindJobsList;
+            this.JobIDlookUp.Properties.DisplayMember = "Jobid";
+            this.JobIDlookUp.Properties.NullText = "";
+            this.JobIDlookUp.Properties.ValueMember = "n_jobid";
+            this.JobIDlookUp.Properties.EditValueChanged += new System.EventHandler(this.JobIDLookUpEditValueChanged);
+            this.JobIDlookUp.Properties.Enter += new System.EventHandler(this.jobIDLookUpEnter);
+            this.JobIDlookUp.Size = new System.Drawing.Size(211, 20);
+            this.JobIDlookUp.TabIndex = 37;
             // 
             // WorkOpLookUp
             // 
@@ -301,6 +322,9 @@
             this.lookUpEdit1.Name = "lookUpEdit1";
             this.lookUpEdit1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.lookUpEdit1.Properties.Columns.AddRange(new DevExpress.XtraEditors.Controls.LookUpColumnInfo[] {
+            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("UserID", "User ID", 100, DevExpress.Utils.FormatType.None, "", true, DevExpress.Utils.HorzAlignment.Default, DevExpress.Data.ColumnSortOrder.None, DevExpress.Utils.DefaultBoolean.Default),
+            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("Name", "Name", 200, DevExpress.Utils.FormatType.None, "", true, DevExpress.Utils.HorzAlignment.Default, DevExpress.Data.ColumnSortOrder.None, DevExpress.Utils.DefaultBoolean.Default)});
             this.lookUpEdit1.Properties.DataSource = this.bindUser;
             this.lookUpEdit1.Properties.DisplayMember = "Name";
             this.lookUpEdit1.Properties.NullText = "";
@@ -332,6 +356,9 @@
             this.reasonLookUp.Name = "reasonLookUp";
             this.reasonLookUp.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.reasonLookUp.Properties.Columns.AddRange(new DevExpress.XtraEditors.Controls.LookUpColumnInfo[] {
+            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("checkoutreasonid", "Reason ", 100, DevExpress.Utils.FormatType.None, "", true, DevExpress.Utils.HorzAlignment.Default, DevExpress.Data.ColumnSortOrder.None, DevExpress.Utils.DefaultBoolean.Default),
+            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("description", "Description", 200, DevExpress.Utils.FormatType.None, "", true, DevExpress.Utils.HorzAlignment.Default, DevExpress.Data.ColumnSortOrder.None, DevExpress.Utils.DefaultBoolean.Default)});
             this.reasonLookUp.Properties.DataSource = this.bindReason;
             this.reasonLookUp.Properties.DisplayMember = "checkoutreasonid";
             this.reasonLookUp.Properties.DropDownRows = 10;
@@ -348,6 +375,9 @@
             this.takenByLookUp.Name = "takenByLookUp";
             this.takenByLookUp.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.takenByLookUp.Properties.Columns.AddRange(new DevExpress.XtraEditors.Controls.LookUpColumnInfo[] {
+            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("UserID", "User ID ", 100, DevExpress.Utils.FormatType.None, "", true, DevExpress.Utils.HorzAlignment.Default, DevExpress.Data.ColumnSortOrder.None, DevExpress.Utils.DefaultBoolean.Default),
+            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("Name", "Name", 200, DevExpress.Utils.FormatType.None, "", true, DevExpress.Utils.HorzAlignment.Default, DevExpress.Data.ColumnSortOrder.None, DevExpress.Utils.DefaultBoolean.Default)});
             this.takenByLookUp.Properties.DataSource = this.bindUser;
             this.takenByLookUp.Properties.DisplayMember = "Name";
             this.takenByLookUp.Properties.DropDownRows = 10;
@@ -364,6 +394,9 @@
             this.storeRoom.Name = "storeRoom";
             this.storeRoom.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.storeRoom.Properties.Columns.AddRange(new DevExpress.XtraEditors.Controls.LookUpColumnInfo[] {
+            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("storeroomid", "Store room", 100, DevExpress.Utils.FormatType.None, "", true, DevExpress.Utils.HorzAlignment.Default, DevExpress.Data.ColumnSortOrder.None, DevExpress.Utils.DefaultBoolean.Default),
+            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("descr", "Description", 200, DevExpress.Utils.FormatType.None, "", true, DevExpress.Utils.HorzAlignment.Default, DevExpress.Data.ColumnSortOrder.None, DevExpress.Utils.DefaultBoolean.Default)});
             this.storeRoom.Properties.DataSource = this.bindStoreroom;
             this.storeRoom.Properties.DisplayMember = "storeroomid";
             this.storeRoom.Properties.DropDownRows = 10;
@@ -883,28 +916,6 @@
             this.toolStripMenuItem2.Text = "Add Parts";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.addPartButton_Click);
             // 
-            // JobStepLookUp
-            // 
-            this.JobStepLookUp.EditValue = "";
-            this.JobStepLookUp.Location = new System.Drawing.Point(284, 148);
-            this.JobStepLookUp.Name = "JobStepLookUp";
-            this.JobStepLookUp.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.JobStepLookUp.Properties.DataSource = this.bindOpenJobs;
-            this.JobStepLookUp.Properties.DisplayMember = "n_jobid";
-            this.JobStepLookUp.Properties.ValueMember = "n_jobstepid";
-            this.JobStepLookUp.Properties.View = this.gridView1;
-            this.JobStepLookUp.Size = new System.Drawing.Size(211, 20);
-            this.JobStepLookUp.TabIndex = 35;
-            this.JobStepLookUp.Enter += new System.EventHandler(this.GetJobButton_Click);
-            // 
-            // gridView1
-            // 
-            this.gridView1.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
-            this.gridView1.Name = "gridView1";
-            this.gridView1.OptionsSelection.EnableAppearanceFocusedCell = false;
-            this.gridView1.OptionsView.ShowGroupPanel = false;
-            // 
             // CheckOutForm
             // 
             this.Appearance.BackColor = System.Drawing.Color.White;
@@ -922,6 +933,8 @@
             this.navigationFrame.ResumeLayout(false);
             this.employeesNavigationPage.ResumeLayout(false);
             this.employeesNavigationPage.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.JobIDlookUp.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindJobsList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.WorkOpLookUp.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindWorkOp)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lookUpEdit1.Properties)).EndInit();
@@ -958,8 +971,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridViewTrransactionHistory)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
             this.contextMenuStrip2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.JobStepLookUp.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1043,7 +1054,7 @@
         private DevExpress.XtraGrid.Columns.GridColumn n_masterpartid;
         private DevExpress.XtraEditors.GridLookUpEdit JobIDTextEdit;
         private DevExpress.XtraGrid.Views.Grid.GridView gridLookUpEdit1View;
-        private DevExpress.XtraEditors.GridLookUpEdit JobStepLookUp;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
+        private LookUpEdit JobIDlookUp;
+        private System.Windows.Forms.BindingSource bindJobsList;
     }
 }

@@ -23,35 +23,14 @@ using System.Data.SqlClient;
 
 
 
+
 namespace Checkout
 {
-    public enum CheckOutType
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        All,
-        /// <summary>
-        /// 
-        /// </summary>
-        CheckOutForJob,
-        /// <summary>
-        /// 
-        /// </summary>
-        CheckOutForOther,
-        /// <summary>
-        /// 
-        /// </summary>
-        CheckOutForStoresIssue
-    };
-
-
-
-
+   
     public partial class CheckOutForm : DevExpress.XtraEditors.XtraForm
     {
         public PersonnelLogonObjectClass _oLogon = new PersonnelLogonObjectClass();
-        private readonly CheckOutType _checkOutType;
+       
         private readonly DateTime _nullDate = Convert.ToDateTime("1/1/1960 23:59:59");
         private readonly bool _viewOnly;
         private readonly DbCheckOut _oCheckOut;
@@ -112,13 +91,13 @@ namespace Checkout
         //private InventoryListStoresIssues _oSiList;
         bool loadOK = true;
 
-        public object onClick { get; private set; }
+       
 
         public CheckOutForm()
         {
-            _oLogon.UserID = 1;
+            //_oLogon.UserID = 1;
             //ShowSplashScreen();
-            //dateEdit.EditValue = DateTime.Now;
+          
 
             _oCheckOut = new DbCheckOut(dbConnection, false);
             InitializeComponent();
@@ -136,6 +115,7 @@ namespace Checkout
             }
             if (_oLogon.UserID > 0)
             {
+                userNameTextBox.EditValue = _oLogon.UserID;
                 userNameLabel.Text = _oLogon.Username;
                 userNameTextBox.Text = _oLogon.Username;
             }
@@ -154,6 +134,10 @@ namespace Checkout
             storeRoom.BackColor = Color.PaleVioletRed;
             storeroomLookUp.Visible = false;
             storeroomPartsLabel.Visible = false;
+            dateEdit.EditValue = _nullDate;
+            dateEdit.EditValue = DateTime.Now;
+            
+
         }
 
         private void LoginFormClosing(object sender, FormClosedEventArgs e)
@@ -173,6 +157,7 @@ namespace Checkout
             navigationFrame.SelectedPageIndex = tileBarGroupTables.Items.IndexOf(e.Item);
         }
 
+        #region input boxes 
         private void storeRoomEnter(object sender, EventArgs e)
         {
 
@@ -296,6 +281,31 @@ namespace Checkout
             }
         }
 
+        private void storeroomLookUpEnter(object sender, EventArgs e)
+        {
+            BindingSource storeRoomBindingSource = new BindingSource();
+            storeRoomBindingSource.DataSource = _oCheckOut.GetAllStorerooms(ref loadOK);
+            bindStoreroom.DataSource = storeRoomBindingSource;
+            storeroomLookUp.EditValue = bindStoreroom;
+
+        }
+
+        private void jobIDLookUpEnter(object sender, EventArgs e)
+        {
+            BindingSource jobIDLookUpBindingSourc = new BindingSource();
+            jobIDLookUpBindingSourc.DataSource = _oCheckOut.GetOpenJobsList(ref loadOK, _nullDate);
+            bindJobsList.DataSource = jobIDLookUpBindingSourc;
+            JobIDlookUp.EditValue = bindJobsList;
+        }
+
+        private void JobIDLookUpEditValueChanged(object sender, EventArgs e)
+        {
+            _editingJobStepID = Convert.ToInt32(JobIDlookUp.GetColumnValue("n_jobstepid"));
+            _editingJobID = Convert.ToInt32(JobIDlookUp.GetColumnValue("n_jobid"));
+
+        }
+        #endregion
+
         private void ShowSplashScreen()
         {
             //DevExpress.XtraSplashScreen.SplashScreenManager.ShowForm(this, typeof(Splash), true, true);
@@ -329,7 +339,7 @@ namespace Checkout
         {
             Cursor = Cursors.WaitCursor;
             BindingSource bindingOpenJobsSource = new BindingSource();
-            bindOpenJobs.DataSource = _oCheckOut.GetAllJobsList(ref loadOK, _nullDate);
+            bindOpenJobs.DataSource = _oCheckOut.GetOpenJobsList(ref loadOK, _nullDate);
             gridControl1.DataSource = bindOpenJobs;
             gridViewJobs.Columns["n_jobstepid"].Visible = false;
             gridViewJobs.Columns["n_jobid"].Visible = false;
@@ -376,7 +386,7 @@ namespace Checkout
             }
         }
 
-
+        #region Mouse Events
 
         private void addPartButton_Click(object sender, EventArgs e)
         {
@@ -553,8 +563,23 @@ namespace Checkout
 
         private void M_ItemClickedJob(object sender, ToolStripItemClickedEventArgs e)
         {
-            var result = GetSelectedRow(gridViewJobs, "n_jobid");
-            JobIDTextEdit.Text = result[0].ToString();
+            //var x = selectedrows.GetValue(count);
+            //System.Type type = x.GetType();
+            //partID = type.GetProperty("masterpartid").GetValue(x).ToString();
+           // n_masterpartid = (int)type.GetProperty("n_masterpartid").GetValue(x);
+
+            var result = GetSelectedJob(gridViewJobs, "n_jobid", "n_jobstepid", "Jobid");
+            var x = result.GetValue(0);
+            System.Type type = x.GetType();
+            //_editingJobID = Convert.ToInt32(result[0]);
+            _editingJobID = (int)type.GetProperty("n_jobid").GetValue(x);
+            _editingJobStepID = (int)type.GetProperty("n_jobstepid").GetValue(x);
+            
+            
+            JobIDlookUp.EditValue = _editingJobID;
+            JobIDlookUp.Text = (string)type.GetProperty("Jobid").GetValue(x);
+
+            
         }
 
         private void M_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -568,45 +593,6 @@ namespace Checkout
             }
         }
 
-        private object[] GetSelectedRow(DevExpress.XtraGrid.Views.Grid.GridView view, string fieldName)
-        {
-            int[] selectedRows = view.GetSelectedRows();
-            object[] result = new object[selectedRows.Length];
-             
-            for (int i = 0; i < selectedRows.Length; i++)
-            {
-                int rowHandle = selectedRows[i];
-                if (!gridViewJobs.IsGroupRow(rowHandle))
-                {
-                    result[i] = view.GetRowCellValue(rowHandle, fieldName);
-                   
-                }
-                else
-                    result[i] = -1; // default value
-            }
-            return result;
-
-        }
-
-        private object[] GetSelectedRows(DevExpress.XtraGrid.Views.Grid.GridView view, string fieldName, string QTY, string n_masterpartid, string n_partatlocid)
-        {
-            int[] selectedRows = view.GetSelectedRows();
-            object[] result = new object[selectedRows.Length];
-            
-            for (int i = 0; i < selectedRows.Length; i++)
-            {
-                int rowHandle = selectedRows[i];
-                if (!gridViewJobs.IsGroupRow(rowHandle))
-                {                
-                    result[i] = new { masterpartid = view.GetRowCellValue(rowHandle, fieldName), QTY = view.GetRowCellValue(rowHandle, QTY), n_masterpartid = view.GetRowCellValue(rowHandle, n_masterpartid), n_partatlocid = view.GetRowCellValue(rowHandle, n_partatlocid) };                
-                }
-                else
-                    result[i] = -1; // default value
-            }
-            return result;
-
-        }
-
         void AddSelectedRows_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
             ToolStripItem item = e.ClickedItem;
@@ -615,10 +601,10 @@ namespace Checkout
             {
                 DataSet ds = new DataSet();
                 DataTable dt = new DataTable();
-                
-                    dt.Columns.Add(new DataColumn("masterpartid"));
-                    dt.Columns.Add(new DataColumn("QTY"));
-                    dt.Columns.Add(new DataColumn("n_masterpartid"));
+
+                dt.Columns.Add(new DataColumn("masterpartid"));
+                dt.Columns.Add(new DataColumn("QTY"));
+                dt.Columns.Add(new DataColumn("n_masterpartid"));
                 dt.Columns.Add(new DataColumn("n_partatlocid"));
 
                 var count = 0;
@@ -626,7 +612,7 @@ namespace Checkout
                 var n_masterpartid = 0;
                 var qty = 0;
                 var n_partatlocid = 0;
-                
+
                 foreach (var rows in selectedrows)
                 {
                     var x = selectedrows.GetValue(count);
@@ -645,10 +631,10 @@ namespace Checkout
                     count++;
 
                 }
-                    ds.Tables.Add(dt);
+                ds.Tables.Add(dt);
 
-                    gridControlPartsAdded.DataSource = ds.Tables[0];
-                }
+                gridControlPartsAdded.DataSource = ds.Tables[0];
+            }
             else
             {
                 if (selectedrows.Count() > 0)
@@ -696,15 +682,76 @@ namespace Checkout
             }
         }
 
+        #endregion
 
-        private void storeroomLookUpEnter(object sender, EventArgs e)
+        #region grid row selected methods
+
+        private object[] GetSelectedJob(DevExpress.XtraGrid.Views.Grid.GridView view, string fieldName1, string fieldName2, string fieldName3)
         {
-            BindingSource storeRoomBindingSource = new BindingSource();
-            storeRoomBindingSource.DataSource = _oCheckOut.GetAllStorerooms(ref loadOK);
-            bindStoreroom.DataSource = storeRoomBindingSource;
-            storeroomLookUp.EditValue = bindStoreroom;
+            int[] selectedRows = view.GetSelectedRows();
+            object[] result = new object[selectedRows.Length];
+
+            for (int i = 0; i < selectedRows.Length; i++)
+            {
+                int rowHandle = selectedRows[i];
+                if (!gridViewJobs.IsGroupRow(rowHandle))
+                {
+                    result[i] = new { n_jobid = view.GetRowCellValue(rowHandle, fieldName1), n_jobstepid = view.GetRowCellValue(rowHandle, fieldName2), Jobid = view.GetRowCellValue(rowHandle, fieldName3) };
+                   
+                }
+                else
+                    result[i] = -1; // default value
+            }
+
+
+            return result;
+        }
+
+        private object[] GetSelectedRow(DevExpress.XtraGrid.Views.Grid.GridView view, string fieldName)
+        {
+            int[] selectedRows = view.GetSelectedRows();
+            object[] result = new object[selectedRows.Length];
+             
+            for (int i = 0; i < selectedRows.Length; i++)
+            {
+                int rowHandle = selectedRows[i];
+                if (!gridViewJobs.IsGroupRow(rowHandle))
+                {
+                    result[i] = view.GetRowCellValue(rowHandle, fieldName);
+                   
+                }
+                else
+                    result[i] = -1; // default value
+            }
+            return result;
 
         }
+
+        private object[] GetSelectedRows(DevExpress.XtraGrid.Views.Grid.GridView view, string fieldName, string QTY, string n_masterpartid, string n_partatlocid)
+        {
+            int[] selectedRows = view.GetSelectedRows();
+            object[] result = new object[selectedRows.Length];
+            
+            for (int i = 0; i < selectedRows.Length; i++)
+            {
+                int rowHandle = selectedRows[i];
+                if (!gridViewJobs.IsGroupRow(rowHandle))
+                {                
+                    result[i] = new { masterpartid = view.GetRowCellValue(rowHandle, fieldName), QTY = view.GetRowCellValue(rowHandle, QTY), n_masterpartid = view.GetRowCellValue(rowHandle, n_masterpartid), n_partatlocid = view.GetRowCellValue(rowHandle, n_partatlocid) };                
+                }
+                else
+                    result[i] = -1; // default value
+            }
+            return result;
+
+        }
+
+        #endregion
+
+      
+
+
+      
 
         #region Checkout Process
         private void checkOutButton_Click(object sender, EventArgs e)
@@ -722,6 +769,7 @@ namespace Checkout
             ///Checkout for Other
             if (dg.RowCount > 0)
             {
+                var _oMaster = new Masterparts(dbConnection, false);
                 JobstepJobParts _oParts = new JobstepJobParts(dbConnection, false);
                 var selectedRows = new NonSortedList();
                 for (var a = 0; a < dg.RowCount; a++)
@@ -772,9 +820,15 @@ namespace Checkout
                     {
                         _editingGivenByID = -1;
                     }
-                    if (JobStepLookUp.Text != null)
+
+                    #endregion
+                    #region has jobID
+                    if (toggleSwitch1.IsOn == true)
                     {
-                        _editingJobID = Convert.ToInt32(JobStepLookUp.Text);
+
+                    if (JobIDlookUp.EditValue != null)
+                    {
+                        _editingJobID = Convert.ToInt32(JobIDlookUp.EditValue);
                     }
                     else
                     {
@@ -782,18 +836,14 @@ namespace Checkout
                         JobIDTextEdit.Focus();
                     }
 
-                    if (JobStepLookUp.EditValue != null)
-                    {
-                        _editingJobStepID = Convert.ToInt32(JobStepLookUp.EditValue);
-                    }
-                    else
-                    {
-                        MessageBox.Show("No JobStep ID avalible");
-                    }
-                    #endregion
-                    #region has jobID
-                    if (toggleSwitch1.IsOn == true)
-                    {
+                    //if (JobStepLookUp.EditValue != null)
+                    //{
+                    //    _editingJobStepID = Convert.ToInt32(JobStepLookUp.EditValue);
+                    //}
+                    //else
+                    //{
+                    //    MessageBox.Show("No JobStep ID avalible");
+                    //}
 
                         if (_editingTransactionID <= 0)
                         {
@@ -854,7 +904,7 @@ namespace Checkout
                                     for (var i = 0; i < selectedRows.Count(); i++)
                                     {
                                         var rowIndex = Convert.ToInt32(selectedRows.Keys[i].ToString());
-                                        var _oMaster = new Masterparts(dbConnection, false);
+                                        
                                         _oMaster.ClearErrors();
                                         var masterpartID = Convert.ToInt32(dg.GetRowCellValue(rowIndex, "n_masterpartid"));
                                         _editingQty = Convert.ToInt32(dg.GetRowCellValue(rowIndex, "QTY"));
@@ -1014,6 +1064,12 @@ namespace Checkout
                     #region Does not have JobID
                     else
                     {
+                       
+                        if(reasonLookUp.EditValue != null)
+                        {
+                            _editingCheckOutReasonID = Convert.ToInt32(reasonLookUp.EditValue);
+                        }
+
                         if (_editingTransactionID <= 0)
                         {
                             var transactionID = "";
@@ -1036,24 +1092,24 @@ namespace Checkout
                             if (continueProcessing)
                             {
                                 if (_oCheckOut.AddTransaction(_editingTransactionID,
-                                                                        _editingActionNum,
-                                                                        _editingCarrierID,
-                                                                        -1,
-                                                                        -1,
-                                                                        _editingGivenByID,
-                                                                        _editingJobID,
-                                                                        _editingPurchaseOrderID,
-                                                                        _editingStoreroomID,
-                                                                        _editingTakenBy,
-                                                                        _editingVendorID,
-                                                                        _editingStoresIssueID,
-                                                                        "N",
-                                                                        _editingReceivedDate,
-                                                                        _editingInvoiceNum,
-                                                                        _editingNotes,
-                                                                        _editingReceiptID,
-                                                                        _editingJobStepID,
-                                                                        _oLogon.UserID))
+                                                                    _editingActionNum,
+                                                                    _editingCarrierID,
+                                                                    -1,
+                                                                    _editingCheckOutReasonID,
+                                                                    _editingGivenByID,
+                                                                    _editingJobStepID,
+                                                                    _editingPurchaseOrderID,
+                                                                    _editingStoreroomID,
+                                                                    _editingTakenBy,
+                                                                    _editingVendorID,
+                                                                    _editingStoresIssueID,
+                                                                    "N",
+                                                                    _editingReceivedDate,
+                                                                    _editingInvoiceNum,
+                                                                    _editingNotes,
+                                                                    _editingReceiptID,
+                                                                    _editingJobStepID,
+                                                                    _oLogon.UserID))
                                 {
 
 
@@ -1073,7 +1129,7 @@ namespace Checkout
                                     for (var i = 0; i < selectedRows.Count(); i++)
                                     {
                                         var rowIndex = Convert.ToInt32(selectedRows.Keys[i].ToString());
-                                        var _oMaster = new Masterparts(dbConnection, false);
+                                       
                                         _oMaster.ClearErrors();
                                         var masterpartID = Convert.ToInt32(dg.GetRowCellValue(rowIndex, "n_masterpartid"));
                                         _editingQty = Convert.ToInt32(dg.GetRowCellValue(rowIndex, "QTY"));
@@ -1087,6 +1143,7 @@ namespace Checkout
                                                     _editingPartID =
                                                         Convert.ToInt32(masterpartDetail.Tables[0].Rows[0][0]);
                                                     _editingUnits = masterpartDetail.Tables[0].Rows[0][16].ToString();
+
                                                     var partID = masterpartDetail.Tables[0].Rows[0][1].ToString();
                                                     var partCost = Convert.ToDecimal(
                                                         masterpartDetail.Tables[0].Rows[0][3].ToString());
@@ -1094,34 +1151,7 @@ namespace Checkout
                                                         masterpartDetail.Tables[0].Rows[0][10].ToString());
                                                     var partDesc = masterpartDetail.Tables[0].Rows[0][2].ToString();
 
-                                                   // _oParts.SetJobstepInfo(_editingJobID, _editingJobStepID);
-                                                    //Add New Part To Job Record
-                                                    //if (!_oParts.Add(_editingPartID,
-                                                    //                    _editingStoreroomID,
-                                                    //                    false,
-                                                    //                    false,
-                                                    //                    "",
-                                                    //                    partID,
-                                                    //                    partCost,
-                                                    //                    "",
-                                                    //                    partDesc,
-                                                    //                    0,
-                                                    //                    _editingQty,
-                                                    //                    _editingReceivedDate,
-                                                    //                    prefMfgPartID,
-                                                    //                    -1,
-                                                    //                    _oLogon.UserID,
-                                                    //                    -1,
-                                                    //                    -1))
-                                                    //{
-                                                    //    Cursor = Cursors.Default;
-                                                    //    MessageBox.Show(
-                                                    //        @"Error Adding New Part To Jobstep - " + _oParts.LastError,
-                                                    //        @"Error Adding Part");
-                                                    //    // ReSharper disable RedundantAssignment
-                                                    //    continueProcessing = false;
-                                                    //    // ReSharper restore RedundantAssignment
-                                                    //}
+                                                  
                                                 }
                                                 else
                                                 {
@@ -1216,9 +1246,10 @@ namespace Checkout
                                     }
                                     #endregion
                                     Cursor = Cursors.Default;
+                                    _editingTransactionID = 0;
                                     if (itemsAdded > 0)
                                     {
-                                        MessageBox.Show(itemsAdded + @" Parts Added");
+                                        MessageBox.Show(itemsAdded + @" Parts checked out");
                                     }
 
                                 }
@@ -1236,8 +1267,8 @@ namespace Checkout
 
         #endregion
 
-       
 
+        #region transaction process
         private void GetTransactionHistory()
         {
             DataSet ds = new DataSet();
@@ -1272,5 +1303,8 @@ namespace Checkout
         {
             GetTransactionHistory();
         }
+        #endregion
+
+      
     }
 }
