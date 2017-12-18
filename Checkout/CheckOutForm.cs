@@ -27,9 +27,11 @@ using System.Data.SqlClient;
 namespace Checkout
 {
    
-    public partial class CheckOutForm : DevExpress.XtraEditors.XtraForm
+    public partial class CheckOutForm : XtraForm
     {
+        public PersonnelLogonObjectClass oLogon;
         public PersonnelLogonObjectClass _oLogon = new PersonnelLogonObjectClass();
+        
        
         private readonly DateTime _nullDate = Convert.ToDateTime("1/1/1960 23:59:59");
         private readonly bool _viewOnly;
@@ -38,10 +40,6 @@ namespace Checkout
         private readonly Masterparts _oMaster;
         private readonly JobstepJobParts _oParts;
         private readonly StoresIssue _oSi;
-
-
-
-
 
         private const int AssignedFormID = 76;
         private bool _editMode;
@@ -72,7 +70,6 @@ namespace Checkout
         private int _editingTransactionID = -1;
         private int _editingTransactionItemID = -1;
         private int _editingVendorID = -1;
-        //private JobsListWorkOrders _frmJobList;
         private bool _givenByLoaded;
         private bool _inLookUp;
         private bool _isCancelling;
@@ -82,36 +79,31 @@ namespace Checkout
         private bool _storeroomsLoaded;
         private bool _storesIssuesLoaded;
         private bool _takenByLoaded;
-        // private string dbConnection = ConfigurationManager.ConnectionStrings["DatabaseConnectionString"].ConnectionString;
         private string dbConnection = System.Configuration.ConfigurationManager.ConnectionStrings["DatabaseConnectionString"].ConnectionString;
         private static string _storageConnectionStringSetting = "StorageConnectionString";
         private static string _storageConnectionString = CloudConfigurationManager.GetSetting(_storageConnectionStringSetting);
         private static CloudBlobClient _blobClient = _storageConnectionString != null ? CloudStorageAccount.Parse(_storageConnectionString).CreateCloudBlobClient() : null;
-        //private InventoryListStoreroomParts _oMainList;
-        //private InventoryListStoresIssues _oSiList;
         bool loadOK = true;
 
        
 
         public CheckOutForm()
         {
-            //_oLogon.UserID = 1;
             //ShowSplashScreen();
+            
           
-
+            
             _oCheckOut = new DbCheckOut(dbConnection, false);
             InitializeComponent();
+            
             if (_oLogon.UserID < 1)
             {
+                var login = new LoginForm(ref _oLogon);
 
-                LoginForm logonForm = new LoginForm();
-                logonForm.FormClosed += new FormClosedEventHandler(LoginFormClosing);
-                logonForm.Show();
+                System.Threading.Thread.Sleep(4000);
+                DevExpress.XtraSplashScreen.SplashScreenManager.CloseForm();
 
-                this.SendToBack();
-                logonForm.BringToFront();
-                logonForm.Focus();
-
+                login.ShowDialog();            
             }
             if (_oLogon.UserID > 0)
             {
@@ -131,12 +123,23 @@ namespace Checkout
                 reasonLabel.Visible = false;
 
             }
-            storeRoom.BackColor = Color.PaleVioletRed;
+            storeRoom.BackColor = Color.LightPink;
             storeroomLookUp.Visible = false;
             storeroomPartsLabel.Visible = false;
             dateEdit.EditValue = _nullDate;
             dateEdit.EditValue = DateTime.Now;
+
             
+            
+        }
+
+        private void CheckoutForm_Load(object sender, EventArgs e)
+        {
+            this.CenterToScreen();
+            this.MinimizeBox = true;
+            this.MaximizeBox = true;
+            this.WindowState = FormWindowState.Normal;
+            this.FormBorderStyle = FormBorderStyle.Fixed3D;
 
         }
 
@@ -308,7 +311,8 @@ namespace Checkout
 
         private void ShowSplashScreen()
         {
-            //DevExpress.XtraSplashScreen.SplashScreenManager.ShowForm(this, typeof(Splash), true, true);
+            DevExpress.XtraSplashScreen.SplashScreenManager.ShowForm(this, typeof(SplashScreen1), true, true, true, 4000);
+            
         }
 
         private static bool IsServerConnected(string connectionString, out string sqlExpection)
@@ -331,7 +335,7 @@ namespace Checkout
 
         private void CheckOutFormLoad(object sender, EventArgs e)
         {
-            // DevExpress.XtraSplashScreen.SplashScreenManager.CloseForm();
+             DevExpress.XtraSplashScreen.SplashScreenManager.CloseForm();
         }
         
 
@@ -484,7 +488,7 @@ namespace Checkout
             var n_masterpartid = partIDLookUp.EditValue;
             int qty = Convert.ToInt32(QTYspinEdit.Value);
             int partatlocid = -1;
-            var partatloc = _oCheckOut.GetPartAtLocationID(Convert.ToInt32(partID), Convert.ToInt32(storeRoom.EditValue), _oLogon.UserID, ref partatlocid);
+            var partatloc = _oCheckOut.GetPartAtLocationID(Convert.ToInt32(n_masterpartid), Convert.ToInt32(storeRoom.EditValue), _oLogon.UserID, ref partatlocid);
             
 
             DataSet ds = new DataSet();
@@ -500,7 +504,7 @@ namespace Checkout
                 row["masterpartid"] = partID;
                 row["QTY"] = qty;
                 row["n_masterpartid"] = n_masterpartid;
-                row["n_partatlocid"] = partatloc;
+                row["n_partatlocid"] = partatlocid;
                 
                 dt.Rows.Add(row);
                 ds.Tables.Add(dt);
@@ -519,7 +523,7 @@ namespace Checkout
                     gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["masterpartid"], partID);
                     gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["QTY"], qty);
                     gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["n_masterpartid"], n_masterpartid);
-                    gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["n_partatlocid"], partatloc);
+                    gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["n_partatlocid"], partatlocid);
                 }
 
             }
@@ -562,24 +566,15 @@ namespace Checkout
         }
 
         private void M_ItemClickedJob(object sender, ToolStripItemClickedEventArgs e)
-        {
-            //var x = selectedrows.GetValue(count);
-            //System.Type type = x.GetType();
-            //partID = type.GetProperty("masterpartid").GetValue(x).ToString();
-           // n_masterpartid = (int)type.GetProperty("n_masterpartid").GetValue(x);
-
+        {         
             var result = GetSelectedJob(gridViewJobs, "n_jobid", "n_jobstepid", "Jobid");
             var x = result.GetValue(0);
             System.Type type = x.GetType();
-            //_editingJobID = Convert.ToInt32(result[0]);
             _editingJobID = (int)type.GetProperty("n_jobid").GetValue(x);
             _editingJobStepID = (int)type.GetProperty("n_jobstepid").GetValue(x);
-            
-            
+                        
             JobIDlookUp.EditValue = _editingJobID;
-            JobIDlookUp.Text = (string)type.GetProperty("Jobid").GetValue(x);
-
-            
+            JobIDlookUp.Text = (string)type.GetProperty("Jobid").GetValue(x);          
         }
 
         private void M_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -685,7 +680,14 @@ namespace Checkout
         #endregion
 
         #region grid row selected methods
-
+        /// <summary>
+        /// getting Selected row from the Jobs list
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="fieldName1"></param>
+        /// <param name="fieldName2"></param>
+        /// <param name="fieldName3"></param>
+        /// <returns></returns>
         private object[] GetSelectedJob(DevExpress.XtraGrid.Views.Grid.GridView view, string fieldName1, string fieldName2, string fieldName3)
         {
             int[] selectedRows = view.GetSelectedRows();
@@ -703,10 +705,15 @@ namespace Checkout
                     result[i] = -1; // default value
             }
 
-
             return result;
         }
 
+        /// <summary>
+        /// Getting slected rows from the parts grid
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="fieldName"></param>
+        /// <returns></returns>
         private object[] GetSelectedRow(DevExpress.XtraGrid.Views.Grid.GridView view, string fieldName)
         {
             int[] selectedRows = view.GetSelectedRows();
@@ -724,9 +731,17 @@ namespace Checkout
                     result[i] = -1; // default value
             }
             return result;
-
         }
 
+        /// <summary>
+        /// Getting Selected Rows from the parts added list
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="fieldName"></param>
+        /// <param name="QTY"></param>
+        /// <param name="n_masterpartid"></param>
+        /// <param name="n_partatlocid"></param>
+        /// <returns></returns>
         private object[] GetSelectedRows(DevExpress.XtraGrid.Views.Grid.GridView view, string fieldName, string QTY, string n_masterpartid, string n_partatlocid)
         {
             int[] selectedRows = view.GetSelectedRows();
@@ -743,26 +758,30 @@ namespace Checkout
                     result[i] = -1; // default value
             }
             return result;
-
         }
 
         #endregion
-
-      
-
-
-      
-
+     
         #region Checkout Process
+        /// <summary>
+        /// Processing the parts to be checked out
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void checkOutButton_Click(object sender, EventArgs e)
         {
             GridView dg = gridViewPartsAdded;
 
             ProcessMaterialSelections(dg);
+
+            
+            navigationFrame.SelectedPageIndex = tileBarGroupTables.Items.IndexOf(tileBarItem2);
         }
 
-
-
+        /// <summary>
+        /// Processing method that completes the checkout.
+        /// </summary>
+        /// <param name="dg"></param>
         private void ProcessMaterialSelections(GridView dg)
         {
 
@@ -826,15 +845,16 @@ namespace Checkout
                     if (toggleSwitch1.IsOn == true)
                     {
 
-                    if (JobIDlookUp.EditValue != null)
-                    {
-                        _editingJobID = Convert.ToInt32(JobIDlookUp.EditValue);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Please select a job to apply parts");
-                        JobIDTextEdit.Focus();
-                    }
+                        if (JobIDlookUp.EditValue != null)
+                        {
+                            _editingJobID = Convert.ToInt32(JobIDlookUp.EditValue);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Please select a job to apply parts");
+                            JobIDTextEdit.Focus();
+                                continueProcessing = false;
+                        }
 
                     //if (JobStepLookUp.EditValue != null)
                     //{
@@ -1269,6 +1289,10 @@ namespace Checkout
 
 
         #region transaction process
+
+        /// <summary>
+        /// Gets the transaction history and displays a grid
+        /// </summary>
         private void GetTransactionHistory()
         {
             DataSet ds = new DataSet();
@@ -1281,10 +1305,14 @@ namespace Checkout
             //SqlDataReader reader;
 
             param = cmd.Parameters;
-            cmd.CommandText = "SELECT xactionitems.xactionnum, Masterparts.masterpartid, PartsAtLocation.aisle, PartsAtLocation.shelf, PartsAtLocation.bin, xactionitems.ReqQty, xactionitems.qty, Masterparts.UnitOfIssue, Masterparts.Description" +
-                        " FROM xactionitems INNER JOIN" +
-                        " PartsAtLocation ON xactionitems.n_partatlocid = PartsAtLocation.n_partatlocid INNER JOIN" +
-                        " Masterparts ON xactionitems.n_masterpartid = Masterparts.n_masterpartid AND PartsAtLocation.n_masterpartid = Masterparts.n_masterpartid";
+            cmd.CommandText = "SELECT partxactions.RecordID, partxactions.n_xactionid, partxactions.xactionnum, partxactions.n_givenby, partxactions.n_jobid, partxactions.n_jobstepid, partxactions.n_storeroomid, Masterparts.n_masterpartid," +
+                         " Masterparts.masterpartid, Masterparts.Description, PartsAtLocation.aisle, PartsAtLocation.bin, PartsAtLocation.qtyonhand, xactionitems.qty, Storerooms.descr, Jobs.Jobid" +
+                         " FROM PartsAtLocation INNER JOIN" +
+                         " Masterparts ON PartsAtLocation.n_masterpartid = Masterparts.n_masterpartid INNER JOIN" +
+                         " xactionitems ON PartsAtLocation.n_partatlocid = xactionitems.n_partatlocid AND Masterparts.n_masterpartid = xactionitems.n_masterpartid INNER JOIN" +
+                         " partxactions ON xactionitems.n_xactionid = partxactions.n_xactionid INNER JOIN" +
+                         " Storerooms ON PartsAtLocation.n_storeroomid = Storerooms.n_storeroomid AND xactionitems.n_storeroomid = Storerooms.n_storeroomid AND partxactions.n_storeroomid = Storerooms.n_storeroomid INNER JOIN" +
+                         " Jobs ON partxactions.n_jobid = Jobs.n_Jobid";
             cmd.CommandType = CommandType.Text;
             cmd.Connection = conn;
             //reader = cmd.ExecuteReader();
@@ -1303,8 +1331,9 @@ namespace Checkout
         {
             GetTransactionHistory();
         }
+
         #endregion
 
-      
+       
     }
 }

@@ -17,8 +17,9 @@ using System.Configuration;
 
 namespace Checkout
 {
-    public partial class LoginForm : DevExpress.XtraEditors.XtraForm
+    public partial class LoginForm : XtraForm
     {
+        public PersonnelLogonObjectClass oLogon;
         PersonnelLogonObjectClass _oLogon = new PersonnelLogonObjectClass();
         string userName;
         string password;
@@ -98,6 +99,9 @@ namespace Checkout
 
         //private string dbConnection = ConfigurationManager.ConnectionStrings["StorageConnectionString"].ConnectionString;
         private string dbConnection = System.Configuration.ConfigurationManager.ConnectionStrings["DatabaseConnectionString"].ConnectionString;
+
+        
+        
 
         #region Job Coloring
 
@@ -1077,11 +1081,18 @@ namespace Checkout
             
             InitializeComponent();
         }
-      
+
+        public LoginForm(ref PersonnelLogonObjectClass _oLogon)
+        {
+            this._oLogon = _oLogon;
+
+            InitializeComponent();
+            this.CenterToScreen();
+        }
 
         private void tileBar_SelectedItemChanged(object sender, TileItemEventArgs e)
         {
-            navigationFrame.SelectedPageIndex = tileBarGroupTables.Items.IndexOf(e.Item);
+            //.SelectedPageIndex = tileBarGroupTables.Items.IndexOf(e.Item);
         }
 
         private void simpleButton1_Click(object sender, EventArgs e)
@@ -1091,15 +1102,12 @@ namespace Checkout
 
             PerformLogin(dbConnection, false);
             if(LoggedIn == true)
-            {
-                                         
+            {              
+                this.Dispose();
                 this.Close();
-
-                
-
             } else
             {
-                MessageBox.Show("Need to Login");
+                MessageBox.Show("Invalid username or password");
             }
 
         }
@@ -4852,5 +4860,27 @@ namespace Checkout
         }
         #endregion
 
+        private void simpleButton1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+            {
+                _sUsername = userNameTextBox.EditValue.ToString();
+                _sPassword = passwordTextBox.EditValue.ToString();
+                PerformLogin(dbConnection, false);
+                if (LoggedIn == true)
+                {
+                    this.Dispose();
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Invalid username or password");
+                }
+
+            }
+
+        }
+
+       
     }
 }
