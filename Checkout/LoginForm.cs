@@ -1088,6 +1088,7 @@ namespace Checkout
 
             InitializeComponent();
             this.CenterToScreen();
+          
         }
 
         private void tileBar_SelectedItemChanged(object sender, TileItemEventArgs e)
@@ -4881,6 +4882,29 @@ namespace Checkout
 
         }
 
-       
+       private void cancelButton_click(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if(_oLogon.UserID > 0)
+            {
+                return;
+            } else
+            {
+                MessageBox.Show("You must login before exiting.");
+                e.Cancel = true;
+            }
+        }
+
+        private void LoginForm_FormClosing(object sender, FormClosingEventArgs e)
+        { 
+            if (_oLogon.UserID > 0)
+            {
+                return;
+            }
+            else
+            {
+                MessageBox.Show("You must login before exiting.");
+                e.Cancel= true;
+            }
+        }
     }
 }

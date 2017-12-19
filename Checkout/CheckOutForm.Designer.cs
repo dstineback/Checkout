@@ -32,11 +32,11 @@ namespace Checkout
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            DevExpress.XtraEditors.TileItemElement tileItemElement4 = new DevExpress.XtraEditors.TileItemElement();
-            DevExpress.XtraEditors.TileItemElement tileItemElement5 = new DevExpress.XtraEditors.TileItemElement();
-            DevExpress.XtraEditors.TileItemElement tileItemElement6 = new DevExpress.XtraEditors.TileItemElement();
+            DevExpress.XtraSplashScreen.SplashScreenManager splashScreenManager1 = new DevExpress.XtraSplashScreen.SplashScreenManager(this, null, true, true);
+            DevExpress.XtraEditors.TileItemElement tileItemElement1 = new DevExpress.XtraEditors.TileItemElement();
+            DevExpress.XtraEditors.TileItemElement tileItemElement2 = new DevExpress.XtraEditors.TileItemElement();
+            DevExpress.XtraEditors.TileItemElement tileItemElement3 = new DevExpress.XtraEditors.TileItemElement();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CheckOutForm));
-            DevExpress.XtraSplashScreen.SplashScreenManager splashScreenManager1 = new DevExpress.XtraSplashScreen.SplashScreenManager(this, typeof(global::Checkout.SplashScreen1), true, true);
             this.tileBar = new DevExpress.XtraBars.Navigation.TileBar();
             this.tileBarGroupTables = new DevExpress.XtraBars.Navigation.TileBarGroup();
             this.eployeesTileBarItem = new DevExpress.XtraBars.Navigation.TileBarItem();
@@ -93,6 +93,7 @@ namespace Checkout
             this.bindPart = new System.Windows.Forms.BindingSource(this.components);
             this.customersLabelControl = new DevExpress.XtraEditors.LabelControl();
             this.navigationPage1 = new DevExpress.XtraBars.Navigation.NavigationPage();
+            this.simpleButton3 = new DevExpress.XtraEditors.SimpleButton();
             this.simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
             this.transactionNumberLabel = new DevExpress.XtraEditors.LabelControl();
             this.txtTransactionNumber = new DevExpress.XtraEditors.TextEdit();
@@ -115,6 +116,7 @@ namespace Checkout
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.simpleButton4 = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.navigationFrame)).BeginInit();
             this.navigationFrame.SuspendLayout();
             this.employeesNavigationPage.SuspendLayout();
@@ -155,6 +157,10 @@ namespace Checkout
             this.contextMenuStrip1.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // splashScreenManager1
+            // 
+            splashScreenManager1.ClosingDelay = 500;
             // 
             // tileBar
             // 
@@ -210,9 +216,9 @@ namespace Checkout
             this.eployeesTileBarItem.AppearanceItem.Selected.BackColor = System.Drawing.Color.DeepSkyBlue;
             this.eployeesTileBarItem.AppearanceItem.Selected.Options.UseBackColor = true;
             this.eployeesTileBarItem.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
-            tileItemElement4.ImageUri.Uri = "Cube;Size32x32;GrayScaled";
-            tileItemElement4.Text = "Jobs";
-            this.eployeesTileBarItem.Elements.Add(tileItemElement4);
+            tileItemElement1.ImageUri.Uri = "Cube;Size32x32;GrayScaled";
+            tileItemElement1.Text = "Jobs";
+            this.eployeesTileBarItem.Elements.Add(tileItemElement1);
             this.eployeesTileBarItem.Name = "eployeesTileBarItem";
             // 
             // customersTileBarItem
@@ -226,9 +232,9 @@ namespace Checkout
             this.customersTileBarItem.AppearanceItem.Selected.BackColor = System.Drawing.Color.DeepSkyBlue;
             this.customersTileBarItem.AppearanceItem.Selected.Options.UseBackColor = true;
             this.customersTileBarItem.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
-            tileItemElement5.ImageUri.Uri = "Cube;Size32x32;GrayScaled";
-            tileItemElement5.Text = "Parts";
-            this.customersTileBarItem.Elements.Add(tileItemElement5);
+            tileItemElement2.ImageUri.Uri = "Cube;Size32x32;GrayScaled";
+            tileItemElement2.Text = "Parts";
+            this.customersTileBarItem.Elements.Add(tileItemElement2);
             this.customersTileBarItem.Id = 2;
             this.customersTileBarItem.ItemSize = DevExpress.XtraBars.Navigation.TileBarItemSize.Wide;
             this.customersTileBarItem.Name = "customersTileBarItem";
@@ -244,9 +250,9 @@ namespace Checkout
             this.tileBarItem2.AppearanceItem.Selected.BackColor = System.Drawing.Color.DeepSkyBlue;
             this.tileBarItem2.AppearanceItem.Selected.Options.UseBackColor = true;
             this.tileBarItem2.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
-            tileItemElement6.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement6.Image")));
-            tileItemElement6.Text = "Transaction History";
-            this.tileBarItem2.Elements.Add(tileItemElement6);
+            tileItemElement3.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement3.Image")));
+            tileItemElement3.Text = "Transaction History";
+            this.tileBarItem2.Elements.Add(tileItemElement3);
             this.tileBarItem2.Id = 4;
             this.tileBarItem2.ItemSize = DevExpress.XtraBars.Navigation.TileBarItemSize.Wide;
             this.tileBarItem2.Name = "tileBarItem2";
@@ -309,6 +315,7 @@ namespace Checkout
             this.JobIDlookUp.Properties.DataSource = this.bindJobsList;
             this.JobIDlookUp.Properties.DisplayMember = "Jobid";
             this.JobIDlookUp.Properties.NullText = "";
+            this.JobIDlookUp.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
             this.JobIDlookUp.Properties.ValueMember = "n_jobid";
             this.JobIDlookUp.Properties.EditValueChanged += new System.EventHandler(this.JobIDLookUpEditValueChanged);
             this.JobIDlookUp.Properties.Enter += new System.EventHandler(this.jobIDLookUpEnter);
@@ -717,6 +724,9 @@ namespace Checkout
             this.gridViewParts.Name = "gridViewParts";
             this.gridViewParts.OptionsBehavior.Editable = false;
             this.gridViewParts.OptionsBehavior.ReadOnly = true;
+            this.gridViewParts.OptionsFind.AlwaysVisible = true;
+            this.gridViewParts.OptionsFind.ShowCloseButton = false;
+            this.gridViewParts.OptionsFind.ShowFindButton = false;
             this.gridViewParts.OptionsSelection.MultiSelect = true;
             // 
             // partIDLabel
@@ -773,6 +783,7 @@ namespace Checkout
             // navigationPage1
             // 
             this.navigationPage1.Caption = "navigationPage1";
+            this.navigationPage1.Controls.Add(this.simpleButton3);
             this.navigationPage1.Controls.Add(this.simpleButton2);
             this.navigationPage1.Controls.Add(this.transactionNumberLabel);
             this.navigationPage1.Controls.Add(this.txtTransactionNumber);
@@ -780,9 +791,18 @@ namespace Checkout
             this.navigationPage1.Name = "navigationPage1";
             this.navigationPage1.Size = new System.Drawing.Size(1008, 619);
             // 
+            // simpleButton3
+            // 
+            this.simpleButton3.Location = new System.Drawing.Point(396, 49);
+            this.simpleButton3.Name = "simpleButton3";
+            this.simpleButton3.Size = new System.Drawing.Size(235, 26);
+            this.simpleButton3.TabIndex = 4;
+            this.simpleButton3.Text = "Get transaction";
+            this.simpleButton3.Click += new System.EventHandler(this.simpleButton3_Click);
+            // 
             // simpleButton2
             // 
-            this.simpleButton2.Location = new System.Drawing.Point(396, 53);
+            this.simpleButton2.Location = new System.Drawing.Point(36, 150);
             this.simpleButton2.Name = "simpleButton2";
             this.simpleButton2.Size = new System.Drawing.Size(229, 23);
             this.simpleButton2.TabIndex = 3;
@@ -810,10 +830,10 @@ namespace Checkout
             // 
             // transactionHistoryGridControl
             // 
-            this.transactionHistoryGridControl.Location = new System.Drawing.Point(36, 108);
+            this.transactionHistoryGridControl.Location = new System.Drawing.Point(36, 192);
             this.transactionHistoryGridControl.MainView = this.gridViewTrransactionHistory;
             this.transactionHistoryGridControl.Name = "transactionHistoryGridControl";
-            this.transactionHistoryGridControl.Size = new System.Drawing.Size(939, 257);
+            this.transactionHistoryGridControl.Size = new System.Drawing.Size(939, 403);
             this.transactionHistoryGridControl.TabIndex = 0;
             this.transactionHistoryGridControl.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewTrransactionHistory});
@@ -834,6 +854,11 @@ namespace Checkout
             this.jobid});
             this.gridViewTrransactionHistory.GridControl = this.transactionHistoryGridControl;
             this.gridViewTrransactionHistory.Name = "gridViewTrransactionHistory";
+            this.gridViewTrransactionHistory.OptionsFind.AlwaysVisible = true;
+            this.gridViewTrransactionHistory.OptionsFind.ShowCloseButton = false;
+            this.gridViewTrransactionHistory.OptionsFind.ShowFindButton = false;
+            this.gridViewTrransactionHistory.OptionsPrint.PrintPreview = true;
+            this.gridViewTrransactionHistory.OptionsView.ShowFilterPanelMode = DevExpress.XtraGrid.Views.Base.ShowFilterPanelMode.ShowAlways;
             // 
             // TextTransactionNumber
             // 
@@ -985,9 +1010,14 @@ namespace Checkout
             this.toolStripMenuItem2.Text = "Add Parts";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.addPartButton_Click);
             // 
-            // splashScreenManager1
+            // simpleButton4
             // 
-            splashScreenManager1.ClosingDelay = 500;
+            this.simpleButton4.Location = new System.Drawing.Point(804, 67);
+            this.simpleButton4.Name = "simpleButton4";
+            this.simpleButton4.Size = new System.Drawing.Size(152, 23);
+            this.simpleButton4.TabIndex = 4;
+            this.simpleButton4.Text = "simpleButton4";
+            this.simpleButton4.Click += new System.EventHandler(this.simpleButton4_Click);
             // 
             // CheckOutForm
             // 
@@ -996,6 +1026,7 @@ namespace Checkout
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1008, 729);
+            this.Controls.Add(this.simpleButton4);
             this.Controls.Add(this.userNameLabel);
             this.Controls.Add(this.labelControl9);
             this.Controls.Add(this.navigationFrame);
@@ -1135,6 +1166,8 @@ namespace Checkout
         private System.Windows.Forms.BindingSource bindJobsList;
         private DevExpress.XtraGrid.Columns.GridColumn jobid;
         private DevExpress.XtraGrid.Columns.GridColumn storeroomcolumn;
+        private SimpleButton simpleButton3;
+        private SimpleButton simpleButton4;
 
         public object Appearance { get; private set; }
         public FormBorderEffect FormBorderEffect { get; private set; }

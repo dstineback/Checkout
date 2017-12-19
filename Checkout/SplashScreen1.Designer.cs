@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SplashScreen1));
             DevExpress.XtraSplashScreen.SplashScreenManager splashScreenManager1 = new DevExpress.XtraSplashScreen.SplashScreenManager(this, null, true, true);
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SplashScreen1));
             this.marqueeProgressBarControl1 = new DevExpress.XtraEditors.MarqueeProgressBarControl();
             this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
@@ -40,18 +40,23 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureEdit1.Properties)).BeginInit();
             this.SuspendLayout();
             // 
+            // splashScreenManager1
+            // 
+            splashScreenManager1.ClosingDelay = 500;
+            // 
             // marqueeProgressBarControl1
             // 
             this.marqueeProgressBarControl1.EditValue = 0;
-            this.marqueeProgressBarControl1.Location = new System.Drawing.Point(23, 231);
+            this.marqueeProgressBarControl1.Location = new System.Drawing.Point(23, 183);
             this.marqueeProgressBarControl1.Name = "marqueeProgressBarControl1";
+            this.marqueeProgressBarControl1.Properties.ProgressAnimationMode = DevExpress.Utils.Drawing.ProgressAnimationMode.PingPong;
             this.marqueeProgressBarControl1.Size = new System.Drawing.Size(404, 12);
             this.marqueeProgressBarControl1.TabIndex = 5;
             // 
             // labelControl1
             // 
             this.labelControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.labelControl1.Location = new System.Drawing.Point(23, 286);
+            this.labelControl1.Location = new System.Drawing.Point(23, 295);
             this.labelControl1.Name = "labelControl1";
             this.labelControl1.Size = new System.Drawing.Size(87, 13);
             this.labelControl1.TabIndex = 6;
@@ -59,7 +64,7 @@
             // 
             // labelControl2
             // 
-            this.labelControl2.Location = new System.Drawing.Point(23, 206);
+            this.labelControl2.Location = new System.Drawing.Point(23, 164);
             this.labelControl2.Name = "labelControl2";
             this.labelControl2.Size = new System.Drawing.Size(50, 13);
             this.labelControl2.TabIndex = 7;
@@ -76,26 +81,22 @@
             this.pictureEdit2.Properties.Appearance.Options.UseBackColor = true;
             this.pictureEdit2.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.pictureEdit2.Properties.ShowMenu = false;
-            this.pictureEdit2.Size = new System.Drawing.Size(426, 180);
+            this.pictureEdit2.Size = new System.Drawing.Size(426, 146);
             this.pictureEdit2.TabIndex = 9;
             // 
             // pictureEdit1
             // 
             this.pictureEdit1.Cursor = System.Windows.Forms.Cursors.Default;
             this.pictureEdit1.EditValue = ((object)(resources.GetObject("pictureEdit1.EditValue")));
-            this.pictureEdit1.Location = new System.Drawing.Point(160, 260);
+            this.pictureEdit1.Location = new System.Drawing.Point(23, 201);
             this.pictureEdit1.Name = "pictureEdit1";
             this.pictureEdit1.Properties.AllowFocused = false;
             this.pictureEdit1.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
             this.pictureEdit1.Properties.Appearance.Options.UseBackColor = true;
             this.pictureEdit1.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.pictureEdit1.Properties.ShowMenu = false;
-            this.pictureEdit1.Size = new System.Drawing.Size(278, 48);
+            this.pictureEdit1.Size = new System.Drawing.Size(404, 95);
             this.pictureEdit1.TabIndex = 8;
-            // 
-            // splashScreenManager1
-            // 
-            splashScreenManager1.ClosingDelay = 500;
             // 
             // SplashScreen1
             // 

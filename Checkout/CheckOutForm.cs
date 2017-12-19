@@ -89,24 +89,29 @@ namespace Checkout
 
         public CheckOutForm()
         {
-            //ShowSplashScreen();
-            
-          
-            
+            ShowSplashScreen();
+               
             _oCheckOut = new DbCheckOut(dbConnection, false);
             InitializeComponent();
+            System.Threading.Thread.Sleep(10000);
+            CloseSplashScreen();
+            System.Threading.Thread.Sleep(1000);
             
             if (_oLogon.UserID < 1)
             {
                 var login = new LoginForm(ref _oLogon);
 
-                System.Threading.Thread.Sleep(4000);
-                DevExpress.XtraSplashScreen.SplashScreenManager.CloseForm();
-
-                login.ShowDialog();            
+                login.ShowDialog(); 
+                
+                if(_oLogon.UserID < 1)
+                {
+                    MessageBox.Show("You are not logged in. Please login to access Checkout Form");
+                    login.ShowDialog();
+                }           
             }
             if (_oLogon.UserID > 0)
             {
+             
                 userNameTextBox.EditValue = _oLogon.UserID;
                 userNameLabel.Text = _oLogon.Username;
                 userNameTextBox.Text = _oLogon.Username;
@@ -313,6 +318,11 @@ namespace Checkout
         {
             DevExpress.XtraSplashScreen.SplashScreenManager.ShowForm(this, typeof(SplashScreen1), true, true, true, 4000);
             
+        }
+
+        private void CloseSplashScreen()
+        {
+            DevExpress.XtraSplashScreen.SplashScreenManager.CloseForm();
         }
 
         private static bool IsServerConnected(string connectionString, out string sqlExpection)
@@ -572,9 +582,11 @@ namespace Checkout
             System.Type type = x.GetType();
             _editingJobID = (int)type.GetProperty("n_jobid").GetValue(x);
             _editingJobStepID = (int)type.GetProperty("n_jobstepid").GetValue(x);
+            var jobid = type.GetProperty("Jobid").GetValue(x);
                         
             JobIDlookUp.EditValue = _editingJobID;
-            JobIDlookUp.Text = (string)type.GetProperty("Jobid").GetValue(x);          
+            JobIDlookUp.Text = "Test";
+            JobIDlookUp.Text = jobid.ToString();         
         }
 
         private void M_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -1332,8 +1344,77 @@ namespace Checkout
             GetTransactionHistory();
         }
 
+
         #endregion
 
-       
+        private void simpleButton3_Click(object sender, EventArgs e)
+        {
+            DataSet ds = new DataSet();
+
+            SqlConnection conn = new SqlConnection(dbConnection);
+            SqlCommand cmd = new SqlCommand();
+            SqlParameterCollection param = cmd.Parameters;
+            param.AddWithValue("@transNum", txtTransactionNumber.EditValue);
+
+            //SqlDataReader reader;
+
+            param = cmd.Parameters;
+            cmd.CommandText = "SELECT partxactions.RecordID, partxactions.n_xactionid, partxactions.xactionnum, partxactions.n_givenby, partxactions.n_jobid, partxactions.n_jobstepid, partxactions.n_storeroomid, Masterparts.n_masterpartid," +
+                         " Masterparts.masterpartid, Masterparts.Description, PartsAtLocation.aisle, PartsAtLocation.bin, PartsAtLocation.qtyonhand, xactionitems.qty, Storerooms.descr, Jobs.Jobid" +
+                         " FROM PartsAtLocation INNER JOIN" +
+                         " Masterparts ON PartsAtLocation.n_masterpartid = Masterparts.n_masterpartid INNER JOIN" +
+                         " xactionitems ON PartsAtLocation.n_partatlocid = xactionitems.n_partatlocid AND Masterparts.n_masterpartid = xactionitems.n_masterpartid INNER JOIN" +
+                         " partxactions ON xactionitems.n_xactionid = partxactions.n_xactionid INNER JOIN" +
+                         " Storerooms ON PartsAtLocation.n_storeroomid = Storerooms.n_storeroomid AND xactionitems.n_storeroomid = Storerooms.n_storeroomid AND partxactions.n_storeroomid = Storerooms.n_storeroomid INNER JOIN" +
+                         " Jobs ON partxactions.n_jobid = Jobs.n_Jobid" +
+                         " WHERE @transNum = partxactions.xactionnum";
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = conn;
+            //reader = cmd.ExecuteReader();
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.SelectCommand = cmd;
+            conn.Open();
+            da.Fill(ds);
+
+            conn.Close();
+
+            transactionHistoryGridControl.DataSource = ds.Tables[0];
+        }
+
+        private void simpleButton4_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Would you like to use existing information to make a new Check out?", "New Check Out", MessageBoxButtons.YesNoCancel);
+                   
+            switch(result)
+            {
+                case DialogResult.Yes:
+                    //switch to focus to first page
+                    navigationFrame.SelectedPageIndex = tileBarGroupTables.Items.IndexOf(eployeesTileBarItem);
+                    tileBar.SelectedItem = eployeesTileBarItem;
+                    break;
+                case DialogResult.No:
+                    //clear all inputs
+                    takenByLookUp.EditValue = null;
+                    reasonLookUp.EditValue = null;
+                    JobIDlookUp.EditValue = null;
+                    storeroomLookUp.EditValue = null;
+                    partIDLookUp.EditValue = null;
+                    QTYspinEdit.EditValue = null;
+                    storeRoom.EditValue = null;
+                    gridControl1.DataSource = null;
+                    gridControlParts.DataSource = null;
+                    gridControlPartsAdded.DataSource = null;
+                    transactionHistoryGridControl.DataSource = null;
+                    txtTransactionNumber.EditValue = null;
+
+                    navigationFrame.SelectedPageIndex = tileBarGroupTables.Items.IndexOf(customersTileBarItem);
+                    break;
+                case DialogResult.Cancel:
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

@@ -59,7 +59,7 @@
             this.navigationFrame.Pages.AddRange(new DevExpress.XtraBars.Navigation.NavigationPageBase[] {
             this.employeesNavigationPage});
             this.navigationFrame.SelectedPage = this.employeesNavigationPage;
-            this.navigationFrame.Size = new System.Drawing.Size(666, 275);
+            this.navigationFrame.Size = new System.Drawing.Size(662, 275);
             this.navigationFrame.TabIndex = 0;
             this.navigationFrame.Text = "navigationFrame";
             // 
@@ -74,7 +74,7 @@
             this.employeesNavigationPage.Controls.Add(this.simpleButton1);
             this.employeesNavigationPage.Controls.Add(this.employeesLabelControl);
             this.employeesNavigationPage.Name = "employeesNavigationPage";
-            this.employeesNavigationPage.Size = new System.Drawing.Size(666, 275);
+            this.employeesNavigationPage.Size = new System.Drawing.Size(662, 275);
             // 
             // labelControl1
             // 
@@ -178,6 +178,7 @@
             this.FormBorderEffect = DevExpress.XtraEditors.FormBorderEffect.Shadow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "LoginForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LoginForm_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.navigationFrame)).EndInit();
             this.navigationFrame.ResumeLayout(false);
             this.employeesNavigationPage.ResumeLayout(false);
