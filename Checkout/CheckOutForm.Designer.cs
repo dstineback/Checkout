@@ -44,6 +44,7 @@ namespace Checkout
             this.tileBarItem2 = new DevExpress.XtraBars.Navigation.TileBarItem();
             this.navigationFrame = new DevExpress.XtraBars.Navigation.NavigationFrame();
             this.employeesNavigationPage = new DevExpress.XtraBars.Navigation.NavigationPage();
+            this.jobStepText = new DevExpress.XtraEditors.TextEdit();
             this.JobIDlookUp = new DevExpress.XtraEditors.LookUpEdit();
             this.bindJobsList = new System.Windows.Forms.BindingSource(this.components);
             this.WorkOpLookUp = new DevExpress.XtraEditors.LookUpEdit();
@@ -117,9 +118,11 @@ namespace Checkout
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.simpleButton4 = new DevExpress.XtraEditors.SimpleButton();
+            this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.navigationFrame)).BeginInit();
             this.navigationFrame.SuspendLayout();
             this.employeesNavigationPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.jobStepText.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.JobIDlookUp.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindJobsList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.WorkOpLookUp.Properties)).BeginInit();
@@ -250,7 +253,6 @@ namespace Checkout
             this.tileBarItem2.AppearanceItem.Selected.BackColor = System.Drawing.Color.DeepSkyBlue;
             this.tileBarItem2.AppearanceItem.Selected.Options.UseBackColor = true;
             this.tileBarItem2.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
-            tileItemElement3.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement3.Image")));
             tileItemElement3.Text = "Transaction History";
             this.tileBarItem2.Elements.Add(tileItemElement3);
             this.tileBarItem2.Id = 4;
@@ -279,6 +281,7 @@ namespace Checkout
             // employeesNavigationPage
             // 
             this.employeesNavigationPage.Caption = "employeesNavigationPage";
+            this.employeesNavigationPage.Controls.Add(this.jobStepText);
             this.employeesNavigationPage.Controls.Add(this.JobIDlookUp);
             this.employeesNavigationPage.Controls.Add(this.WorkOpLookUp);
             this.employeesNavigationPage.Controls.Add(this.WorkOpLabel);
@@ -302,6 +305,14 @@ namespace Checkout
             this.employeesNavigationPage.Controls.Add(this.JobIDTextEdit);
             this.employeesNavigationPage.Name = "employeesNavigationPage";
             this.employeesNavigationPage.Size = new System.Drawing.Size(1008, 619);
+            // 
+            // jobStepText
+            // 
+            this.jobStepText.Location = new System.Drawing.Point(284, 159);
+            this.jobStepText.Name = "jobStepText";
+            this.jobStepText.Size = new System.Drawing.Size(100, 20);
+            this.jobStepText.TabIndex = 38;
+            this.jobStepText.Visible = false;
             // 
             // JobIDlookUp
             // 
@@ -578,6 +589,7 @@ namespace Checkout
             // customersNavigationPage
             // 
             this.customersNavigationPage.Caption = "customersNavigationPage";
+            this.customersNavigationPage.Controls.Add(this.labelControl2);
             this.customersNavigationPage.Controls.Add(this.storeroomPartsLabel);
             this.customersNavigationPage.Controls.Add(this.storeroomLookUp);
             this.customersNavigationPage.Controls.Add(this.QTYLabel);
@@ -651,7 +663,7 @@ namespace Checkout
             // 
             // gridControlPartsAdded
             // 
-            this.gridControlPartsAdded.Location = new System.Drawing.Point(58, 361);
+            this.gridControlPartsAdded.Location = new System.Drawing.Point(58, 391);
             this.gridControlPartsAdded.MainView = this.gridViewPartsAdded;
             this.gridControlPartsAdded.Name = "gridControlPartsAdded";
             this.gridControlPartsAdded.Size = new System.Drawing.Size(720, 155);
@@ -669,6 +681,7 @@ namespace Checkout
             this.gridViewPartsAdded.GridControl = this.gridControlPartsAdded;
             this.gridViewPartsAdded.Name = "gridViewPartsAdded";
             this.gridViewPartsAdded.OptionsSelection.MultiSelect = true;
+            this.gridViewPartsAdded.PaintStyleName = "Style3D";
             // 
             // masterpartid
             // 
@@ -700,7 +713,7 @@ namespace Checkout
             this.checkOutButton.AppearancePressed.BackColor = System.Drawing.Color.DarkGray;
             this.checkOutButton.AppearancePressed.Options.UseBackColor = true;
             this.checkOutButton.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.Style3D;
-            this.checkOutButton.Location = new System.Drawing.Point(816, 467);
+            this.checkOutButton.Location = new System.Drawing.Point(817, 497);
             this.checkOutButton.Name = "checkOutButton";
             this.checkOutButton.Size = new System.Drawing.Size(156, 49);
             this.checkOutButton.TabIndex = 8;
@@ -1016,8 +1029,18 @@ namespace Checkout
             this.simpleButton4.Name = "simpleButton4";
             this.simpleButton4.Size = new System.Drawing.Size(152, 23);
             this.simpleButton4.TabIndex = 4;
-            this.simpleButton4.Text = "simpleButton4";
+            this.simpleButton4.Text = "New Check out";
             this.simpleButton4.Click += new System.EventHandler(this.simpleButton4_Click);
+            // 
+            // labelControl2
+            // 
+            this.labelControl2.Appearance.Font = new System.Drawing.Font("Tahoma", 14F);
+            this.labelControl2.Appearance.Options.UseFont = true;
+            this.labelControl2.Location = new System.Drawing.Point(58, 362);
+            this.labelControl2.Name = "labelControl2";
+            this.labelControl2.Size = new System.Drawing.Size(74, 23);
+            this.labelControl2.TabIndex = 16;
+            this.labelControl2.Text = "Parts List";
             // 
             // CheckOutForm
             // 
@@ -1041,6 +1064,7 @@ namespace Checkout
             this.navigationFrame.ResumeLayout(false);
             this.employeesNavigationPage.ResumeLayout(false);
             this.employeesNavigationPage.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.jobStepText.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.JobIDlookUp.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindJobsList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.WorkOpLookUp.Properties)).EndInit();
@@ -1168,6 +1192,8 @@ namespace Checkout
         private DevExpress.XtraGrid.Columns.GridColumn storeroomcolumn;
         private SimpleButton simpleButton3;
         private SimpleButton simpleButton4;
+        private TextEdit jobStepText;
+        private LabelControl labelControl2;
 
         public object Appearance { get; private set; }
         public FormBorderEffect FormBorderEffect { get; private set; }

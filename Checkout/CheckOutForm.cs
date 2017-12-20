@@ -310,6 +310,7 @@ namespace Checkout
         {
             _editingJobStepID = Convert.ToInt32(JobIDlookUp.GetColumnValue("n_jobstepid"));
             _editingJobID = Convert.ToInt32(JobIDlookUp.GetColumnValue("n_jobid"));
+            jobStepText.EditValue = _editingJobStepID;
 
         }
         #endregion
@@ -392,7 +393,7 @@ namespace Checkout
                 gridControl1.Visible = false;
                 GetJobButton.Visible = false;
                 JobIDLabel.Visible = false;
-                JobIDTextEdit.Visible = false;
+                JobIDlookUp.Visible = false;
                 reasonLabel.Visible = true;
                 reasonLookUp.Visible = true;
 
@@ -463,23 +464,9 @@ namespace Checkout
                 partIDLookUp.EditValue = bindPart;
                 BindingSource bindingPartsSource = new BindingSource();
                 bindingPartsSource.DataSource = ds;
-                //gridControl1.DataMember = "n_masterpartid";
+                
                 gridControlParts.DataSource = ds.Tables[0];
-                //gridView1.Columns["n_jobstepid"].Visible = false;
-                //gridView1.Columns["n_jobid"].Visible = false;
-                //gridView1.Columns["T"].Visible = false;
-                //gridView1.Columns["A"].Visible = false;
-                //gridView1.Columns["step"].Visible = false;
-                //gridView1.Columns["Labor Class"].Visible = false;
-                //gridView1.Columns["Group"].Visible = false;
-                //gridView1.Columns["Supervisor"].Visible = false;
-                //gridView1.Columns["H"].Visible = false;
-                //gridView1.Columns["I"].Visible = false;
-                //gridView1.Columns["cReasoncode"].Visible = false;
-                //gridView1.Columns["AssignedTaskID"].Visible = false;
-                //gridView1.Columns["ApplyColor"].Visible = false;
-                //gridView1.Columns["FGColor"].Visible = false;
-                //gridView1.Columns["BGColor"].Visible = false;
+                
             }
             else
             {
@@ -583,7 +570,7 @@ namespace Checkout
             _editingJobID = (int)type.GetProperty("n_jobid").GetValue(x);
             _editingJobStepID = (int)type.GetProperty("n_jobstepid").GetValue(x);
             var jobid = type.GetProperty("Jobid").GetValue(x);
-                        
+            jobStepText.EditValue = _editingJobStepID;            
             JobIDlookUp.EditValue = _editingJobID;
             JobIDlookUp.Text = "Test";
             JobIDlookUp.Text = jobid.ToString();         
@@ -782,12 +769,18 @@ namespace Checkout
         /// <param name="e"></param>
         private void checkOutButton_Click(object sender, EventArgs e)
         {
+            if(_editingTransactionID > -1)
+            {
+                _editingTransactionID = -1;
+
+            } 
             GridView dg = gridViewPartsAdded;
 
             ProcessMaterialSelections(dg);
 
             
             navigationFrame.SelectedPageIndex = tileBarGroupTables.Items.IndexOf(tileBarItem2);
+            tileBar.SelectedItem = tileBarItem2;
         }
 
         /// <summary>
@@ -803,9 +796,12 @@ namespace Checkout
                 var _oMaster = new Masterparts(dbConnection, false);
                 JobstepJobParts _oParts = new JobstepJobParts(dbConnection, false);
                 var selectedRows = new NonSortedList();
+                var selectedRowsPartatLoc = new NonSortedList();
                 for (var a = 0; a < dg.RowCount; a++)
                 {
                     selectedRows.Add(a.ToString(), dg.GetRowCellValue(a, "n_masterpartid"));
+                    selectedRowsPartatLoc.Add(a.ToString(), dg.GetRowCellValue(a, "n_partatlocid"));
+                    
                 }
 
                 if (selectedRows.Count() > 0)
@@ -852,59 +848,288 @@ namespace Checkout
                         _editingGivenByID = -1;
                     }
 
-                    #endregion
-                    #region has jobID
-                    if (toggleSwitch1.IsOn == true)
+                    #endregion                  
+                  try
                     {
-
-                        if (JobIDlookUp.EditValue != null)
+                        #region has jobID
+                        if (toggleSwitch1.IsOn == true)
                         {
-                            _editingJobID = Convert.ToInt32(JobIDlookUp.EditValue);
-                        }
-                        else
-                        {
-                            MessageBox.Show("Please select a job to apply parts");
-                            JobIDTextEdit.Focus();
-                                continueProcessing = false;
-                        }
 
-                    //if (JobStepLookUp.EditValue != null)
-                    //{
-                    //    _editingJobStepID = Convert.ToInt32(JobStepLookUp.EditValue);
-                    //}
-                    //else
-                    //{
-                    //    MessageBox.Show("No JobStep ID avalible");
-                    //}
-
-                        if (_editingTransactionID <= 0)
-                        {
-                            var transactionID = "";
-                            _oCheckOut.ClearErrors();
-                            if (!_oCheckOut.GetNextTransactionID(ref transactionID, _oLogon.UserID))
+                            if (JobIDlookUp.EditValue != null)
                             {
-                                Cursor = Cursors.Default;
-                                MessageBox.Show(
-                                            @"Error Getting Next Transaction Number - " + _oCheckOut.LastError,
-                                            @"Transaction Error");
-                                continueProcessing = false;
+                                _editingJobID = Convert.ToInt32(JobIDlookUp.EditValue);
                             }
                             else
                             {
-                                _editingTransactionID = Convert.ToInt32(transactionID);
-                                _editingActionNum = Convert.ToString((_editingTransactionID + 1000000));
-                                txtTransactionNumber.Text = _editingActionNum;
+                                MessageBox.Show("Please select a job to apply parts");
+                                JobIDTextEdit.Focus();
+                                continueProcessing = false;
                             }
 
-                            if (continueProcessing)
+                            if (jobStepText.EditValue != null)
                             {
-                                if (_oCheckOut.AddTransaction(_editingTransactionID,
+                                _editingJobStepID = Convert.ToInt32(jobStepText.EditValue);
+                            }
+                            else
+                            {
+                                MessageBox.Show("No JobStep ID avalible");
+                            }
+
+                            if (_editingTransactionID <= 0)
+                            {
+                                var transactionID = "";
+                                _oCheckOut.ClearErrors();
+                                if (!_oCheckOut.GetNextTransactionID(ref transactionID, _oLogon.UserID))
+                                {
+                                    Cursor = Cursors.Default;
+                                    MessageBox.Show(
+                                                @"Error Getting Next Transaction Number - " + _oCheckOut.LastError,
+                                                @"Transaction Error");
+                                    continueProcessing = false;
+                                }
+                                else
+                                {
+                                    _editingTransactionID = Convert.ToInt32(transactionID);
+                                    _editingActionNum = Convert.ToString((_editingTransactionID + 1000000));
+                                    txtTransactionNumber.Text = _editingActionNum;
+                                }
+
+                                if (continueProcessing)
+                                {
+                                    if (_oCheckOut.AddTransaction(_editingTransactionID,
+                                                                            _editingActionNum,
+                                                                            _editingCarrierID,
+                                                                            -1,
+                                                                            -1,
+                                                                            _editingGivenByID,
+                                                                            _editingJobID,
+                                                                            _editingPurchaseOrderID,
+                                                                            _editingStoreroomID,
+                                                                            _editingTakenBy,
+                                                                            _editingVendorID,
+                                                                            _editingStoresIssueID,
+                                                                            "N",
+                                                                            _editingReceivedDate,
+                                                                            _editingInvoiceNum,
+                                                                            _editingNotes,
+                                                                            _editingReceiptID,
+                                                                            _editingJobStepID,
+                                                                            _oLogon.UserID))
+                                    {
+
+
+                                    }
+                                    else
+                                    {
+                                        Cursor = Cursors.Default;
+                                        MessageBox.Show(@"Error Creating Transaction - " + _oCheckOut.LastError,
+                                                                @"Transaction Error");
+                                        continueProcessing = false;
+                                    }
+
+                                    //
+                                    if (continueProcessing)
+                                    {
+                                        var gotData = true;
+                                        #region loop through parts added grid
+                                        for (var i = 0; i < selectedRows.Count(); i++)
+                                        {
+                                            var rowIndex = Convert.ToInt32(selectedRows.Keys[i].ToString());
+
+                                            _oMaster.ClearErrors();
+                                            var masterpartID = Convert.ToInt32(dg.GetRowCellValue(rowIndex, "n_masterpartid"));
+                                            _editingQty = Convert.ToInt32(dg.GetRowCellValue(rowIndex, "QTY"));
+                                            var masterpartDetail = _oMaster.GetMasterpartDetail(masterpartID, _oLogon.UserID, ref gotData);
+                                            if (gotData)
+                                            {
+                                                if (masterpartDetail.Tables.Count > 0)
+                                                {
+                                                    if (masterpartDetail.Tables[0].Rows.Count > 0)
+                                                    {
+                                                        _editingPartID =
+                                                            Convert.ToInt32(masterpartDetail.Tables[0].Rows[0][0]);
+                                                        _editingUnits = masterpartDetail.Tables[0].Rows[0][16].ToString();
+                                                        var partID = masterpartDetail.Tables[0].Rows[0][1].ToString();
+                                                        var partCost = Convert.ToDecimal(
+                                                            masterpartDetail.Tables[0].Rows[0][3].ToString());
+                                                        var prefMfgPartID = Convert.ToInt32(
+                                                            masterpartDetail.Tables[0].Rows[0][10].ToString());
+                                                        var partDesc = masterpartDetail.Tables[0].Rows[0][2].ToString();
+
+                                                        _oParts.SetJobstepInfo(_editingJobID, _editingJobStepID);
+                                                        //Add New Part To Job Record
+                                                        if (!_oParts.Add(_editingPartID,
+                                                                            _editingStoreroomID,
+                                                                            false,
+                                                                            false,
+                                                                            "",
+                                                                            partID,
+                                                                            partCost,
+                                                                            "",
+                                                                            partDesc,
+                                                                            0,
+                                                                            _editingQty,
+                                                                            _editingReceivedDate,
+                                                                            prefMfgPartID,
+                                                                            -1,
+                                                                            _oLogon.UserID,
+                                                                            -1,
+                                                                            -1))
+                                                        {
+                                                            Cursor = Cursors.Default;
+                                                            MessageBox.Show(
+                                                                @"Error Adding New Part To Jobstep - " + _oParts.LastError,
+                                                                @"Error Adding Part");
+                                                            // ReSharper disable RedundantAssignment
+                                                            continueProcessing = false;
+                                                            // ReSharper restore RedundantAssignment
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        Cursor = Cursors.Default;
+                                                        MessageBox.Show(@"Mastpart (" + masterpartID +
+                                                                        @") No Longer Exists");
+                                                        // ReSharper disable RedundantAssignment
+                                                        continueProcessing = false;
+                                                        // ReSharper restore RedundantAssignment
+                                                        break;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    Cursor = Cursors.Default;
+                                                    MessageBox.Show(@"Masterpart Table Expected");
+                                                    // ReSharper disable RedundantAssignment
+                                                    continueProcessing = false;
+                                                    // ReSharper restore RedundantAssignment
+                                                    break;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                Cursor = Cursors.Default;
+                                                MessageBox.Show(_oMaster.LastError,
+                                                                @"Error Getting Masterparts Information");
+                                                // ReSharper disable RedundantAssignment
+                                                continueProcessing = false;
+                                                // ReSharper restore RedundantAssignment
+                                                break;
+                                            }
+
+                                            var newItemKey = -1;
+                                            var newPartAtLocID = -1;
+
+                                            //Determine If We Have A Valid Part At Location ID
+                                            //_editingPartAtLocationID = Convert.ToInt32(dg.GetRowCellValue(rowIndex, "n_partatlocid"));
+
+                                            //if (_editingPartAtLocationID == -1)
+                                            //{
+                                                if (_oCheckOut.GetPartAtLocationID(_editingPartID,
+                                                                                    _editingStoreroomID,
+                                                                                    _oLogon.UserID,
+                                                                                    ref newPartAtLocID))
+                                                {
+                                                    _editingPartAtLocationID = newPartAtLocID;
+                                                }
+                                                else
+                                                {
+                                                    Cursor = Cursors.Default;
+                                                    MessageBox.Show(
+                                                        @"Error Getting Part At Location ID - " + _oCheckOut.LastError,
+                                                        @"Part At Location Error");
+                                                    // ReSharper disable RedundantAssignment
+                                                    continueProcessing = false;
+                                                    // ReSharper restore RedundantAssignment
+                                                    break;
+                                                }
+                                            //}
+
+                                            if (_oCheckOut.Add(_editingTransactionID,
+                                                                _editingPartAtLocationID,
+                                                                _editingPartID,
+                                                                _editingStoreroomID,
+                                                                _editingReqID,
+                                                                _editingReqItemID,
+                                                                false,
+                                                                _editingExpDate,
+                                                                _editingActionNum,
+                                                                _editingReqQty,
+                                                                _editingQty,
+                                                                "",
+                                                                _oLogon.UserID,
+                                                                _oParts.RecordID,
+                                                                ref newItemKey))
+                                            {
+                                                itemsAdded++;
+                                            }
+                                            else
+                                            {
+                                                Cursor = Cursors.Default;
+                                                MessageBox.Show(
+                                                    @"Error Adding Item To Check Out Transaction - " +
+                                                    _oCheckOut.LastError, @"Error Adding Item");
+                                                // ReSharper disable RedundantAssignment
+                                                continueProcessing = false;
+                                                // ReSharper restore RedundantAssignment
+                                                break;
+                                            }
+                                        }
+                                        #endregion
+                                        Cursor = Cursors.Default;
+                                        if (itemsAdded > 0)
+                                        {
+                                            MessageBox.Show(itemsAdded + @" Parts Added");
+                                        }
+
+                                    }
+
+                                }
+                            }
+
+
+
+                        }
+                        #endregion
+
+
+                        #region Does not have JobID
+                        else
+                        {
+
+                            if (reasonLookUp.EditValue != null)
+                            {
+                                _editingCheckOutReasonID = Convert.ToInt32(reasonLookUp.EditValue);
+                            }
+
+                            if (_editingTransactionID <= 0)
+                            {
+                                var transactionID = "";
+                                _oCheckOut.ClearErrors();
+                                if (!_oCheckOut.GetNextTransactionID(ref transactionID, _oLogon.UserID))
+                                {
+                                    Cursor = Cursors.Default;
+                                    MessageBox.Show(
+                                                @"Error Getting Next Transaction Number - " + _oCheckOut.LastError,
+                                                @"Transaction Error");
+                                    continueProcessing = false;
+                                }
+                                else
+                                {
+                                    _editingTransactionID = Convert.ToInt32(transactionID);
+                                    _editingActionNum = Convert.ToString((_editingTransactionID + 1000000));
+                                    txtTransactionNumber.Text = _editingActionNum;
+                                }
+
+                                if (continueProcessing)
+                                {
+                                    if (_oCheckOut.AddTransaction(_editingTransactionID,
                                                                         _editingActionNum,
                                                                         _editingCarrierID,
                                                                         -1,
-                                                                        -1,
+                                                                        _editingCheckOutReasonID,
                                                                         _editingGivenByID,
-                                                                        _editingJobID,
+                                                                        _editingJobStepID,
                                                                         _editingPurchaseOrderID,
                                                                         _editingStoreroomID,
                                                                         _editingTakenBy,
@@ -917,80 +1142,64 @@ namespace Checkout
                                                                         _editingReceiptID,
                                                                         _editingJobStepID,
                                                                         _oLogon.UserID))
-                                {
-
-
-                                }
-                                else
-                                {
-                                    Cursor = Cursors.Default;
-                                    MessageBox.Show(@"Error Creating Transaction - " + _oCheckOut.LastError,
-                                                            @"Transaction Error");
-                                    continueProcessing = false;
-                                }
-
-                                if (continueProcessing)
-                                {
-                                    var gotData = true;
-                                    #region loop through parts added grid
-                                    for (var i = 0; i < selectedRows.Count(); i++)
                                     {
-                                        var rowIndex = Convert.ToInt32(selectedRows.Keys[i].ToString());
-                                        
-                                        _oMaster.ClearErrors();
-                                        var masterpartID = Convert.ToInt32(dg.GetRowCellValue(rowIndex, "n_masterpartid"));
-                                        _editingQty = Convert.ToInt32(dg.GetRowCellValue(rowIndex, "QTY"));
-                                        var masterpartDetail = _oMaster.GetMasterpartDetail(masterpartID, _oLogon.UserID, ref gotData);
-                                        if (gotData)
-                                        {
-                                            if (masterpartDetail.Tables.Count > 0)
-                                            {
-                                                if (masterpartDetail.Tables[0].Rows.Count > 0)
-                                                {
-                                                    _editingPartID =
-                                                        Convert.ToInt32(masterpartDetail.Tables[0].Rows[0][0]);
-                                                    _editingUnits = masterpartDetail.Tables[0].Rows[0][16].ToString();
-                                                    var partID = masterpartDetail.Tables[0].Rows[0][1].ToString();
-                                                    var partCost = Convert.ToDecimal(
-                                                        masterpartDetail.Tables[0].Rows[0][3].ToString());
-                                                    var prefMfgPartID = Convert.ToInt32(
-                                                        masterpartDetail.Tables[0].Rows[0][10].ToString());
-                                                    var partDesc = masterpartDetail.Tables[0].Rows[0][2].ToString();
 
-                                                    _oParts.SetJobstepInfo(_editingJobID, _editingJobStepID);
-                                                    //Add New Part To Job Record
-                                                    if (!_oParts.Add(_editingPartID,
-                                                                        _editingStoreroomID,
-                                                                        false,
-                                                                        false,
-                                                                        "",
-                                                                        partID,
-                                                                        partCost,
-                                                                        "",
-                                                                        partDesc,
-                                                                        0,
-                                                                        _editingQty,
-                                                                        _editingReceivedDate,
-                                                                        prefMfgPartID,
-                                                                        -1,
-                                                                        _oLogon.UserID,
-                                                                        -1,
-                                                                        -1))
+
+                                    }
+                                    else
+                                    {
+                                        Cursor = Cursors.Default;
+                                        MessageBox.Show(@"Error Creating Transaction - " + _oCheckOut.LastError,
+                                                                @"Transaction Error");
+                                        continueProcessing = false;
+                                    }
+
+                                    if (continueProcessing)
+                                    {
+                                        var gotData = true;
+                                        #region loop through parts added grid
+                                        for (var i = 0; i < selectedRows.Count(); i++)
+                                        {
+                                            var rowIndex = Convert.ToInt32(selectedRows.Keys[i].ToString());
+
+                                            _oMaster.ClearErrors();
+                                            var masterpartID = Convert.ToInt32(dg.GetRowCellValue(rowIndex, "n_masterpartid"));
+                                            _editingQty = Convert.ToInt32(dg.GetRowCellValue(rowIndex, "QTY"));
+                                            var masterpartDetail = _oMaster.GetMasterpartDetail(masterpartID, _oLogon.UserID, ref gotData);
+                                            if (gotData)
+                                            {
+                                                if (masterpartDetail.Tables.Count > 0)
+                                                {
+                                                    if (masterpartDetail.Tables[0].Rows.Count > 0)
+                                                    {
+                                                        _editingPartID =
+                                                            Convert.ToInt32(masterpartDetail.Tables[0].Rows[0][0]);
+                                                        _editingUnits = masterpartDetail.Tables[0].Rows[0][16].ToString();
+
+                                                        var partID = masterpartDetail.Tables[0].Rows[0][1].ToString();
+                                                        var partCost = Convert.ToDecimal(
+                                                            masterpartDetail.Tables[0].Rows[0][3].ToString());
+                                                        var prefMfgPartID = Convert.ToInt32(
+                                                            masterpartDetail.Tables[0].Rows[0][10].ToString());
+                                                        var partDesc = masterpartDetail.Tables[0].Rows[0][2].ToString();
+
+
+                                                    }
+                                                    else
                                                     {
                                                         Cursor = Cursors.Default;
-                                                        MessageBox.Show(
-                                                            @"Error Adding New Part To Jobstep - " + _oParts.LastError,
-                                                            @"Error Adding Part");
+                                                        MessageBox.Show(@"Mastpart (" + masterpartID +
+                                                                        @") No Longer Exists");
                                                         // ReSharper disable RedundantAssignment
                                                         continueProcessing = false;
                                                         // ReSharper restore RedundantAssignment
+                                                        break;
                                                     }
                                                 }
                                                 else
                                                 {
                                                     Cursor = Cursors.Default;
-                                                    MessageBox.Show(@"Mastpart (" + masterpartID +
-                                                                    @") No Longer Exists");
+                                                    MessageBox.Show(@"Masterpart Table Expected");
                                                     // ReSharper disable RedundantAssignment
                                                     continueProcessing = false;
                                                     // ReSharper restore RedundantAssignment
@@ -1000,295 +1209,93 @@ namespace Checkout
                                             else
                                             {
                                                 Cursor = Cursors.Default;
-                                                MessageBox.Show(@"Masterpart Table Expected");
+                                                MessageBox.Show(_oMaster.LastError,
+                                                                @"Error Getting Masterparts Information");
                                                 // ReSharper disable RedundantAssignment
                                                 continueProcessing = false;
                                                 // ReSharper restore RedundantAssignment
                                                 break;
                                             }
-                                        }
-                                        else
-                                        {
-                                            Cursor = Cursors.Default;
-                                            MessageBox.Show(_oMaster.LastError,
-                                                            @"Error Getting Masterparts Information");
-                                            // ReSharper disable RedundantAssignment
-                                            continueProcessing = false;
-                                            // ReSharper restore RedundantAssignment
-                                            break;
-                                        }
 
-                                        var newItemKey = -1;
-                                        var newPartAtLocID = -1;
+                                            var newItemKey = -1;
+                                            var newPartAtLocID = -1;
 
-                                        //Determine If We Have A Valid Part At Location ID
-                                        _editingPartAtLocationID =
-                                            Convert.ToInt32(dg.GetRowCellValue(rowIndex, "n_partatlocid"));
+                                            //Determine If We Have A Valid Part At Location ID
+                                            //_editingPartAtLocationID =
+                                            //    Convert.ToInt32(dg.GetRowCellValue(rowIndex, "n_partatlocid"));
 
-                                        if (_editingPartAtLocationID == -1)
-                                        {
-                                            if (_oCheckOut.GetPartAtLocationID(_editingPartID,
-                                                                                _editingStoreroomID,
-                                                                                _oLogon.UserID,
-                                                                                ref newPartAtLocID))
-                                            {
-                                                _editingPartAtLocationID = newPartAtLocID;
-                                            }
-                                            else
-                                            {
-                                                Cursor = Cursors.Default;
-                                                MessageBox.Show(
-                                                    @"Error Getting Part At Location ID - " + _oCheckOut.LastError,
-                                                    @"Part At Location Error");
-                                                // ReSharper disable RedundantAssignment
-                                                continueProcessing = false;
-                                                // ReSharper restore RedundantAssignment
-                                                break;
-                                            }
-                                        }
-
-                                        if (_oCheckOut.Add(_editingTransactionID,
-                                                            _editingPartAtLocationID,
-                                                            _editingPartID,
-                                                            _editingStoreroomID,
-                                                            _editingReqID,
-                                                            _editingReqItemID,
-                                                            false,
-                                                            _editingExpDate,
-                                                            _editingActionNum,
-                                                            _editingReqQty,
-                                                            _editingQty,
-                                                            "",
-                                                            _oLogon.UserID,
-                                                            _oParts.RecordID,
-                                                            ref newItemKey))
-                                        {
-                                            itemsAdded++;
-                                        }
-                                        else
-                                        {
-                                            Cursor = Cursors.Default;
-                                            MessageBox.Show(
-                                                @"Error Adding Item To Check Out Transaction - " +
-                                                _oCheckOut.LastError, @"Error Adding Item");
-                                            // ReSharper disable RedundantAssignment
-                                            continueProcessing = false;
-                                            // ReSharper restore RedundantAssignment
-                                            break;
-                                        }
-                                    }
-                                    #endregion
-                                    Cursor = Cursors.Default;
-                                    if (itemsAdded > 0)
-                                    {
-                                        MessageBox.Show(itemsAdded + @" Parts Added");
-                                    }
-
-                                }
-
-                            }
-                        }
-
-
-
-                    }
-                    #endregion
-                    #region Does not have JobID
-                    else
-                    {
-                       
-                        if(reasonLookUp.EditValue != null)
-                        {
-                            _editingCheckOutReasonID = Convert.ToInt32(reasonLookUp.EditValue);
-                        }
-
-                        if (_editingTransactionID <= 0)
-                        {
-                            var transactionID = "";
-                            _oCheckOut.ClearErrors();
-                            if (!_oCheckOut.GetNextTransactionID(ref transactionID, _oLogon.UserID))
-                            {
-                                Cursor = Cursors.Default;
-                                MessageBox.Show(
-                                            @"Error Getting Next Transaction Number - " + _oCheckOut.LastError,
-                                            @"Transaction Error");
-                                continueProcessing = false;
-                            }
-                            else
-                            {
-                                _editingTransactionID = Convert.ToInt32(transactionID);
-                                _editingActionNum = Convert.ToString((_editingTransactionID + 1000000));
-                                txtTransactionNumber.Text = _editingActionNum;
-                            }
-
-                            if (continueProcessing)
-                            {
-                                if (_oCheckOut.AddTransaction(_editingTransactionID,
-                                                                    _editingActionNum,
-                                                                    _editingCarrierID,
-                                                                    -1,
-                                                                    _editingCheckOutReasonID,
-                                                                    _editingGivenByID,
-                                                                    _editingJobStepID,
-                                                                    _editingPurchaseOrderID,
-                                                                    _editingStoreroomID,
-                                                                    _editingTakenBy,
-                                                                    _editingVendorID,
-                                                                    _editingStoresIssueID,
-                                                                    "N",
-                                                                    _editingReceivedDate,
-                                                                    _editingInvoiceNum,
-                                                                    _editingNotes,
-                                                                    _editingReceiptID,
-                                                                    _editingJobStepID,
-                                                                    _oLogon.UserID))
-                                {
-
-
-                                }
-                                else
-                                {
-                                    Cursor = Cursors.Default;
-                                    MessageBox.Show(@"Error Creating Transaction - " + _oCheckOut.LastError,
-                                                            @"Transaction Error");
-                                    continueProcessing = false;
-                                }
-
-                                if (continueProcessing)
-                                {
-                                    var gotData = true;
-                                    #region loop through parts added grid
-                                    for (var i = 0; i < selectedRows.Count(); i++)
-                                    {
-                                        var rowIndex = Convert.ToInt32(selectedRows.Keys[i].ToString());
-                                       
-                                        _oMaster.ClearErrors();
-                                        var masterpartID = Convert.ToInt32(dg.GetRowCellValue(rowIndex, "n_masterpartid"));
-                                        _editingQty = Convert.ToInt32(dg.GetRowCellValue(rowIndex, "QTY"));
-                                        var masterpartDetail = _oMaster.GetMasterpartDetail(masterpartID, _oLogon.UserID, ref gotData);
-                                        if (gotData)
-                                        {
-                                            if (masterpartDetail.Tables.Count > 0)
-                                            {
-                                                if (masterpartDetail.Tables[0].Rows.Count > 0)
+                                            //if (_editingPartAtLocationID == -1)
+                                            //{
+                                                if (_oCheckOut.GetPartAtLocationID(_editingPartID,
+                                                                                    _editingStoreroomID,
+                                                                                    _oLogon.UserID,
+                                                                                    ref newPartAtLocID))
                                                 {
-                                                    _editingPartID =
-                                                        Convert.ToInt32(masterpartDetail.Tables[0].Rows[0][0]);
-                                                    _editingUnits = masterpartDetail.Tables[0].Rows[0][16].ToString();
-
-                                                    var partID = masterpartDetail.Tables[0].Rows[0][1].ToString();
-                                                    var partCost = Convert.ToDecimal(
-                                                        masterpartDetail.Tables[0].Rows[0][3].ToString());
-                                                    var prefMfgPartID = Convert.ToInt32(
-                                                        masterpartDetail.Tables[0].Rows[0][10].ToString());
-                                                    var partDesc = masterpartDetail.Tables[0].Rows[0][2].ToString();
-
-                                                  
+                                                    _editingPartAtLocationID = newPartAtLocID;
                                                 }
                                                 else
                                                 {
                                                     Cursor = Cursors.Default;
-                                                    MessageBox.Show(@"Mastpart (" + masterpartID +
-                                                                    @") No Longer Exists");
+                                                    MessageBox.Show(
+                                                        @"Error Getting Part At Location ID - " + _oCheckOut.LastError,
+                                                        @"Part At Location Error");
                                                     // ReSharper disable RedundantAssignment
                                                     continueProcessing = false;
                                                     // ReSharper restore RedundantAssignment
                                                     break;
                                                 }
-                                            }
-                                            else
+                                            //}
+
+                                            if (_oCheckOut.Add(_editingTransactionID,
+                                                                _editingPartAtLocationID,
+                                                                _editingPartID,
+                                                                _editingStoreroomID,
+                                                                _editingReqID,
+                                                                _editingReqItemID,
+                                                                false,
+                                                                _editingExpDate,
+                                                                _editingActionNum,
+                                                                _editingReqQty,
+                                                                _editingQty,
+                                                                "",
+                                                                _oLogon.UserID,
+                                                                _oParts.RecordID,
+                                                                ref newItemKey))
                                             {
-                                                Cursor = Cursors.Default;
-                                                MessageBox.Show(@"Masterpart Table Expected");
-                                                // ReSharper disable RedundantAssignment
-                                                continueProcessing = false;
-                                                // ReSharper restore RedundantAssignment
-                                                break;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            Cursor = Cursors.Default;
-                                            MessageBox.Show(_oMaster.LastError,
-                                                            @"Error Getting Masterparts Information");
-                                            // ReSharper disable RedundantAssignment
-                                            continueProcessing = false;
-                                            // ReSharper restore RedundantAssignment
-                                            break;
-                                        }
-
-                                        var newItemKey = -1;
-                                        var newPartAtLocID = -1;
-
-                                        //Determine If We Have A Valid Part At Location ID
-                                        _editingPartAtLocationID =
-                                            Convert.ToInt32(dg.GetRowCellValue(rowIndex, "n_partatlocid"));
-
-                                        if (_editingPartAtLocationID == -1)
-                                        {
-                                            if (_oCheckOut.GetPartAtLocationID(_editingPartID,
-                                                                                _editingStoreroomID,
-                                                                                _oLogon.UserID,
-                                                                                ref newPartAtLocID))
-                                            {
-                                                _editingPartAtLocationID = newPartAtLocID;
+                                                itemsAdded++;
                                             }
                                             else
                                             {
                                                 Cursor = Cursors.Default;
                                                 MessageBox.Show(
-                                                    @"Error Getting Part At Location ID - " + _oCheckOut.LastError,
-                                                    @"Part At Location Error");
+                                                    @"Error Adding Item To Check Out Transaction - " +
+                                                    _oCheckOut.LastError, @"Error Adding Item");
                                                 // ReSharper disable RedundantAssignment
                                                 continueProcessing = false;
                                                 // ReSharper restore RedundantAssignment
                                                 break;
                                             }
                                         }
+                                        #endregion
+                                        Cursor = Cursors.Default;                                      
+                                        _editingTransactionID = -1;
+                                        _editingTransactionItemID = -1;
+                                        _editingActionNum = "";
+                                        if (itemsAdded > 0)
+                                        {
+                                            MessageBox.Show(itemsAdded + @" Parts checked out");
+                                        }
 
-                                        if (_oCheckOut.Add(_editingTransactionID,
-                                                            _editingPartAtLocationID,
-                                                            _editingPartID,
-                                                            _editingStoreroomID,
-                                                            _editingReqID,
-                                                            _editingReqItemID,
-                                                            false,
-                                                            _editingExpDate,
-                                                            _editingActionNum,
-                                                            _editingReqQty,
-                                                            _editingQty,
-                                                            "",
-                                                            _oLogon.UserID,
-                                                            _oParts.RecordID,
-                                                            ref newItemKey))
-                                        {
-                                            itemsAdded++;
-                                        }
-                                        else
-                                        {
-                                            Cursor = Cursors.Default;
-                                            MessageBox.Show(
-                                                @"Error Adding Item To Check Out Transaction - " +
-                                                _oCheckOut.LastError, @"Error Adding Item");
-                                            // ReSharper disable RedundantAssignment
-                                            continueProcessing = false;
-                                            // ReSharper restore RedundantAssignment
-                                            break;
-                                        }
-                                    }
-                                    #endregion
-                                    Cursor = Cursors.Default;
-                                    _editingTransactionID = 0;
-                                    if (itemsAdded > 0)
-                                    {
-                                        MessageBox.Show(itemsAdded + @" Parts checked out");
                                     }
 
                                 }
-
                             }
                         }
                         #endregion
+                    }
+                    catch
+                    {
+                        MessageBox.Show(@"Error processing checkout. Not all steps may have been completed");
                     }
 
 
@@ -1389,32 +1396,66 @@ namespace Checkout
             switch(result)
             {
                 case DialogResult.Yes:
+                    //clear needed values
+                    _editingTransactionID = -1;
+                    _editingTransactionItemID = -1;
+                    _editingActionNum = "";
+                    txtTransactionNumber.EditValue = "";
+
                     //switch to focus to first page
                     navigationFrame.SelectedPageIndex = tileBarGroupTables.Items.IndexOf(eployeesTileBarItem);
                     tileBar.SelectedItem = eployeesTileBarItem;
                     break;
                 case DialogResult.No:
                     //clear all inputs
-                    takenByLookUp.EditValue = null;
-                    reasonLookUp.EditValue = null;
-                    JobIDlookUp.EditValue = null;
-                    storeroomLookUp.EditValue = null;
-                    partIDLookUp.EditValue = null;
-                    QTYspinEdit.EditValue = null;
-                    storeRoom.EditValue = null;
-                    gridControl1.DataSource = null;
-                    gridControlParts.DataSource = null;
-                    gridControlPartsAdded.DataSource = null;
-                    transactionHistoryGridControl.DataSource = null;
-                    txtTransactionNumber.EditValue = null;
+                    resetform();
+                    
 
-                    navigationFrame.SelectedPageIndex = tileBarGroupTables.Items.IndexOf(customersTileBarItem);
+                    navigationFrame.SelectedPageIndex = tileBarGroupTables.Items.IndexOf(eployeesTileBarItem);
+                    tileBar.SelectedItem = eployeesTileBarItem;
                     break;
                 case DialogResult.Cancel:
                     break;
                 default:
                     break;
             }
+        }
+
+        private void resetform()
+        {
+            takenByLookUp.EditValue = null;
+            reasonLookUp.EditValue = null;
+            JobIDlookUp.EditValue = null;
+            storeroomLookUp.EditValue = null;
+            partIDLookUp.EditValue = null;
+            QTYspinEdit.EditValue = null;
+            storeRoom.EditValue = null;
+            gridControl1.DataSource = null;
+            gridControlParts.DataSource = null;
+            gridControlPartsAdded.DataSource = null;
+            transactionHistoryGridControl.DataSource = null;
+            txtTransactionNumber.EditValue = null;
+            jobStepText.EditValue = null;
+            _editingTransactionID = -1;
+            _editingTransactionItemID = -1;
+
+            _editingTransactionID = -1;
+            _editingActionNum = "";
+            _editingCarrierID = -1;
+
+            _editingGivenByID = _oLogon.UserID;
+            _editingJobID = -1;
+            _editingPurchaseOrderID = -1;
+            _editingStoreroomID = -1;
+            _editingTakenBy = -1;
+            _editingVendorID = -1;
+            _editingStoresIssueID = -1;
+            _editingReceivedDate = _nullDate;
+            _editingInvoiceNum = "";
+            _editingNotes = "";
+            _editingReceiptID = -1;
+            _editingJobStepID = -1;
+
         }
     }
 }
