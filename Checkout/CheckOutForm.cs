@@ -308,9 +308,15 @@ namespace Checkout
 
         private void JobIDLookUpEditValueChanged(object sender, EventArgs e)
         {
-            _editingJobStepID = Convert.ToInt32(JobIDlookUp.GetColumnValue("n_jobstepid"));
+            if(_editingJobStepID < 0)
+            {
+                _editingJobStepID = Convert.ToInt32(JobIDlookUp.GetColumnValue("n_jobstepid"));
+                jobStepText.EditValue = _editingJobStepID;
+            } else
+            {
+                jobStepText.EditValue = _editingJobStepID;
+            }
             _editingJobID = Convert.ToInt32(JobIDlookUp.GetColumnValue("n_jobid"));
-            jobStepText.EditValue = _editingJobStepID;
 
         }
         #endregion
@@ -381,7 +387,7 @@ namespace Checkout
             {
                 gridControl1.Visible = true;
                 GetJobButton.Visible = true;
-                JobIDTextEdit.Visible = true;
+                JobIDlookUp.Visible = true;
                 JobIDLabel.Visible = true;
                 reasonLookUp.Visible = false;
                 reasonLabel.Visible = false;
@@ -394,6 +400,8 @@ namespace Checkout
                 GetJobButton.Visible = false;
                 JobIDLabel.Visible = false;
                 JobIDlookUp.Visible = false;
+                JobIDlookUp.EditValue = null;
+                jobStepText.EditValue = null;
                 reasonLabel.Visible = true;
                 reasonLookUp.Visible = true;
 
@@ -570,10 +578,10 @@ namespace Checkout
             _editingJobID = (int)type.GetProperty("n_jobid").GetValue(x);
             _editingJobStepID = (int)type.GetProperty("n_jobstepid").GetValue(x);
             var jobid = type.GetProperty("Jobid").GetValue(x);
-            jobStepText.EditValue = _editingJobStepID;            
             JobIDlookUp.EditValue = _editingJobID;
-            JobIDlookUp.Text = "Test";
+            
             JobIDlookUp.Text = jobid.ToString();         
+            jobStepText.EditValue = _editingJobStepID;            
         }
 
         private void M_ItemClicked(object sender, ToolStripItemClickedEventArgs e)

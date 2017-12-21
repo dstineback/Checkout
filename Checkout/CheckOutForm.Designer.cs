@@ -75,6 +75,7 @@ namespace Checkout
             this.JobIDTextEdit = new DevExpress.XtraEditors.GridLookUpEdit();
             this.gridLookUpEdit1View = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.customersNavigationPage = new DevExpress.XtraBars.Navigation.NavigationPage();
+            this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
             this.storeroomPartsLabel = new DevExpress.XtraEditors.LabelControl();
             this.storeroomLookUp = new DevExpress.XtraEditors.LookUpEdit();
             this.QTYLabel = new DevExpress.XtraEditors.LabelControl();
@@ -118,7 +119,9 @@ namespace Checkout
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.simpleButton4 = new DevExpress.XtraEditors.SimpleButton();
-            this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
+            this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.navigationFrame)).BeginInit();
             this.navigationFrame.SuspendLayout();
             this.employeesNavigationPage.SuspendLayout();
@@ -605,6 +608,16 @@ namespace Checkout
             this.customersNavigationPage.Name = "customersNavigationPage";
             this.customersNavigationPage.Size = new System.Drawing.Size(1008, 619);
             // 
+            // labelControl2
+            // 
+            this.labelControl2.Appearance.Font = new System.Drawing.Font("Tahoma", 14F);
+            this.labelControl2.Appearance.Options.UseFont = true;
+            this.labelControl2.Location = new System.Drawing.Point(58, 362);
+            this.labelControl2.Name = "labelControl2";
+            this.labelControl2.Size = new System.Drawing.Size(74, 23);
+            this.labelControl2.TabIndex = 16;
+            this.labelControl2.Text = "Parts List";
+            // 
             // storeroomPartsLabel
             // 
             this.storeroomPartsLabel.Location = new System.Drawing.Point(523, 8);
@@ -733,6 +746,10 @@ namespace Checkout
             // 
             // gridViewParts
             // 
+            this.gridViewParts.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.gridColumn1,
+            this.gridColumn2,
+            this.gridColumn3});
             this.gridViewParts.GridControl = this.gridControlParts;
             this.gridViewParts.Name = "gridViewParts";
             this.gridViewParts.OptionsBehavior.Editable = false;
@@ -766,7 +783,8 @@ namespace Checkout
             this.partIDLookUp.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.partIDLookUp.Properties.Columns.AddRange(new DevExpress.XtraEditors.Controls.LookUpColumnInfo[] {
-            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("masterpartid", "Part ID")});
+            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("masterpartid", "Part ID"),
+            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("Description", "Description")});
             this.partIDLookUp.Properties.DataSource = this.bindPart;
             this.partIDLookUp.Properties.DisplayMember = "masterpartid";
             this.partIDLookUp.Properties.DropDownRows = 10;
@@ -1032,15 +1050,29 @@ namespace Checkout
             this.simpleButton4.Text = "New Check out";
             this.simpleButton4.Click += new System.EventHandler(this.simpleButton4_Click);
             // 
-            // labelControl2
+            // gridColumn1
             // 
-            this.labelControl2.Appearance.Font = new System.Drawing.Font("Tahoma", 14F);
-            this.labelControl2.Appearance.Options.UseFont = true;
-            this.labelControl2.Location = new System.Drawing.Point(58, 362);
-            this.labelControl2.Name = "labelControl2";
-            this.labelControl2.Size = new System.Drawing.Size(74, 23);
-            this.labelControl2.TabIndex = 16;
-            this.labelControl2.Text = "Parts List";
+            this.gridColumn1.Caption = "Part #";
+            this.gridColumn1.FieldName = "masterpartid";
+            this.gridColumn1.Name = "gridColumn1";
+            this.gridColumn1.Visible = true;
+            this.gridColumn1.VisibleIndex = 0;
+            // 
+            // gridColumn2
+            // 
+            this.gridColumn2.Caption = "Description";
+            this.gridColumn2.FieldName = "Description";
+            this.gridColumn2.Name = "gridColumn2";
+            this.gridColumn2.Visible = true;
+            this.gridColumn2.VisibleIndex = 1;
+            // 
+            // gridColumn3
+            // 
+            this.gridColumn3.Caption = "QTY";
+            this.gridColumn3.FieldName = "qtyonhand";
+            this.gridColumn3.Name = "gridColumn3";
+            this.gridColumn3.Visible = true;
+            this.gridColumn3.VisibleIndex = 2;
             // 
             // CheckOutForm
             // 
@@ -1194,6 +1226,9 @@ namespace Checkout
         private SimpleButton simpleButton4;
         private TextEdit jobStepText;
         private LabelControl labelControl2;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
 
         public object Appearance { get; private set; }
         public FormBorderEffect FormBorderEffect { get; private set; }
