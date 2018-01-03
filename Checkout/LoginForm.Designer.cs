@@ -78,7 +78,7 @@
             // 
             // labelControl1
             // 
-            this.labelControl1.Appearance.BackColor = System.Drawing.Color.DeepSkyBlue;
+            this.labelControl1.Appearance.BackColor = System.Drawing.Color.Silver;
             this.labelControl1.Appearance.Font = new System.Drawing.Font("Rockwell", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelControl1.Appearance.ForeColor = System.Drawing.Color.White;
             this.labelControl1.Appearance.Options.UseBackColor = true;
@@ -94,7 +94,7 @@
             // 
             // labelControl3
             // 
-            this.labelControl3.Appearance.BackColor = System.Drawing.Color.DeepSkyBlue;
+            this.labelControl3.Appearance.BackColor = System.Drawing.Color.Silver;
             this.labelControl3.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
             this.labelControl3.Appearance.ForeColor = System.Drawing.Color.White;
             this.labelControl3.Appearance.Options.UseBackColor = true;
@@ -109,7 +109,7 @@
             // 
             // labelControl2
             // 
-            this.labelControl2.Appearance.BackColor = System.Drawing.Color.DeepSkyBlue;
+            this.labelControl2.Appearance.BackColor = System.Drawing.Color.Silver;
             this.labelControl2.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
             this.labelControl2.Appearance.ForeColor = System.Drawing.Color.White;
             this.labelControl2.Appearance.Options.UseBackColor = true;
@@ -150,8 +150,8 @@
             // 
             // employeesLabelControl
             // 
-            this.employeesLabelControl.Appearance.BackColor = System.Drawing.Color.DeepSkyBlue;
-            this.employeesLabelControl.Appearance.BackColor2 = System.Drawing.Color.DeepSkyBlue;
+            this.employeesLabelControl.Appearance.BackColor = System.Drawing.Color.Silver;
+            this.employeesLabelControl.Appearance.BackColor2 = System.Drawing.Color.Silver;
             this.employeesLabelControl.Appearance.Font = new System.Drawing.Font("Tahoma", 25.25F);
             this.employeesLabelControl.Appearance.ForeColor = System.Drawing.Color.Transparent;
             this.employeesLabelControl.Appearance.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.BackwardDiagonal;
@@ -175,7 +175,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(662, 275);
             this.Controls.Add(this.navigationFrame);
-            this.FormBorderEffect = DevExpress.XtraEditors.FormBorderEffect.Shadow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "LoginForm";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LoginForm_FormClosing);

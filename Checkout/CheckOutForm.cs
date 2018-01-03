@@ -115,6 +115,7 @@ namespace Checkout
                 userNameTextBox.EditValue = _oLogon.UserID;
                 userNameLabel.Text = _oLogon.Username;
                 userNameTextBox.Text = _oLogon.Username;
+               
             }
 
             toggleSwitch1.IsOn = true;
@@ -128,14 +129,22 @@ namespace Checkout
                 reasonLabel.Visible = false;
 
             }
-            storeRoom.BackColor = Color.LightPink;
-            storeroomLookUp.Visible = false;
-            storeroomPartsLabel.Visible = false;
+            storeRoom.BackColor = Color.Crimson;
+            
+            
             dateEdit.EditValue = _nullDate;
             dateEdit.EditValue = DateTime.Now;
+            QTYspinEdit.Enabled = false;
+            simpleButton1.Enabled = false;
+            addPartButton.Enabled = false;
+            partIDLookUp.Enabled = false;
+            lookUpEdit1.EditValue = null;
+            takenByLookUp.EditValue = null;
+            var userNameID = _oLogon.UserID;
+            lookUpEdit1.EditValue = userNameID;
+            takenByLookUp.EditValue = userNameID;
+            lookUpEdit1.Focus();
 
-            
-            
         }
 
         private void CheckoutForm_Load(object sender, EventArgs e)
@@ -145,6 +154,11 @@ namespace Checkout
             this.MaximizeBox = true;
             this.WindowState = FormWindowState.Normal;
             this.FormBorderStyle = FormBorderStyle.Fixed3D;
+
+            var userNameID = _oLogon.UserID;
+            lookUpEdit1.EditValue = userNameID;
+            takenByLookUp.EditValue = userNameID;
+            lookUpEdit1.Focus();
 
         }
 
@@ -156,6 +170,7 @@ namespace Checkout
                 userNameLabel.Text = _oLogon.Username;
                 userNameTextBox.Text = _oLogon.Username;
                 dateEdit.DateTime = DateTime.Now;
+                
             }
 
         }
@@ -163,6 +178,7 @@ namespace Checkout
         private void tileBar_SelectedItemChanged(object sender, TileItemEventArgs e)
         {
             navigationFrame.SelectedPageIndex = tileBarGroupTables.Items.IndexOf(e.Item);
+
         }
 
         #region input boxes 
@@ -173,6 +189,11 @@ namespace Checkout
             storeRoomBindingSource.DataSource = _oCheckOut.GetAllStorerooms(ref loadOK);
             bindStoreroom.DataSource = storeRoomBindingSource;
             storeRoom.EditValue = bindStoreroom;
+
+            QTYspinEdit.Enabled = true;
+            simpleButton1.Enabled = true;
+            addPartButton.Enabled = true;
+            partIDLookUp.Enabled = true;
 
         }
 
@@ -206,17 +227,12 @@ namespace Checkout
 
         private void partEnter(object sender, EventArgs e)
         {
-            if (storeRoom.Text != "" || storeroomLookUp.Text != "")
+            if (storeRoom.Text != "")
             {
                 var storeroomName = "";
-                if (storeroomLookUp.Visible == true && storeroomLookUp.Text != "")
-                {
-                    storeroomName = storeroomLookUp.Text;
-                }
-                if (storeRoom.Text != "")
-                {
+                
                     storeroomName = storeRoom.Text;
-                }
+                
                 //NonSortedList param = new NonSortedList();
 
                 DataSet ds = new DataSet();
@@ -282,20 +298,10 @@ namespace Checkout
             else
             {
                 MessageBox.Show("Please pick a valid storeroom");
-                storeRoom.Visible = false;
-                storeroomLookUp.Visible = true;
-                storeroomLookUp.Focus();
+                storeRoom.Focus();
+                
 
             }
-        }
-
-        private void storeroomLookUpEnter(object sender, EventArgs e)
-        {
-            BindingSource storeRoomBindingSource = new BindingSource();
-            storeRoomBindingSource.DataSource = _oCheckOut.GetAllStorerooms(ref loadOK);
-            bindStoreroom.DataSource = storeRoomBindingSource;
-            storeroomLookUp.EditValue = bindStoreroom;
-
         }
 
         private void jobIDLookUpEnter(object sender, EventArgs e)
@@ -389,8 +395,11 @@ namespace Checkout
                 GetJobButton.Visible = true;
                 JobIDlookUp.Visible = true;
                 JobIDLabel.Visible = true;
+                WorkOpLabel.Visible = true;
+                WorkOpLookUp.Visible = true;
                 reasonLookUp.Visible = false;
                 reasonLabel.Visible = false;
+                reasonLookUp.EditValue = null;
 
             }
 
@@ -404,6 +413,9 @@ namespace Checkout
                 jobStepText.EditValue = null;
                 reasonLabel.Visible = true;
                 reasonLookUp.Visible = true;
+                WorkOpLookUp.Visible = false;
+                WorkOpLabel.Visible = false;
+                WorkOpLookUp.EditValue = null;
 
 
             }
@@ -413,17 +425,12 @@ namespace Checkout
 
         private void addPartButton_Click(object sender, EventArgs e)
         {
-            if (storeRoom.Text != "" || storeroomLookUp.Text != "")
+            if (storeRoom.Text != "")
             {
                 var storeroomName = "";
-                if (storeroomLookUp.Visible == true && storeroomLookUp.Text != "")
-                {
-                    storeroomName = storeroomLookUp.Text;
-                }
-                if (storeRoom.Text != "")
-                {
+               
                     storeroomName = storeRoom.Text;
-                }
+                
 
 
 
@@ -479,11 +486,13 @@ namespace Checkout
             else
             {
                 MessageBox.Show("Please pick a valid storeroom");
-                storeRoom.Visible = false;
-                storeroomLabel.Visible = false;
-                storeroomLookUp.Visible = true;
-                storeroomPartsLabel.Visible = true;
-                storeroomLookUp.Focus();
+
+                storeRoom.BackColor = Color.Crimson;
+                storeRoom.Focus();
+
+                
+               
+                
             }
         }
 
@@ -786,7 +795,7 @@ namespace Checkout
 
             ProcessMaterialSelections(dg);
 
-            
+            gridControlPartsAdded.DataSource = null;
             navigationFrame.SelectedPageIndex = tileBarGroupTables.Items.IndexOf(tileBarItem2);
             tileBar.SelectedItem = tileBarItem2;
         }
@@ -838,9 +847,9 @@ namespace Checkout
                         _editingTakenBy = -1;
                     }
 
-                    if (storeRoom.EditValue != null || storeroomLookUp.EditValue != null)
+                    if (storeRoom.EditValue != null )
                     {
-                        _editingStoreroomID = (storeRoom.EditValue == null) ? Convert.ToInt32(storeroomLookUp.EditValue.ToString()) : Convert.ToInt32(storeRoom.EditValue);
+                        _editingStoreroomID = Convert.ToInt32(storeRoom.EditValue);
                     }
                     else
                     {
@@ -1085,10 +1094,13 @@ namespace Checkout
                                         }
                                         #endregion
                                         Cursor = Cursors.Default;
+                                        _editingTransactionID = -1;
+                                        _editingTransactionItemID = -1;
                                         if (itemsAdded > 0)
                                         {
-                                            MessageBox.Show(itemsAdded + @" Parts Added");
+                                            MessageBox.Show(itemsAdded + @" Parts Added" + Environment.NewLine +@"Transaction: " + _editingActionNum);
                                         }
+                                        _editingActionNum = "";
 
                                     }
 
@@ -1288,12 +1300,12 @@ namespace Checkout
                                         Cursor = Cursors.Default;                                      
                                         _editingTransactionID = -1;
                                         _editingTransactionItemID = -1;
-                                        _editingActionNum = "";
+                                       
                                         if (itemsAdded > 0)
                                         {
-                                            MessageBox.Show(itemsAdded + @" Parts checked out");
+                                            MessageBox.Show(itemsAdded + @" Parts checked out. " + Environment.NewLine + @"Transaction: " + _editingActionNum);
                                         }
-
+                                        _editingActionNum = "";
                                     }
 
                                 }
@@ -1434,7 +1446,6 @@ namespace Checkout
             takenByLookUp.EditValue = null;
             reasonLookUp.EditValue = null;
             JobIDlookUp.EditValue = null;
-            storeroomLookUp.EditValue = null;
             partIDLookUp.EditValue = null;
             QTYspinEdit.EditValue = null;
             storeRoom.EditValue = null;
@@ -1464,6 +1475,49 @@ namespace Checkout
             _editingReceiptID = -1;
             _editingJobStepID = -1;
 
+        }
+
+        private void gridControlParts_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void storeRoom_EditValueChanged(object sender, EventArgs e)
+        {
+            ///Add function to set the part boxes to be disable or enabled
+            ///
+            if(Convert.ToInt32(storeRoom.EditValue) > 0)
+            {
+                QTYspinEdit.Enabled = true;
+                simpleButton1.Enabled = true;
+                addPartButton.Enabled = true;
+                partIDLookUp.Enabled = true;
+            }
+            else
+            {
+                QTYspinEdit.Enabled = false;
+                simpleButton1.Enabled = false;
+                addPartButton.Enabled = false;
+                partIDLookUp.Enabled = false; 
+            }
+            
+        }
+
+        private void storeRoom_TextChanged(object sender, EventArgs e)
+        {
+            if (storeRoom.Text.Length < 1)
+            {
+                QTYspinEdit.Enabled = false;
+                simpleButton1.Enabled = false;
+                addPartButton.Enabled = false;
+                partIDLookUp.Enabled = false;
+            } else
+            {
+                QTYspinEdit.Enabled = true;
+                simpleButton1.Enabled = true;
+                addPartButton.Enabled = true;
+                partIDLookUp.Enabled = true;
+            }
         }
     }
 }
