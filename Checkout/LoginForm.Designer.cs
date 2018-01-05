@@ -126,6 +126,7 @@
             // 
             this.passwordTextBox.Location = new System.Drawing.Point(366, 139);
             this.passwordTextBox.Name = "passwordTextBox";
+            this.passwordTextBox.Properties.PasswordChar = '*';
             this.passwordTextBox.Properties.KeyDown += new System.Windows.Forms.KeyEventHandler(this.simpleButton1_KeyDown);
             this.passwordTextBox.Size = new System.Drawing.Size(175, 20);
             this.passwordTextBox.TabIndex = 5;

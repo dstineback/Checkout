@@ -84,6 +84,7 @@ namespace Checkout
         private static string _storageConnectionString = CloudConfigurationManager.GetSetting(_storageConnectionStringSetting);
         private static CloudBlobClient _blobClient = _storageConnectionString != null ? CloudStorageAccount.Parse(_storageConnectionString).CreateCloudBlobClient() : null;
         bool loadOK = true;
+        BindingSource jobIDLookUpBindingSourc = new BindingSource();
 
        
 
@@ -93,6 +94,7 @@ namespace Checkout
                
             _oCheckOut = new DbCheckOut(dbConnection, false);
             InitializeComponent();
+            jobIDLookUpBindingSourc.DataSource = _oCheckOut.GetOpenJobsList(ref loadOK, _nullDate);
             System.Threading.Thread.Sleep(10000);
             CloseSplashScreen();
             System.Threading.Thread.Sleep(1000);
@@ -132,18 +134,13 @@ namespace Checkout
             storeRoom.BackColor = Color.Crimson;
             
             
-            dateEdit.EditValue = _nullDate;
-            dateEdit.EditValue = DateTime.Now;
+           
             QTYspinEdit.Enabled = false;
             simpleButton1.Enabled = false;
             addPartButton.Enabled = false;
             partIDLookUp.Enabled = false;
-            lookUpEdit1.EditValue = null;
-            takenByLookUp.EditValue = null;
-            var userNameID = _oLogon.UserID;
-            lookUpEdit1.EditValue = userNameID;
-            takenByLookUp.EditValue = userNameID;
-            lookUpEdit1.Focus();
+            WorkOpLabel.Visible = false;
+            WorkOpLookUp.Visible = false;
 
         }
 
@@ -154,12 +151,11 @@ namespace Checkout
             this.MaximizeBox = true;
             this.WindowState = FormWindowState.Normal;
             this.FormBorderStyle = FormBorderStyle.Fixed3D;
-
-            var userNameID = _oLogon.UserID;
-            lookUpEdit1.EditValue = userNameID;
-            takenByLookUp.EditValue = userNameID;
+            dateEdit.EditValue = _nullDate;
+            dateEdit.EditValue = DateTime.Now;
             lookUpEdit1.Focus();
-
+            lookUpEdit1.EditValue = Convert.ToInt32(_oLogon.UserID);
+            takenByLookUp.EditValue = Convert.ToInt32(_oLogon.UserID);
         }
 
         private void LoginFormClosing(object sender, FormClosedEventArgs e)
@@ -306,8 +302,8 @@ namespace Checkout
 
         private void jobIDLookUpEnter(object sender, EventArgs e)
         {
-            BindingSource jobIDLookUpBindingSourc = new BindingSource();
-            jobIDLookUpBindingSourc.DataSource = _oCheckOut.GetOpenJobsList(ref loadOK, _nullDate);
+            //BindingSource jobIDLookUpBindingSourc = new BindingSource();
+            //jobIDLookUpBindingSourc.DataSource = _oCheckOut.GetOpenJobsList(ref loadOK, _nullDate);
             bindJobsList.DataSource = jobIDLookUpBindingSourc;
             JobIDlookUp.EditValue = bindJobsList;
         }
@@ -366,8 +362,9 @@ namespace Checkout
         {
             Cursor = Cursors.WaitCursor;
             BindingSource bindingOpenJobsSource = new BindingSource();
-            bindOpenJobs.DataSource = _oCheckOut.GetOpenJobsList(ref loadOK, _nullDate);
-            gridControl1.DataSource = bindOpenJobs;
+            //bindOpenJobs.DataSource = _oCheckOut.GetOpenJobsList(ref loadOK, _nullDate);
+            //gridControl1.DataSource = bindOpenJobs;
+            gridControl1.DataSource = jobIDLookUpBindingSourc;
             gridViewJobs.Columns["n_jobstepid"].Visible = false;
             gridViewJobs.Columns["n_jobid"].Visible = false;
             gridViewJobs.Columns["T"].Visible = false;
@@ -395,8 +392,8 @@ namespace Checkout
                 GetJobButton.Visible = true;
                 JobIDlookUp.Visible = true;
                 JobIDLabel.Visible = true;
-                WorkOpLabel.Visible = true;
-                WorkOpLookUp.Visible = true;
+                WorkOpLabel.Visible = false;
+                WorkOpLookUp.Visible = false;
                 reasonLookUp.Visible = false;
                 reasonLabel.Visible = false;
                 reasonLookUp.EditValue = null;
@@ -595,11 +592,17 @@ namespace Checkout
 
         private void M_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-            var selectedRows = GetSelectedRow(gridViewPartsAdded, "masterpartid");
+            var selectedRows = GetSelectedRow(gridViewPartsAdded, "masterpartid", "rowhandle");
             var count = 0;
+            var rowhandle = 0;
+            object result;
             foreach (var rows in selectedRows)
             {
-                gridViewPartsAdded.DeleteRow(count);
+                result = selectedRows.GetValue(count);
+                System.Type type = result.GetType();
+                rowhandle = (int)type.GetProperty("rowhandle").GetValue(result);
+                
+                gridViewPartsAdded.DeleteRow(rowhandle);
                 count++;
             }
         }
@@ -730,7 +733,7 @@ namespace Checkout
         /// <param name="view"></param>
         /// <param name="fieldName"></param>
         /// <returns></returns>
-        private object[] GetSelectedRow(DevExpress.XtraGrid.Views.Grid.GridView view, string fieldName)
+        private object[] GetSelectedRow(DevExpress.XtraGrid.Views.Grid.GridView view, string fieldName, string rowhandle)
         {
             int[] selectedRows = view.GetSelectedRows();
             object[] result = new object[selectedRows.Length];
@@ -740,7 +743,7 @@ namespace Checkout
                 int rowHandle = selectedRows[i];
                 if (!gridViewJobs.IsGroupRow(rowHandle))
                 {
-                    result[i] = view.GetRowCellValue(rowHandle, fieldName);
+                    result[i] = new {masterpartid =  view.GetRowCellValue(rowHandle, fieldName), rowhandle = rowHandle };
                    
                 }
                 else
@@ -806,7 +809,7 @@ namespace Checkout
         /// <param name="dg"></param>
         private void ProcessMaterialSelections(GridView dg)
         {
-
+            Cursor = Cursors.WaitCursor;
             ///Checkout for Other
             if (dg.RowCount > 0)
             {
@@ -1322,6 +1325,7 @@ namespace Checkout
                 }
                 Cursor = Cursors.Default;
             }
+            Cursor = Cursors.Default;
         }
 
         #endregion
@@ -1334,6 +1338,7 @@ namespace Checkout
         /// </summary>
         private void GetTransactionHistory()
         {
+            Cursor = Cursors.WaitCursor;
             DataSet ds = new DataSet();
 
             SqlConnection conn = new SqlConnection(dbConnection);
@@ -1364,11 +1369,14 @@ namespace Checkout
             conn.Close();
 
             transactionHistoryGridControl.DataSource = ds.Tables[0];
+            Cursor = Cursors.Default;
         }
 
         private void simpleButton2_Click(object sender, EventArgs e)
         {
+           
             GetTransactionHistory();
+            
         }
 
 
@@ -1376,6 +1384,7 @@ namespace Checkout
 
         private void simpleButton3_Click(object sender, EventArgs e)
         {
+            Cursor = Cursors.WaitCursor;
             DataSet ds = new DataSet();
 
             SqlConnection conn = new SqlConnection(dbConnection);
@@ -1407,6 +1416,7 @@ namespace Checkout
             conn.Close();
 
             transactionHistoryGridControl.DataSource = ds.Tables[0];
+            Cursor = Cursors.Default;
         }
 
         private void simpleButton4_Click(object sender, EventArgs e)
@@ -1511,6 +1521,7 @@ namespace Checkout
                 simpleButton1.Enabled = false;
                 addPartButton.Enabled = false;
                 partIDLookUp.Enabled = false;
+                
             } else
             {
                 QTYspinEdit.Enabled = true;
