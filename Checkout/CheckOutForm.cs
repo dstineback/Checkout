@@ -40,7 +40,7 @@ namespace Checkout
         private readonly Masterparts _oMaster;
         private readonly JobstepJobParts _oParts;
         private readonly StoresIssue _oSi;
-
+        private bool checkoutComplete;
         private const int AssignedFormID = 76;
         private bool _editMode;
         private string _editingActionNum = "";
@@ -107,7 +107,7 @@ namespace Checkout
                 
                 if(_oLogon.UserID < 1)
                 {
-                    MessageBox.Show("You are not logged in. Please login to access Checkout Form");
+                     MessageBox.Show("You are not logged in. Please login to access Checkout Form");
                     login.ShowDialog();
                 }           
             }
@@ -126,12 +126,14 @@ namespace Checkout
                 gridControl1.Visible = true;
                 GetJobButton.Visible = true;
                 JobIDTextEdit.Visible = true;
+                JobIDlookUp.BackColor = Color.Crimson;
                 JobIDLabel.Visible = true;
                 reasonLookUp.Visible = false;
                 reasonLabel.Visible = false;
 
             }
             storeRoom.BackColor = Color.Crimson;
+            StoreRoomNameLable.Text = "";
             
             
            
@@ -186,10 +188,12 @@ namespace Checkout
             bindStoreroom.DataSource = storeRoomBindingSource;
             storeRoom.EditValue = bindStoreroom;
 
+
             QTYspinEdit.Enabled = true;
             simpleButton1.Enabled = true;
             addPartButton.Enabled = true;
             partIDLookUp.Enabled = true;
+           
 
         }
 
@@ -609,91 +613,7 @@ namespace Checkout
 
         void AddSelectedRows_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-            ToolStripItem item = e.ClickedItem;
-            var selectedrows = GetSelectedRows(gridViewParts, "masterpartid", "QTY", "n_masterpartid", "n_partatlocid");
-            if (gridControlPartsAdded.DataSource == null)
-            {
-                DataSet ds = new DataSet();
-                DataTable dt = new DataTable();
-
-                dt.Columns.Add(new DataColumn("masterpartid"));
-                dt.Columns.Add(new DataColumn("QTY"));
-                dt.Columns.Add(new DataColumn("n_masterpartid"));
-                dt.Columns.Add(new DataColumn("n_partatlocid"));
-
-                var count = 0;
-                var partID = "";
-                var n_masterpartid = 0;
-                var qty = 0;
-                var n_partatlocid = 0;
-
-                foreach (var rows in selectedrows)
-                {
-                    var x = selectedrows.GetValue(count);
-                    System.Type type = x.GetType();
-                    partID = type.GetProperty("masterpartid").GetValue(x).ToString();
-                    n_masterpartid = (int)type.GetProperty("n_masterpartid").GetValue(x);
-                    n_partatlocid = (int)type.GetProperty("n_partatlocid").GetValue(x);
-
-                    DataRow row = dt.NewRow();
-                    row["masterpartid"] = partID;
-                    row["QTY"] = qty;
-                    row["n_masterpartid"] = n_masterpartid;
-                    row["n_partatlocid"] = n_partatlocid;
-
-                    dt.Rows.Add(row);
-                    count++;
-
-                }
-                ds.Tables.Add(dt);
-
-                gridControlPartsAdded.DataSource = ds.Tables[0];
-            }
-            else
-            {
-                if (selectedrows.Count() > 0)
-                {
-                    var partID = "";
-                    var n_masterpartid = 0;
-                    var qty = 0;
-                    var count = 0;
-                    var n_partatlocid = 0;
-
-                    foreach (var rows in selectedrows)
-                    {
-                        var x = selectedrows.GetValue(count);
-                        System.Type type = x.GetType();
-                        partID = type.GetProperty("masterpartid").GetValue(x).ToString();
-                        n_masterpartid = (int)type.GetProperty("n_masterpartid").GetValue(x);
-                        n_partatlocid = (int)type.GetProperty("n_partatlocid").GetValue(x);
-
-
-
-
-                        gridViewPartsAdded.AddNewRow();
-                        int rowHandle = gridViewPartsAdded.GetRowHandle(gridViewPartsAdded.DataRowCount);
-
-                        if (gridViewPartsAdded.IsNewItemRow(rowHandle))
-                        {
-                            gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["masterpartid"], partID);
-                            gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["QTY"], qty);
-                            gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["n_masterpartid"], n_masterpartid);
-                            gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["n_partatlocid"], n_partatlocid);
-
-                        }
-                        else
-                        {
-
-                            gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["masterpartid"], partID);
-                            gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["QTY"], qty);
-                            gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["n_masterpartid"], n_masterpartid);
-                            gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["n_partatlocid"], n_partatlocid);
-
-                        }
-                        count++;
-                    }
-                }
-            }
+            AddSelectedRows(sender);     
         }
 
         #endregion
@@ -796,11 +716,18 @@ namespace Checkout
             } 
             GridView dg = gridViewPartsAdded;
 
-            ProcessMaterialSelections(dg);
+            ProcessMaterialSelections(dg); 
 
-            gridControlPartsAdded.DataSource = null;
-            navigationFrame.SelectedPageIndex = tileBarGroupTables.Items.IndexOf(tileBarItem2);
-            tileBar.SelectedItem = tileBarItem2;
+            if(checkoutComplete == true)
+            {
+                gridControlPartsAdded.DataSource = null;
+                navigationFrame.SelectedPageIndex = tileBarGroupTables.Items.IndexOf(tileBarItem2);
+                tileBar.SelectedItem = tileBarItem2;
+                checkoutComplete = false;
+                StoreRoomNameLable.Text = "";
+            }
+            
+
         }
 
         /// <summary>
@@ -809,7 +736,7 @@ namespace Checkout
         /// <param name="dg"></param>
         private void ProcessMaterialSelections(GridView dg)
         {
-            Cursor = Cursors.WaitCursor;
+            
             ///Checkout for Other
             if (dg.RowCount > 0)
             {
@@ -828,7 +755,7 @@ namespace Checkout
                 {
                     var continueProcessing = true;
                     var itemsAdded = 0;
-                    Cursor = Cursors.WaitCursor;
+                   
                     _oCheckOut.ClearErrors();
 
                     #region Get values from inputs
@@ -882,8 +809,14 @@ namespace Checkout
                             else
                             {
                                 MessageBox.Show("Please select a job to apply parts");
-                                JobIDTextEdit.Focus();
+                                JobIDlookUp.Focus();
+                                JobIDlookUp.BackColor = Color.Crimson;
                                 continueProcessing = false;
+                                navigationFrame.SelectedPageIndex = tileBarGroupTables.Items.IndexOf(eployeesTileBarItem);
+                                tileBar.SelectedItem = eployeesTileBarItem;
+                                checkoutComplete = false;
+                               
+                                return;
                             }
 
                             if (jobStepText.EditValue != null)
@@ -892,7 +825,15 @@ namespace Checkout
                             }
                             else
                             {
-                                MessageBox.Show("No JobStep ID avalible");
+                                MessageBox.Show("No job step ID avalible. Please select a job that has a valid job step.");
+                                JobIDlookUp.Focus();
+                                JobIDlookUp.BackColor = Color.Crimson;
+                                continueProcessing = false;
+                                navigationFrame.SelectedPageIndex = tileBarGroupTables.Items.IndexOf(eployeesTileBarItem);
+                                tileBar.SelectedItem = eployeesTileBarItem;
+                                checkoutComplete = false;
+                                
+                                return;
                             }
 
                             if (_editingTransactionID <= 0)
@@ -901,7 +842,7 @@ namespace Checkout
                                 _oCheckOut.ClearErrors();
                                 if (!_oCheckOut.GetNextTransactionID(ref transactionID, _oLogon.UserID))
                                 {
-                                    Cursor = Cursors.Default;
+                                   
                                     MessageBox.Show(
                                                 @"Error Getting Next Transaction Number - " + _oCheckOut.LastError,
                                                 @"Transaction Error");
@@ -941,7 +882,7 @@ namespace Checkout
                                     }
                                     else
                                     {
-                                        Cursor = Cursors.Default;
+                                        
                                         MessageBox.Show(@"Error Creating Transaction - " + _oCheckOut.LastError,
                                                                 @"Transaction Error");
                                         continueProcessing = false;
@@ -1096,7 +1037,7 @@ namespace Checkout
                                             }
                                         }
                                         #endregion
-                                        Cursor = Cursors.Default;
+                                       
                                         _editingTransactionID = -1;
                                         _editingTransactionItemID = -1;
                                         if (itemsAdded > 0)
@@ -1104,6 +1045,7 @@ namespace Checkout
                                             MessageBox.Show(itemsAdded + @" Parts Added" + Environment.NewLine +@"Transaction: " + _editingActionNum);
                                         }
                                         _editingActionNum = "";
+                                        checkoutComplete = true;
 
                                     }
 
@@ -1131,7 +1073,7 @@ namespace Checkout
                                 _oCheckOut.ClearErrors();
                                 if (!_oCheckOut.GetNextTransactionID(ref transactionID, _oLogon.UserID))
                                 {
-                                    Cursor = Cursors.Default;
+                                    
                                     MessageBox.Show(
                                                 @"Error Getting Next Transaction Number - " + _oCheckOut.LastError,
                                                 @"Transaction Error");
@@ -1171,7 +1113,7 @@ namespace Checkout
                                     }
                                     else
                                     {
-                                        Cursor = Cursors.Default;
+                                        
                                         MessageBox.Show(@"Error Creating Transaction - " + _oCheckOut.LastError,
                                                                 @"Transaction Error");
                                         continueProcessing = false;
@@ -1309,6 +1251,7 @@ namespace Checkout
                                             MessageBox.Show(itemsAdded + @" Parts checked out. " + Environment.NewLine + @"Transaction: " + _editingActionNum);
                                         }
                                         _editingActionNum = "";
+                                        checkoutComplete = true;
                                     }
 
                                 }
@@ -1323,9 +1266,9 @@ namespace Checkout
 
 
                 }
-                Cursor = Cursors.Default;
+               
             }
-            Cursor = Cursors.Default;
+            
         }
 
         #endregion
@@ -1521,6 +1464,7 @@ namespace Checkout
                 simpleButton1.Enabled = false;
                 addPartButton.Enabled = false;
                 partIDLookUp.Enabled = false;
+                StoreRoomNameLable.Text = "";
                 
             } else
             {
@@ -1528,6 +1472,127 @@ namespace Checkout
                 simpleButton1.Enabled = true;
                 addPartButton.Enabled = true;
                 partIDLookUp.Enabled = true;
+                StoreRoomNameLable.Text = storeRoom.Text;
+            }
+        }
+
+        private void btnAddPartsFromGrid_Click(object sender, EventArgs e)
+        {
+            AddSelectedRows(sender);
+        }
+
+        private void AddSelectedRows(object sender)
+        {
+            var selectedrows = GetSelectedRows(gridViewParts, "masterpartid", "QTY", "n_masterpartid", "n_partatlocid");
+            if (gridControlPartsAdded.DataSource == null)
+            {
+                DataSet ds = new DataSet();
+                DataTable dt = new DataTable();
+
+                dt.Columns.Add(new DataColumn("masterpartid"));
+                dt.Columns.Add(new DataColumn("QTY"));
+                dt.Columns.Add(new DataColumn("n_masterpartid"));
+                dt.Columns.Add(new DataColumn("n_partatlocid"));
+
+                var count = 0;
+                var partID = "";
+                var n_masterpartid = 0;
+                var qty = 0;
+                var n_partatlocid = 0;
+
+                foreach (var rows in selectedrows)
+                {
+                    var x = selectedrows.GetValue(count);
+                    System.Type type = x.GetType();
+                    partID = type.GetProperty("masterpartid").GetValue(x).ToString();
+                    n_masterpartid = (int)type.GetProperty("n_masterpartid").GetValue(x);
+                    n_partatlocid = (int)type.GetProperty("n_partatlocid").GetValue(x);
+
+                    DataRow row = dt.NewRow();
+                    row["masterpartid"] = partID;
+                    row["QTY"] = qty;
+                    row["n_masterpartid"] = n_masterpartid;
+                    row["n_partatlocid"] = n_partatlocid;
+
+                    dt.Rows.Add(row);
+                    count++;
+
+                }
+                ds.Tables.Add(dt);
+
+                gridControlPartsAdded.DataSource = ds.Tables[0];
+            }
+            else
+            {
+                if (selectedrows.Count() > 0)
+                {
+                    var partID = "";
+                    var n_masterpartid = 0;
+                    var qty = 0;
+                    var count = 0;
+                    var n_partatlocid = 0;
+
+                    foreach (var rows in selectedrows)
+                    {
+                        var x = selectedrows.GetValue(count);
+                        System.Type type = x.GetType();
+                        partID = type.GetProperty("masterpartid").GetValue(x).ToString();
+                        n_masterpartid = (int)type.GetProperty("n_masterpartid").GetValue(x);
+                        n_partatlocid = (int)type.GetProperty("n_partatlocid").GetValue(x);
+
+
+
+
+                        gridViewPartsAdded.AddNewRow();
+                        int rowHandle = gridViewPartsAdded.GetRowHandle(gridViewPartsAdded.DataRowCount);
+
+                        if (gridViewPartsAdded.IsNewItemRow(rowHandle))
+                        {
+                            gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["masterpartid"], partID);
+                            gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["QTY"], qty);
+                            gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["n_masterpartid"], n_masterpartid);
+                            gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["n_partatlocid"], n_partatlocid);
+
+                        }
+                        else
+                        {
+
+                            gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["masterpartid"], partID);
+                            gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["QTY"], qty);
+                            gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["n_masterpartid"], n_masterpartid);
+                            gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["n_partatlocid"], n_partatlocid);
+
+                        }
+                        count++;
+                    }
+                }
+            }
+        }
+
+        private void btnLogOut_Click(object sender, EventArgs e)
+        {
+            var results = MessageBox.Show("Are you sure you want to Log out?", "Log out", MessageBoxButtons.YesNo);
+
+            if (results == DialogResult.Yes)
+            {
+                _oLogon.UserID = -1;
+                var login = new LoginForm(ref _oLogon);
+                lookUpEdit1.Text = "";
+                takenByLookUp.Text = "";
+                userNameLabel.Text = "";
+                storeRoom.Text = "";
+
+
+                login.ShowDialog();
+
+                
+                userNameLabel.Text = _oLogon.Username;
+            
+                lookUpEdit1.Text = _oLogon.Username;
+                lookUpEdit1.EditValue = _oLogon.UserID;
+                takenByLookUp.Text = _oLogon.Username;
+                takenByLookUp.EditValue = _oLogon.UserID;
+
             }
         }
     }

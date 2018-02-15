@@ -57,7 +57,6 @@ namespace Checkout
             this.reasonLookUp = new DevExpress.XtraEditors.LookUpEdit();
             this.bindReason = new System.Windows.Forms.BindingSource(this.components);
             this.takenByLookUp = new DevExpress.XtraEditors.LookUpEdit();
-            this.bindStoreroom = new System.Windows.Forms.BindingSource(this.components);
             this.gridControl1 = new DevExpress.XtraGrid.GridControl();
             this.bindOpenJobs = new System.Windows.Forms.BindingSource(this.components);
             this.gridViewJobs = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -69,10 +68,14 @@ namespace Checkout
             this.userNameIDLabel = new DevExpress.XtraEditors.LabelControl();
             this.employeesLabelControl = new DevExpress.XtraEditors.LabelControl();
             this.storeRoomCombo = new DevExpress.XtraEditors.LookUpEdit();
+            this.bindStoreroom = new System.Windows.Forms.BindingSource(this.components);
             this.userNameTextBox = new DevExpress.XtraEditors.LookUpEdit();
             this.JobIDTextEdit = new DevExpress.XtraEditors.GridLookUpEdit();
             this.gridLookUpEdit1View = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.customersNavigationPage = new DevExpress.XtraBars.Navigation.NavigationPage();
+            this.StoreRoomNameLable = new DevExpress.XtraEditors.LabelControl();
+            this.btnAddPartsFromGrid = new DevExpress.XtraEditors.SimpleButton();
+            this.storeRoom = new DevExpress.XtraEditors.LookUpEdit();
             this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
             this.storeroomPartsLabel = new DevExpress.XtraEditors.LabelControl();
             this.QTYLabel = new DevExpress.XtraEditors.LabelControl();
@@ -119,7 +122,7 @@ namespace Checkout
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.simpleButton4 = new DevExpress.XtraEditors.SimpleButton();
-            this.storeRoom = new DevExpress.XtraEditors.LookUpEdit();
+            this.btnLogOut = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.navigationFrame)).BeginInit();
             this.navigationFrame.SuspendLayout();
             this.employeesNavigationPage.SuspendLayout();
@@ -133,7 +136,6 @@ namespace Checkout
             ((System.ComponentModel.ISupportInitialize)(this.reasonLookUp.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindReason)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.takenByLookUp.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindStoreroom)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindOpenJobs)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewJobs)).BeginInit();
@@ -141,10 +143,12 @@ namespace Checkout
             ((System.ComponentModel.ISupportInitialize)(this.dateEdit.Properties.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateEdit.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.storeRoomCombo.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindStoreroom)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.userNameTextBox.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.JobIDTextEdit.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridLookUpEdit1View)).BeginInit();
             this.customersNavigationPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.storeRoom.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.QTYspinEdit.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControlPartsAdded)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewPartsAdded)).BeginInit();
@@ -158,7 +162,6 @@ namespace Checkout
             ((System.ComponentModel.ISupportInitialize)(this.gridViewTrransactionHistory)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.storeRoom.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // splashScreenManager1
@@ -280,6 +283,7 @@ namespace Checkout
             // 
             // employeesNavigationPage
             // 
+            this.employeesNavigationPage.Caption = "employeesNavigationPage";
             this.employeesNavigationPage.Controls.Add(this.jobStepText);
             this.employeesNavigationPage.Controls.Add(this.JobIDlookUp);
             this.employeesNavigationPage.Controls.Add(this.WorkOpLookUp);
@@ -305,7 +309,7 @@ namespace Checkout
             // 
             // jobStepText
             // 
-            this.jobStepText.Location = new System.Drawing.Point(284, 159);
+            this.jobStepText.Location = new System.Drawing.Point(317, 171);
             this.jobStepText.Name = "jobStepText";
             this.jobStepText.Size = new System.Drawing.Size(100, 20);
             this.jobStepText.TabIndex = 38;
@@ -313,8 +317,10 @@ namespace Checkout
             // 
             // JobIDlookUp
             // 
-            this.JobIDlookUp.Location = new System.Drawing.Point(284, 122);
+            this.JobIDlookUp.Location = new System.Drawing.Point(317, 122);
             this.JobIDlookUp.Name = "JobIDlookUp";
+            this.JobIDlookUp.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.JobIDlookUp.Properties.Appearance.Options.UseFont = true;
             this.JobIDlookUp.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.JobIDlookUp.Properties.Columns.AddRange(new DevExpress.XtraEditors.Controls.LookUpColumnInfo[] {
@@ -327,35 +333,41 @@ namespace Checkout
             this.JobIDlookUp.Properties.ValueMember = "n_jobid";
             this.JobIDlookUp.Properties.EditValueChanged += new System.EventHandler(this.JobIDLookUpEditValueChanged);
             this.JobIDlookUp.Properties.Enter += new System.EventHandler(this.jobIDLookUpEnter);
-            this.JobIDlookUp.Size = new System.Drawing.Size(211, 20);
+            this.JobIDlookUp.Size = new System.Drawing.Size(211, 26);
             this.JobIDlookUp.TabIndex = 37;
             // 
             // WorkOpLookUp
             // 
-            this.WorkOpLookUp.Location = new System.Drawing.Point(641, 118);
+            this.WorkOpLookUp.Location = new System.Drawing.Point(708, 118);
             this.WorkOpLookUp.Name = "WorkOpLookUp";
+            this.WorkOpLookUp.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.WorkOpLookUp.Properties.Appearance.Options.UseFont = true;
             this.WorkOpLookUp.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.WorkOpLookUp.Properties.DataSource = this.bindWorkOp;
             this.WorkOpLookUp.Properties.DisplayMember = "WorkOpID";
             this.WorkOpLookUp.Properties.NullText = "";
             this.WorkOpLookUp.Properties.ValueMember = "n_WorkOpID";
-            this.WorkOpLookUp.Size = new System.Drawing.Size(210, 20);
+            this.WorkOpLookUp.Size = new System.Drawing.Size(210, 26);
             this.WorkOpLookUp.TabIndex = 34;
             this.WorkOpLookUp.Enter += new System.EventHandler(this.WorkOpEnter);
             // 
             // WorkOpLabel
             // 
-            this.WorkOpLabel.Location = new System.Drawing.Point(559, 121);
+            this.WorkOpLabel.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.WorkOpLabel.Appearance.Options.UseFont = true;
+            this.WorkOpLabel.Location = new System.Drawing.Point(590, 121);
             this.WorkOpLabel.Name = "WorkOpLabel";
-            this.WorkOpLabel.Size = new System.Drawing.Size(76, 13);
+            this.WorkOpLabel.Size = new System.Drawing.Size(112, 19);
             this.WorkOpLabel.TabIndex = 32;
             this.WorkOpLabel.Text = "Work Operation";
             // 
             // lookUpEdit1
             // 
-            this.lookUpEdit1.Location = new System.Drawing.Point(280, 25);
+            this.lookUpEdit1.Location = new System.Drawing.Point(317, 25);
             this.lookUpEdit1.Name = "lookUpEdit1";
+            this.lookUpEdit1.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.lookUpEdit1.Properties.Appearance.Options.UseFont = true;
             this.lookUpEdit1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.lookUpEdit1.Properties.Columns.AddRange(new DevExpress.XtraEditors.Controls.LookUpColumnInfo[] {
@@ -367,19 +379,23 @@ namespace Checkout
             this.lookUpEdit1.Properties.NullText = "";
             this.lookUpEdit1.Properties.ValueMember = "nUserID";
             this.lookUpEdit1.Properties.Enter += new System.EventHandler(this.takenByEnter);
-            this.lookUpEdit1.Size = new System.Drawing.Size(211, 20);
+            this.lookUpEdit1.Size = new System.Drawing.Size(211, 26);
             this.lookUpEdit1.TabIndex = 31;
             // 
             // JobIDLabel
             // 
+            this.JobIDLabel.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.JobIDLabel.Appearance.Options.UseFont = true;
             this.JobIDLabel.Location = new System.Drawing.Point(209, 125);
             this.JobIDLabel.Name = "JobIDLabel";
-            this.JobIDLabel.Size = new System.Drawing.Size(31, 13);
+            this.JobIDLabel.Size = new System.Drawing.Size(47, 19);
             this.JobIDLabel.TabIndex = 30;
             this.JobIDLabel.Text = "Job ID";
             // 
             // GetJobButton
             // 
+            this.GetJobButton.Appearance.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.GetJobButton.Appearance.Options.UseFont = true;
             this.GetJobButton.AppearanceHovered.BackColor = System.Drawing.Color.Gray;
             this.GetJobButton.AppearanceHovered.Options.UseBackColor = true;
             this.GetJobButton.AppearancePressed.BackColor = System.Drawing.Color.Silver;
@@ -393,8 +409,10 @@ namespace Checkout
             // 
             // reasonLookUp
             // 
-            this.reasonLookUp.Location = new System.Drawing.Point(640, 70);
+            this.reasonLookUp.Location = new System.Drawing.Point(707, 70);
             this.reasonLookUp.Name = "reasonLookUp";
+            this.reasonLookUp.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.reasonLookUp.Properties.Appearance.Options.UseFont = true;
             this.reasonLookUp.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.reasonLookUp.Properties.Columns.AddRange(new DevExpress.XtraEditors.Controls.LookUpColumnInfo[] {
@@ -407,12 +425,12 @@ namespace Checkout
             this.reasonLookUp.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
             this.reasonLookUp.Properties.ValueMember = "n_checkoutreasonid";
             this.reasonLookUp.Properties.Enter += new System.EventHandler(this.reasonEnter);
-            this.reasonLookUp.Size = new System.Drawing.Size(211, 20);
+            this.reasonLookUp.Size = new System.Drawing.Size(211, 26);
             this.reasonLookUp.TabIndex = 27;
             // 
             // takenByLookUp
             // 
-            this.takenByLookUp.Location = new System.Drawing.Point(284, 70);
+            this.takenByLookUp.Location = new System.Drawing.Point(317, 70);
             this.takenByLookUp.Name = "takenByLookUp";
             this.takenByLookUp.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -444,7 +462,8 @@ namespace Checkout
             // 
             this.gridViewJobs.GridControl = this.gridControl1;
             this.gridViewJobs.Name = "gridViewJobs";
-            this.gridViewJobs.OptionsFind.ShowFindButton = false;
+            this.gridViewJobs.OptionsFind.AlwaysVisible = true;
+            this.gridViewJobs.OptionsView.ShowFilterPanelMode = DevExpress.XtraGrid.Views.Base.ShowFilterPanelMode.ShowAlways;
             this.gridViewJobs.PaintStyleName = "Style3D";
             this.gridViewJobs.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gridControlJobs_MouseClick);
             // 
@@ -463,45 +482,55 @@ namespace Checkout
             // 
             // dateLabel
             // 
-            this.dateLabel.Location = new System.Drawing.Point(559, 26);
+            this.dateLabel.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.dateLabel.Appearance.Options.UseFont = true;
+            this.dateLabel.Location = new System.Drawing.Point(590, 28);
             this.dateLabel.Name = "dateLabel";
-            this.dateLabel.Size = new System.Drawing.Size(23, 13);
+            this.dateLabel.Size = new System.Drawing.Size(32, 19);
             this.dateLabel.TabIndex = 18;
             this.dateLabel.Text = "Date";
             // 
             // dateEdit
             // 
             this.dateEdit.EditValue = null;
-            this.dateEdit.Location = new System.Drawing.Point(640, 25);
+            this.dateEdit.Location = new System.Drawing.Point(707, 25);
             this.dateEdit.Name = "dateEdit";
+            this.dateEdit.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.dateEdit.Properties.Appearance.Options.UseFont = true;
             this.dateEdit.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.dateEdit.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.dateEdit.Size = new System.Drawing.Size(211, 20);
+            this.dateEdit.Size = new System.Drawing.Size(211, 26);
             this.dateEdit.TabIndex = 17;
             // 
             // reasonLabel
             // 
-            this.reasonLabel.Location = new System.Drawing.Point(559, 77);
+            this.reasonLabel.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.reasonLabel.Appearance.Options.UseFont = true;
+            this.reasonLabel.Location = new System.Drawing.Point(590, 77);
             this.reasonLabel.Name = "reasonLabel";
-            this.reasonLabel.Size = new System.Drawing.Size(36, 13);
+            this.reasonLabel.Size = new System.Drawing.Size(51, 19);
             this.reasonLabel.TabIndex = 14;
             this.reasonLabel.Text = "Reason";
             // 
             // takenByLabel
             // 
+            this.takenByLabel.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.takenByLabel.Appearance.Options.UseFont = true;
             this.takenByLabel.Location = new System.Drawing.Point(209, 73);
             this.takenByLabel.Name = "takenByLabel";
-            this.takenByLabel.Size = new System.Drawing.Size(69, 13);
+            this.takenByLabel.Size = new System.Drawing.Size(102, 19);
             this.takenByLabel.TabIndex = 13;
             this.takenByLabel.Text = "Taken by User";
             // 
             // userNameIDLabel
             // 
+            this.userNameIDLabel.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.userNameIDLabel.Appearance.Options.UseFont = true;
             this.userNameIDLabel.Location = new System.Drawing.Point(209, 26);
             this.userNameIDLabel.Name = "userNameIDLabel";
-            this.userNameIDLabel.Size = new System.Drawing.Size(52, 13);
+            this.userNameIDLabel.Size = new System.Drawing.Size(78, 19);
             this.userNameIDLabel.TabIndex = 10;
             this.userNameIDLabel.Text = "User Name\r\n";
             // 
@@ -566,6 +595,8 @@ namespace Checkout
             // customersNavigationPage
             // 
             this.customersNavigationPage.Caption = "customersNavigationPage";
+            this.customersNavigationPage.Controls.Add(this.StoreRoomNameLable);
+            this.customersNavigationPage.Controls.Add(this.btnAddPartsFromGrid);
             this.customersNavigationPage.Controls.Add(this.storeRoom);
             this.customersNavigationPage.Controls.Add(this.labelControl2);
             this.customersNavigationPage.Controls.Add(this.storeroomPartsLabel);
@@ -582,11 +613,55 @@ namespace Checkout
             this.customersNavigationPage.Name = "customersNavigationPage";
             this.customersNavigationPage.Size = new System.Drawing.Size(1008, 619);
             // 
+            // StoreRoomNameLable
+            // 
+            this.StoreRoomNameLable.Appearance.Font = new System.Drawing.Font("Tahoma", 16F);
+            this.StoreRoomNameLable.Appearance.Options.UseFont = true;
+            this.StoreRoomNameLable.Location = new System.Drawing.Point(165, 13);
+            this.StoreRoomNameLable.Name = "StoreRoomNameLable";
+            this.StoreRoomNameLable.Size = new System.Drawing.Size(122, 25);
+            this.StoreRoomNameLable.TabIndex = 27;
+            this.StoreRoomNameLable.Text = "labelControl1";
+            // 
+            // btnAddPartsFromGrid
+            // 
+            this.btnAddPartsFromGrid.Appearance.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.btnAddPartsFromGrid.Appearance.Options.UseFont = true;
+            this.btnAddPartsFromGrid.Location = new System.Drawing.Point(800, 142);
+            this.btnAddPartsFromGrid.Name = "btnAddPartsFromGrid";
+            this.btnAddPartsFromGrid.Size = new System.Drawing.Size(156, 31);
+            this.btnAddPartsFromGrid.TabIndex = 26;
+            this.btnAddPartsFromGrid.Text = "Add parts from grid";
+            this.btnAddPartsFromGrid.Click += new System.EventHandler(this.btnAddPartsFromGrid_Click);
+            // 
+            // storeRoom
+            // 
+            this.storeRoom.Location = new System.Drawing.Point(58, 49);
+            this.storeRoom.Name = "storeRoom";
+            this.storeRoom.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.storeRoom.Properties.Appearance.Options.UseFont = true;
+            this.storeRoom.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.storeRoom.Properties.Columns.AddRange(new DevExpress.XtraEditors.Controls.LookUpColumnInfo[] {
+            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("storeroomid", "Store room", 100, DevExpress.Utils.FormatType.None, "", true, DevExpress.Utils.HorzAlignment.Default, DevExpress.Data.ColumnSortOrder.None, DevExpress.Utils.DefaultBoolean.Default),
+            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("descr", "Description", 200, DevExpress.Utils.FormatType.None, "", true, DevExpress.Utils.HorzAlignment.Default, DevExpress.Data.ColumnSortOrder.None, DevExpress.Utils.DefaultBoolean.Default)});
+            this.storeRoom.Properties.DataSource = this.bindStoreroom;
+            this.storeRoom.Properties.DisplayMember = "storeroomid";
+            this.storeRoom.Properties.DropDownRows = 10;
+            this.storeRoom.Properties.NullText = "";
+            this.storeRoom.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
+            this.storeRoom.Properties.ValueMember = "n_storeroomid";
+            this.storeRoom.Properties.Enter += new System.EventHandler(this.storeRoomEnter);
+            this.storeRoom.Size = new System.Drawing.Size(276, 26);
+            this.storeRoom.TabIndex = 25;
+            this.storeRoom.EditValueChanged += new System.EventHandler(this.storeRoom_EditValueChanged);
+            this.storeRoom.TextChanged += new System.EventHandler(this.storeRoom_TextChanged);
+            // 
             // labelControl2
             // 
             this.labelControl2.Appearance.Font = new System.Drawing.Font("Tahoma", 14F);
             this.labelControl2.Appearance.Options.UseFont = true;
-            this.labelControl2.Location = new System.Drawing.Point(58, 362);
+            this.labelControl2.Location = new System.Drawing.Point(58, 385);
             this.labelControl2.Name = "labelControl2";
             this.labelControl2.Size = new System.Drawing.Size(74, 23);
             this.labelControl2.TabIndex = 16;
@@ -594,17 +669,21 @@ namespace Checkout
             // 
             // storeroomPartsLabel
             // 
-            this.storeroomPartsLabel.Location = new System.Drawing.Point(58, 8);
+            this.storeroomPartsLabel.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.storeroomPartsLabel.Appearance.Options.UseFont = true;
+            this.storeroomPartsLabel.Location = new System.Drawing.Point(58, 18);
             this.storeroomPartsLabel.Name = "storeroomPartsLabel";
-            this.storeroomPartsLabel.Size = new System.Drawing.Size(56, 13);
+            this.storeroomPartsLabel.Size = new System.Drawing.Size(90, 19);
             this.storeroomPartsLabel.TabIndex = 14;
-            this.storeroomPartsLabel.Text = "Store Room";
+            this.storeroomPartsLabel.Text = "Store Room:";
             // 
             // QTYLabel
             // 
-            this.QTYLabel.Location = new System.Drawing.Point(663, 9);
+            this.QTYLabel.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.QTYLabel.Appearance.Options.UseFont = true;
+            this.QTYLabel.Location = new System.Drawing.Point(663, 17);
             this.QTYLabel.Name = "QTYLabel";
-            this.QTYLabel.Size = new System.Drawing.Size(20, 13);
+            this.QTYLabel.Size = new System.Drawing.Size(32, 19);
             this.QTYLabel.TabIndex = 12;
             this.QTYLabel.Text = "QTY";
             // 
@@ -615,28 +694,32 @@ namespace Checkout
             0,
             0,
             0});
-            this.QTYspinEdit.Location = new System.Drawing.Point(663, 28);
+            this.QTYspinEdit.Location = new System.Drawing.Point(663, 49);
             this.QTYspinEdit.Name = "QTYspinEdit";
+            this.QTYspinEdit.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.QTYspinEdit.Properties.Appearance.Options.UseFont = true;
             this.QTYspinEdit.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.QTYspinEdit.Size = new System.Drawing.Size(100, 20);
+            this.QTYspinEdit.Size = new System.Drawing.Size(100, 26);
             this.QTYspinEdit.TabIndex = 11;
             // 
             // simpleButton1
             // 
-            this.simpleButton1.Location = new System.Drawing.Point(802, 25);
+            this.simpleButton1.Appearance.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.simpleButton1.Appearance.Options.UseFont = true;
+            this.simpleButton1.Location = new System.Drawing.Point(800, 49);
             this.simpleButton1.Name = "simpleButton1";
-            this.simpleButton1.Size = new System.Drawing.Size(75, 23);
+            this.simpleButton1.Size = new System.Drawing.Size(154, 29);
             this.simpleButton1.TabIndex = 10;
-            this.simpleButton1.Text = "Add Part";
+            this.simpleButton1.Text = "Add single part";
             this.simpleButton1.Click += new System.EventHandler(this.simpleButton1_Click);
             // 
             // gridControlPartsAdded
             // 
-            this.gridControlPartsAdded.Location = new System.Drawing.Point(58, 391);
+            this.gridControlPartsAdded.Location = new System.Drawing.Point(58, 414);
             this.gridControlPartsAdded.MainView = this.gridViewPartsAdded;
             this.gridControlPartsAdded.Name = "gridControlPartsAdded";
-            this.gridControlPartsAdded.Size = new System.Drawing.Size(720, 155);
+            this.gridControlPartsAdded.Size = new System.Drawing.Size(720, 193);
             this.gridControlPartsAdded.TabIndex = 9;
             this.gridControlPartsAdded.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewPartsAdded});
@@ -678,12 +761,14 @@ namespace Checkout
             // 
             // checkOutButton
             // 
+            this.checkOutButton.Appearance.Font = new System.Drawing.Font("Tahoma", 14F);
+            this.checkOutButton.Appearance.Options.UseFont = true;
             this.checkOutButton.AppearanceHovered.BackColor = System.Drawing.Color.DarkGray;
             this.checkOutButton.AppearanceHovered.Options.UseBackColor = true;
             this.checkOutButton.AppearancePressed.BackColor = System.Drawing.Color.DarkGray;
             this.checkOutButton.AppearancePressed.Options.UseBackColor = true;
             this.checkOutButton.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.Style3D;
-            this.checkOutButton.Location = new System.Drawing.Point(817, 497);
+            this.checkOutButton.Location = new System.Drawing.Point(817, 488);
             this.checkOutButton.Name = "checkOutButton";
             this.checkOutButton.Size = new System.Drawing.Size(156, 49);
             this.checkOutButton.TabIndex = 8;
@@ -692,10 +777,10 @@ namespace Checkout
             // 
             // gridControlParts
             // 
-            this.gridControlParts.Location = new System.Drawing.Point(58, 105);
+            this.gridControlParts.Location = new System.Drawing.Point(58, 132);
             this.gridControlParts.MainView = this.gridViewParts;
             this.gridControlParts.Name = "gridControlParts";
-            this.gridControlParts.Size = new System.Drawing.Size(915, 239);
+            this.gridControlParts.Size = new System.Drawing.Size(915, 236);
             this.gridControlParts.TabIndex = 7;
             this.gridControlParts.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewParts});
@@ -744,25 +829,31 @@ namespace Checkout
             // 
             // partIDLabel
             // 
-            this.partIDLabel.Location = new System.Drawing.Point(465, 9);
+            this.partIDLabel.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.partIDLabel.Appearance.Options.UseFont = true;
+            this.partIDLabel.Location = new System.Drawing.Point(465, 17);
             this.partIDLabel.Name = "partIDLabel";
-            this.partIDLabel.Size = new System.Drawing.Size(34, 13);
+            this.partIDLabel.Size = new System.Drawing.Size(50, 19);
             this.partIDLabel.TabIndex = 5;
             this.partIDLabel.Text = "Part ID";
             // 
             // addPartButton
             // 
-            this.addPartButton.Location = new System.Drawing.Point(58, 76);
+            this.addPartButton.Appearance.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.addPartButton.Appearance.Options.UseFont = true;
+            this.addPartButton.Location = new System.Drawing.Point(58, 94);
             this.addPartButton.Name = "addPartButton";
-            this.addPartButton.Size = new System.Drawing.Size(128, 23);
+            this.addPartButton.Size = new System.Drawing.Size(183, 32);
             this.addPartButton.TabIndex = 4;
             this.addPartButton.Text = "Get all Storeroom parts";
             this.addPartButton.Click += new System.EventHandler(this.addPartButton_Click);
             // 
             // partIDLookUp
             // 
-            this.partIDLookUp.Location = new System.Drawing.Point(465, 28);
+            this.partIDLookUp.Location = new System.Drawing.Point(465, 49);
             this.partIDLookUp.Name = "partIDLookUp";
+            this.partIDLookUp.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.partIDLookUp.Properties.Appearance.Options.UseFont = true;
             this.partIDLookUp.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.partIDLookUp.Properties.Columns.AddRange(new DevExpress.XtraEditors.Controls.LookUpColumnInfo[] {
@@ -775,7 +866,7 @@ namespace Checkout
             this.partIDLookUp.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
             this.partIDLookUp.Properties.ValueMember = "n_masterpartid";
             this.partIDLookUp.Properties.Enter += new System.EventHandler(this.partEnter);
-            this.partIDLookUp.Size = new System.Drawing.Size(192, 20);
+            this.partIDLookUp.Size = new System.Drawing.Size(192, 26);
             this.partIDLookUp.TabIndex = 3;
             // 
             // customersLabelControl
@@ -796,6 +887,7 @@ namespace Checkout
             // 
             // navigationPage1
             // 
+            this.navigationPage1.Caption = "navigationPage1";
             this.navigationPage1.Controls.Add(this.simpleButton3);
             this.navigationPage1.Controls.Add(this.simpleButton2);
             this.navigationPage1.Controls.Add(this.transactionNumberLabel);
@@ -1034,33 +1126,21 @@ namespace Checkout
             this.simpleButton4.AppearanceHovered.Options.UseBackColor = true;
             this.simpleButton4.AppearancePressed.BackColor = System.Drawing.Color.Silver;
             this.simpleButton4.AppearancePressed.Options.UseBackColor = true;
-            this.simpleButton4.Location = new System.Drawing.Point(804, 67);
+            this.simpleButton4.Location = new System.Drawing.Point(804, 79);
             this.simpleButton4.Name = "simpleButton4";
             this.simpleButton4.Size = new System.Drawing.Size(152, 23);
             this.simpleButton4.TabIndex = 4;
             this.simpleButton4.Text = "New Check out";
             this.simpleButton4.Click += new System.EventHandler(this.simpleButton4_Click);
             // 
-            // storeRoom
+            // btnLogOut
             // 
-            this.storeRoom.Location = new System.Drawing.Point(58, 28);
-            this.storeRoom.Name = "storeRoom";
-            this.storeRoom.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.storeRoom.Properties.Columns.AddRange(new DevExpress.XtraEditors.Controls.LookUpColumnInfo[] {
-            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("storeroomid", "Store room", 100, DevExpress.Utils.FormatType.None, "", true, DevExpress.Utils.HorzAlignment.Default, DevExpress.Data.ColumnSortOrder.None, DevExpress.Utils.DefaultBoolean.Default),
-            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("descr", "Description", 200, DevExpress.Utils.FormatType.None, "", true, DevExpress.Utils.HorzAlignment.Default, DevExpress.Data.ColumnSortOrder.None, DevExpress.Utils.DefaultBoolean.Default)});
-            this.storeRoom.Properties.DataSource = this.bindStoreroom;
-            this.storeRoom.Properties.DisplayMember = "storeroomid";
-            this.storeRoom.Properties.DropDownRows = 10;
-            this.storeRoom.Properties.NullText = "";
-            this.storeRoom.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
-            this.storeRoom.Properties.ValueMember = "n_storeroomid";
-            this.storeRoom.Properties.Enter += new System.EventHandler(this.storeRoomEnter);
-            this.storeRoom.Size = new System.Drawing.Size(276, 20);
-            this.storeRoom.TabIndex = 25;
-            this.storeRoom.EditValueChanged += new System.EventHandler(this.storeRoom_EditValueChanged);
-            this.storeRoom.TextChanged += new System.EventHandler(this.storeRoom_TextChanged);
+            this.btnLogOut.Location = new System.Drawing.Point(804, 49);
+            this.btnLogOut.Name = "btnLogOut";
+            this.btnLogOut.Size = new System.Drawing.Size(115, 23);
+            this.btnLogOut.TabIndex = 5;
+            this.btnLogOut.Text = "Log Out";
+            this.btnLogOut.Click += new System.EventHandler(this.btnLogOut_Click);
             // 
             // CheckOutForm
             // 
@@ -1069,6 +1149,7 @@ namespace Checkout
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1008, 729);
+            this.Controls.Add(this.btnLogOut);
             this.Controls.Add(this.simpleButton4);
             this.Controls.Add(this.userNameLabel);
             this.Controls.Add(this.labelControl9);
@@ -1093,7 +1174,6 @@ namespace Checkout
             ((System.ComponentModel.ISupportInitialize)(this.reasonLookUp.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindReason)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.takenByLookUp.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindStoreroom)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindOpenJobs)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewJobs)).EndInit();
@@ -1101,11 +1181,13 @@ namespace Checkout
             ((System.ComponentModel.ISupportInitialize)(this.dateEdit.Properties.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateEdit.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.storeRoomCombo.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindStoreroom)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.userNameTextBox.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.JobIDTextEdit.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridLookUpEdit1View)).EndInit();
             this.customersNavigationPage.ResumeLayout(false);
             this.customersNavigationPage.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.storeRoom.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.QTYspinEdit.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControlPartsAdded)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewPartsAdded)).EndInit();
@@ -1120,7 +1202,6 @@ namespace Checkout
             ((System.ComponentModel.ISupportInitialize)(this.gridViewTrransactionHistory)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
             this.contextMenuStrip2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.storeRoom.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1213,6 +1294,9 @@ namespace Checkout
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
         private LookUpEdit storeRoom;
+        private LabelControl StoreRoomNameLable;
+        private SimpleButton btnAddPartsFromGrid;
+        private SimpleButton btnLogOut;
 
         public object Appearance { get; private set; }
         public FormBorderEffect FormBorderEffect { get; private set; }

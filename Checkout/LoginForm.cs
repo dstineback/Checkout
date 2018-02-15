@@ -4895,16 +4895,28 @@ namespace Checkout
         }
 
         private void LoginForm_FormClosing(object sender, FormClosingEventArgs e)
-        { 
-            if (_oLogon.UserID > 0)
+        {
+            if(e.CloseReason == CloseReason.UserClosing)
             {
-                return;
+
+                var results = MessageBox.Show("Do you want to exit?", "Close", MessageBoxButtons.YesNo);
+
+                if (results == DialogResult.Yes)
+                {
+                    Application.Exit();   
+                }
+                else
+                {
+         
+                    e.Cancel= true;
+                }
             }
             else
             {
-                MessageBox.Show("You must login before exiting.");
-                e.Cancel= true;
+
             }
         }
+
+      
     }
 }
