@@ -31,11 +31,11 @@ namespace Checkout
     {
         public PersonnelLogonObjectClass oLogon;
         public PersonnelLogonObjectClass _oLogon = new PersonnelLogonObjectClass();
-        
        
         private readonly DateTime _nullDate = Convert.ToDateTime("1/1/1960 23:59:59");
         private readonly bool _viewOnly;
         private readonly DbCheckOut _oCheckOut;
+        private  CheckOutReasons _oCheckOutReason;
 
         private readonly Masterparts _oMaster;
         private readonly JobstepJobParts _oParts;
@@ -85,14 +85,16 @@ namespace Checkout
         private static CloudBlobClient _blobClient = _storageConnectionString != null ? CloudStorageAccount.Parse(_storageConnectionString).CreateCloudBlobClient() : null;
         bool loadOK = true;
         BindingSource jobIDLookUpBindingSourc = new BindingSource();
+        private bool useWeb = false;
 
+        private MpetComboBinders _comboBinders;
        
 
         public CheckOutForm()
         {
             ShowSplashScreen();
                
-            _oCheckOut = new DbCheckOut(dbConnection, false);
+            _oCheckOut = new DbCheckOut(dbConnection, useWeb);
             InitializeComponent();
             jobIDLookUpBindingSourc.DataSource = _oCheckOut.GetOpenJobsList(ref loadOK, _nullDate);
             System.Threading.Thread.Sleep(10000);
@@ -132,6 +134,7 @@ namespace Checkout
                 reasonLabel.Visible = false;
 
             }
+            reasonLookUp.BackColor = Color.Crimson;
             storeRoom.BackColor = Color.Crimson;
             StoreRoomNameLable.Text = "";
             
@@ -192,7 +195,7 @@ namespace Checkout
             QTYspinEdit.Enabled = true;
             simpleButton1.Enabled = true;
             addPartButton.Enabled = true;
-            partIDLookUp.Enabled = true;
+           partIDLookUp.Enabled = true;
            
 
         }
@@ -200,9 +203,32 @@ namespace Checkout
         private void reasonEnter(object sender, EventArgs e)
         {
             BindingSource reasonBindingSource = new BindingSource();
-            reasonBindingSource.DataSource = _oCheckOut.GetAllCheckOutReasons(ref loadOK);
+            //reasonBindingSource.DataSource = _oCheckOut.GetAllCheckOutReasons(ref loadOK);
+            //_oCheckOutReason = new CheckOutReasons(dbConnection, useWeb);
+            //reasonBindingSource.DataSource = _oCheckOutReason.LoadData2("", "", "Y");
+
+            DataSet ds = new DataSet();
+
+            SqlConnection conn = new SqlConnection(dbConnection);
+            SqlCommand cmd = new SqlCommand();
+            SqlParameterCollection param = cmd.Parameters;
+
+            param = cmd.Parameters;
+            cmd.CommandText = "SELECT n_checkoutreasonid, checkoutreasonid, description, b_IsActive FROM CheckOutReasons WHERE b_IsActive = 'Y' AND n_checkoutreasonid > 0";
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = conn;
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.SelectCommand = cmd;
+            conn.Open();
+            da.Fill(ds);
+
+            conn.Close();
+            reasonBindingSource.DataSource = ds.Tables[0];
+
             bindReason.DataSource = reasonBindingSource;
             reasonLookUp.EditValue = bindReason;
+            
 
         }
 
@@ -293,7 +319,7 @@ namespace Checkout
                 partBindingSource.DataSource = ds.Tables[0];
 
                 bindPart.DataSource = ds.Tables[0];
-                partIDLookUp.EditValue = bindPart;
+               partIDLookUp.EditValue = bindPart;
             }
             else
             {
@@ -361,7 +387,11 @@ namespace Checkout
              DevExpress.XtraSplashScreen.SplashScreenManager.CloseForm();
         }
         
-
+        /// <summary>
+        /// Button to show all the jobs in the grid.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GetJobButton_Click(object sender, EventArgs e)
         {
             Cursor = Cursors.WaitCursor;
@@ -477,7 +507,7 @@ namespace Checkout
                 partBindingSource.DataSource = ds;
 
                 bindPart.DataSource = partBindingSource;
-                partIDLookUp.EditValue = bindPart;
+               partIDLookUp.EditValue = bindPart;
                 BindingSource bindingPartsSource = new BindingSource();
                 bindingPartsSource.DataSource = ds;
                 
@@ -501,6 +531,7 @@ namespace Checkout
         {
             var partID = partIDLookUp.Text;
             var n_masterpartid = partIDLookUp.EditValue;
+            var description = this.partIDLookUp.Properties.View.GetFocusedRowCellValue("Description");
             int qty = Convert.ToInt32(QTYspinEdit.Value);
             int partatlocid = -1;
             var partatloc = _oCheckOut.GetPartAtLocationID(Convert.ToInt32(n_masterpartid), Convert.ToInt32(storeRoom.EditValue), _oLogon.UserID, ref partatlocid);
@@ -514,12 +545,14 @@ namespace Checkout
                 dt.Columns.Add(new DataColumn("QTY"));
                 dt.Columns.Add(new DataColumn("n_masterpartid"));
                 dt.Columns.Add(new DataColumn("n_partatlocid"));
+                dt.Columns.Add(new DataColumn("Description"));
 
                 DataRow row = dt.NewRow();
                 row["masterpartid"] = partID;
                 row["QTY"] = qty;
                 row["n_masterpartid"] = n_masterpartid;
                 row["n_partatlocid"] = partatlocid;
+                row["Description"] = description;
                 
                 dt.Rows.Add(row);
                 ds.Tables.Add(dt);
@@ -539,6 +572,7 @@ namespace Checkout
                     gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["QTY"], qty);
                     gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["n_masterpartid"], n_masterpartid);
                     gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["n_partatlocid"], partatlocid);
+                    gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["Description"], description);
                 }
 
             }
@@ -681,7 +715,7 @@ namespace Checkout
         /// <param name="n_masterpartid"></param>
         /// <param name="n_partatlocid"></param>
         /// <returns></returns>
-        private object[] GetSelectedRows(DevExpress.XtraGrid.Views.Grid.GridView view, string fieldName, string QTY, string n_masterpartid, string n_partatlocid)
+        private object[] GetSelectedRows(DevExpress.XtraGrid.Views.Grid.GridView view, string fieldName, string QTY, string n_masterpartid, string n_partatlocid, string Description)
         {
             int[] selectedRows = view.GetSelectedRows();
             object[] result = new object[selectedRows.Length];
@@ -691,7 +725,7 @@ namespace Checkout
                 int rowHandle = selectedRows[i];
                 if (!gridViewJobs.IsGroupRow(rowHandle))
                 {                
-                    result[i] = new { masterpartid = view.GetRowCellValue(rowHandle, fieldName), QTY = view.GetRowCellValue(rowHandle, QTY), n_masterpartid = view.GetRowCellValue(rowHandle, n_masterpartid), n_partatlocid = view.GetRowCellValue(rowHandle, n_partatlocid) };                
+                    result[i] = new { masterpartid = view.GetRowCellValue(rowHandle, fieldName), QTY = view.GetRowCellValue(rowHandle, QTY), n_masterpartid = view.GetRowCellValue(rowHandle, n_masterpartid), n_partatlocid = view.GetRowCellValue(rowHandle, n_partatlocid), Description = view.GetRowCellValue(rowHandle, Description) };                
                 }
                 else
                     result[i] = -1; // default value
@@ -1065,6 +1099,20 @@ namespace Checkout
                             if (reasonLookUp.EditValue != null)
                             {
                                 _editingCheckOutReasonID = Convert.ToInt32(reasonLookUp.EditValue);
+
+                            } else
+                            {
+                                if(_editingCheckOutReasonID < 1)
+                                {
+                                    MessageBox.Show("No reason was picked. Please select a valid reason code");
+                                    reasonLookUp.BackColor = Color.Crimson;
+                                    reasonLookUp.Focus();
+                                    continueProcessing = false;
+                                    navigationFrame.SelectedPageIndex = tileBarGroupTables.Items.IndexOf(eployeesTileBarItem);
+                                    tileBar.SelectedItem = eployeesTileBarItem;
+                                    checkoutComplete = false;
+                                    return;
+                                }
                             }
 
                             if (_editingTransactionID <= 0)
@@ -1117,6 +1165,7 @@ namespace Checkout
                                         MessageBox.Show(@"Error Creating Transaction - " + _oCheckOut.LastError,
                                                                 @"Transaction Error");
                                         continueProcessing = false;
+                                        _editingCheckOutReasonID = -1;
                                     }
 
                                     if (continueProcessing)
@@ -1245,6 +1294,7 @@ namespace Checkout
                                         Cursor = Cursors.Default;                                      
                                         _editingTransactionID = -1;
                                         _editingTransactionItemID = -1;
+                                        _editingCheckOutReasonID = -1;
                                        
                                         if (itemsAdded > 0)
                                         {
@@ -1325,7 +1375,7 @@ namespace Checkout
 
         #endregion
 
-        private void simpleButton3_Click(object sender, EventArgs e)
+        private void GetSingleTransaction_Click(object sender, EventArgs e)
         {
             Cursor = Cursors.WaitCursor;
             DataSet ds = new DataSet();
@@ -1382,7 +1432,9 @@ namespace Checkout
                 case DialogResult.No:
                     //clear all inputs
                     resetform();
-                    
+                    takenByLookUp.Text = _oLogon.Username;
+                    takenByLookUp.EditValue = _oLogon.UserID;
+
 
                     navigationFrame.SelectedPageIndex = tileBarGroupTables.Items.IndexOf(eployeesTileBarItem);
                     tileBar.SelectedItem = eployeesTileBarItem;
@@ -1399,7 +1451,7 @@ namespace Checkout
             takenByLookUp.EditValue = null;
             reasonLookUp.EditValue = null;
             JobIDlookUp.EditValue = null;
-            partIDLookUp.EditValue = null;
+           partIDLookUp.EditValue = null;
             QTYspinEdit.EditValue = null;
             storeRoom.EditValue = null;
             gridControl1.DataSource = null;
@@ -1444,14 +1496,14 @@ namespace Checkout
                 QTYspinEdit.Enabled = true;
                 simpleButton1.Enabled = true;
                 addPartButton.Enabled = true;
-                partIDLookUp.Enabled = true;
+               partIDLookUp.Enabled = true;
             }
             else
             {
                 QTYspinEdit.Enabled = false;
                 simpleButton1.Enabled = false;
                 addPartButton.Enabled = false;
-                partIDLookUp.Enabled = false; 
+               partIDLookUp.Enabled = false; 
             }
             
         }
@@ -1463,7 +1515,7 @@ namespace Checkout
                 QTYspinEdit.Enabled = false;
                 simpleButton1.Enabled = false;
                 addPartButton.Enabled = false;
-                partIDLookUp.Enabled = false;
+               partIDLookUp.Enabled = false;
                 StoreRoomNameLable.Text = "";
                 
             } else
@@ -1471,7 +1523,7 @@ namespace Checkout
                 QTYspinEdit.Enabled = true;
                 simpleButton1.Enabled = true;
                 addPartButton.Enabled = true;
-                partIDLookUp.Enabled = true;
+               partIDLookUp.Enabled = true;
                 StoreRoomNameLable.Text = storeRoom.Text;
             }
         }
@@ -1483,7 +1535,7 @@ namespace Checkout
 
         private void AddSelectedRows(object sender)
         {
-            var selectedrows = GetSelectedRows(gridViewParts, "masterpartid", "QTY", "n_masterpartid", "n_partatlocid");
+            var selectedrows = GetSelectedRows(gridViewParts, "masterpartid", "QTY", "n_masterpartid", "n_partatlocid", "Description");
             if (gridControlPartsAdded.DataSource == null)
             {
                 DataSet ds = new DataSet();
@@ -1493,12 +1545,14 @@ namespace Checkout
                 dt.Columns.Add(new DataColumn("QTY"));
                 dt.Columns.Add(new DataColumn("n_masterpartid"));
                 dt.Columns.Add(new DataColumn("n_partatlocid"));
+                dt.Columns.Add(new DataColumn("Description"));
 
                 var count = 0;
                 var partID = "";
                 var n_masterpartid = 0;
                 var qty = 0;
                 var n_partatlocid = 0;
+                var description = "";
 
                 foreach (var rows in selectedrows)
                 {
@@ -1507,13 +1561,15 @@ namespace Checkout
                     partID = type.GetProperty("masterpartid").GetValue(x).ToString();
                     n_masterpartid = (int)type.GetProperty("n_masterpartid").GetValue(x);
                     n_partatlocid = (int)type.GetProperty("n_partatlocid").GetValue(x);
+                    description = type.GetProperty("Description").GetValue(x).ToString();
 
                     DataRow row = dt.NewRow();
                     row["masterpartid"] = partID;
                     row["QTY"] = qty;
                     row["n_masterpartid"] = n_masterpartid;
                     row["n_partatlocid"] = n_partatlocid;
-
+                    row["Description"] = description;
+ 
                     dt.Rows.Add(row);
                     count++;
 
@@ -1531,6 +1587,7 @@ namespace Checkout
                     var qty = 0;
                     var count = 0;
                     var n_partatlocid = 0;
+                    var description = "";
 
                     foreach (var rows in selectedrows)
                     {
@@ -1539,6 +1596,8 @@ namespace Checkout
                         partID = type.GetProperty("masterpartid").GetValue(x).ToString();
                         n_masterpartid = (int)type.GetProperty("n_masterpartid").GetValue(x);
                         n_partatlocid = (int)type.GetProperty("n_partatlocid").GetValue(x);
+                        description = type.GetProperty("Description").GetValue(x).ToString();
+
 
 
 
@@ -1552,6 +1611,7 @@ namespace Checkout
                             gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["QTY"], qty);
                             gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["n_masterpartid"], n_masterpartid);
                             gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["n_partatlocid"], n_partatlocid);
+                            gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["Description"], description);
 
                         }
                         else
@@ -1561,6 +1621,7 @@ namespace Checkout
                             gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["QTY"], qty);
                             gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["n_masterpartid"], n_masterpartid);
                             gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["n_partatlocid"], n_partatlocid);
+                            gridViewPartsAdded.SetRowCellValue(rowHandle, gridViewPartsAdded.Columns["Description"], description);
 
                         }
                         count++;
@@ -1584,6 +1645,7 @@ namespace Checkout
 
 
                 login.ShowDialog();
+                resetform();
 
                 
                 userNameLabel.Text = _oLogon.Username;
@@ -1592,6 +1654,31 @@ namespace Checkout
                 lookUpEdit1.EditValue = _oLogon.UserID;
                 takenByLookUp.Text = _oLogon.Username;
                 takenByLookUp.EditValue = _oLogon.UserID;
+                navigationFrame.SelectedPageIndex = tileBarGroupTables.Items.IndexOf(eployeesTileBarItem);
+                tileBar.SelectedItem = eployeesTileBarItem;
+
+            }
+        }
+
+        private void CheckOutForm_Closing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+
+                var results = MessageBox.Show("Do you want to exit?", "Close", MessageBoxButtons.YesNo);
+
+                if (results == DialogResult.Yes)
+                {
+                    Application.Exit();
+                }
+                else
+                {
+
+                    e.Cancel = true;
+                }
+            }
+            else
+            {
 
             }
         }

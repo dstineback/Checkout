@@ -59,7 +59,7 @@
             this.navigationFrame.Pages.AddRange(new DevExpress.XtraBars.Navigation.NavigationPageBase[] {
             this.employeesNavigationPage});
             this.navigationFrame.SelectedPage = this.employeesNavigationPage;
-            this.navigationFrame.Size = new System.Drawing.Size(620, 275);
+            this.navigationFrame.Size = new System.Drawing.Size(440, 177);
             this.navigationFrame.TabIndex = 0;
             this.navigationFrame.Text = "navigationFrame";
             // 
@@ -74,23 +74,23 @@
             this.employeesNavigationPage.Controls.Add(this.simpleButton1);
             this.employeesNavigationPage.Controls.Add(this.employeesLabelControl);
             this.employeesNavigationPage.Name = "employeesNavigationPage";
-            this.employeesNavigationPage.Size = new System.Drawing.Size(620, 275);
+            this.employeesNavigationPage.Size = new System.Drawing.Size(440, 177);
             // 
             // labelControl1
             // 
             this.labelControl1.Appearance.BackColor = System.Drawing.Color.Silver;
-            this.labelControl1.Appearance.Font = new System.Drawing.Font("Rockwell", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelControl1.Appearance.Font = new System.Drawing.Font("Tahoma", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelControl1.Appearance.ForeColor = System.Drawing.Color.White;
             this.labelControl1.Appearance.Options.UseBackColor = true;
             this.labelControl1.Appearance.Options.UseFont = true;
             this.labelControl1.Appearance.Options.UseForeColor = true;
             this.labelControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.labelControl1.Location = new System.Drawing.Point(54, 37);
+            this.labelControl1.Location = new System.Drawing.Point(62, 15);
             this.labelControl1.Name = "labelControl1";
             this.labelControl1.Padding = new System.Windows.Forms.Padding(2);
-            this.labelControl1.Size = new System.Drawing.Size(501, 40);
+            this.labelControl1.Size = new System.Drawing.Size(317, 43);
             this.labelControl1.TabIndex = 6;
-            this.labelControl1.Text = "Welcome to MPET Parts Checkout";
+            this.labelControl1.Text = " MPET Parts Checkout";
             // 
             // labelControl3
             // 
@@ -100,7 +100,7 @@
             this.labelControl3.Appearance.Options.UseBackColor = true;
             this.labelControl3.Appearance.Options.UseFont = true;
             this.labelControl3.Appearance.Options.UseForeColor = true;
-            this.labelControl3.Location = new System.Drawing.Point(96, 166);
+            this.labelControl3.Location = new System.Drawing.Point(99, 104);
             this.labelControl3.Name = "labelControl3";
             this.labelControl3.Padding = new System.Windows.Forms.Padding(2);
             this.labelControl3.Size = new System.Drawing.Size(82, 27);
@@ -115,7 +115,7 @@
             this.labelControl2.Appearance.Options.UseBackColor = true;
             this.labelControl2.Appearance.Options.UseFont = true;
             this.labelControl2.Appearance.Options.UseForeColor = true;
-            this.labelControl2.Location = new System.Drawing.Point(96, 128);
+            this.labelControl2.Location = new System.Drawing.Point(99, 71);
             this.labelControl2.Name = "labelControl2";
             this.labelControl2.Padding = new System.Windows.Forms.Padding(2);
             this.labelControl2.Size = new System.Drawing.Size(94, 27);
@@ -124,30 +124,33 @@
             // 
             // passwordTextBox
             // 
-            this.passwordTextBox.Location = new System.Drawing.Point(196, 165);
+            this.passwordTextBox.Location = new System.Drawing.Point(199, 103);
             this.passwordTextBox.Name = "passwordTextBox";
             this.passwordTextBox.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 14F);
             this.passwordTextBox.Properties.Appearance.Options.UseFont = true;
             this.passwordTextBox.Properties.PasswordChar = '*';
             this.passwordTextBox.Properties.KeyDown += new System.Windows.Forms.KeyEventHandler(this.simpleButton1_KeyDown);
-            this.passwordTextBox.Size = new System.Drawing.Size(196, 30);
+            this.passwordTextBox.Size = new System.Drawing.Size(142, 30);
             this.passwordTextBox.TabIndex = 5;
             // 
             // userNameTextBox
             // 
-            this.userNameTextBox.Location = new System.Drawing.Point(196, 129);
+            this.userNameTextBox.Location = new System.Drawing.Point(199, 70);
             this.userNameTextBox.Name = "userNameTextBox";
             this.userNameTextBox.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 14F);
             this.userNameTextBox.Properties.Appearance.Options.UseFont = true;
-            this.userNameTextBox.Size = new System.Drawing.Size(196, 30);
+            this.userNameTextBox.Size = new System.Drawing.Size(142, 30);
             this.userNameTextBox.TabIndex = 4;
+            this.userNameTextBox.EditValueChanged += new System.EventHandler(this.userNameTextBox_EditValueChanged);
             // 
             // simpleButton1
             // 
+            this.simpleButton1.Appearance.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.simpleButton1.Appearance.Options.UseFont = true;
             this.simpleButton1.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.Style3D;
-            this.simpleButton1.Location = new System.Drawing.Point(196, 214);
+            this.simpleButton1.Location = new System.Drawing.Point(199, 139);
             this.simpleButton1.Name = "simpleButton1";
-            this.simpleButton1.Size = new System.Drawing.Size(196, 23);
+            this.simpleButton1.Size = new System.Drawing.Size(142, 23);
             this.simpleButton1.TabIndex = 3;
             this.simpleButton1.Text = "Sign in";
             this.simpleButton1.Click += new System.EventHandler(this.simpleButton1_Click);
@@ -169,7 +172,7 @@
             this.employeesLabelControl.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
             this.employeesLabelControl.Location = new System.Drawing.Point(0, 0);
             this.employeesLabelControl.Name = "employeesLabelControl";
-            this.employeesLabelControl.Size = new System.Drawing.Size(620, 275);
+            this.employeesLabelControl.Size = new System.Drawing.Size(440, 177);
             this.employeesLabelControl.TabIndex = 2;
             // 
             // LoginForm
@@ -178,7 +181,7 @@
             this.Appearance.Options.UseBackColor = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(620, 275);
+            this.ClientSize = new System.Drawing.Size(440, 177);
             this.Controls.Add(this.navigationFrame);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

@@ -4899,7 +4899,7 @@ namespace Checkout
             if(e.CloseReason == CloseReason.UserClosing)
             {
 
-                var results = MessageBox.Show("Do you want to exit?", "Close", MessageBoxButtons.YesNo);
+                var results = MessageBox.Show("Do you want to exit?", "Close M-PET Checkout", MessageBoxButtons.YesNo);
 
                 if (results == DialogResult.Yes)
                 {
@@ -4917,6 +4917,9 @@ namespace Checkout
             }
         }
 
-      
+        private void userNameTextBox_EditValueChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
